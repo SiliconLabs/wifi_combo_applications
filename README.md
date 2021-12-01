@@ -22,7 +22,7 @@ The Silicon Labs Wi-Fi Combo stack allows for a wide variety applications to be 
 
 ## Documentation ##
 
-Official documentation can be found at our [Developer Documentation](https://docs.silabs.com/wifi/latest) page.
+Official documentation can be found at our [Developer Documentation](https://docs.silabs.com/wifi) page.
 
 ## Reporting Bugs/Issues and Posting Questions and Comments ##
 
