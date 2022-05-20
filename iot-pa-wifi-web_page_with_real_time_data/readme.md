@@ -69,8 +69,8 @@ This section describes the hardware setup and the connections.
        | UULP_3 (for RS9116 chip version-1.3 & below)|                 9 |
 
 If the interconnect board is not available, make the connections between RS9116 NCP and EFR32 Host MCU as described below.
-**![](resources/setup2.PNG)**
-**![](resources/connections.PNG)**
+**![](resources/setup2.png)**
+**![](resources/connections.png)**
 
 ## Application flow
 
@@ -98,11 +98,11 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
 
 6. Click on **Launch**.
 
-**![](resources/directory.PNG)**
+**![](resources/directory.png)**
 
 7. When EFR32 is connected to the PC, radio board detection is indicated as below.
 
-**![](resources/radio_board.PNG)**
+**![](resources/radio_board.png)**
 
 **Note:** While importing, select the project based on radio board version:
 
@@ -125,7 +125,7 @@ This section provides the steps for importing the project into Simplicity Studio
 
 5. Click on **Next** → **Next**.
 
-**![](resources/project_path.PNG)** 
+**![](resources/project_path.png)** 
 
 6. Now click on **Finish**.
   
@@ -218,7 +218,7 @@ from RSI_EXT_CUSTOM_FEATURE_BITMAP.
 40 seconds (according to the above parameters), the application prints Connection with AP is lost.
 8. Clean the Project. Build the project by right clicking on **web\_page\_with\_real\_time\_data-brd4180b-mg21** and select **Build Project**. It takes a few seconds to build.
 
-**![](resources/build.PNG)**
+**![](resources/build.png)**
 
   If there are no errors, you can go ahead with flashing the code into EFR32xG21.
   **NOTE:** If the application is not compatible (in case of errors while executing the project) with the latest SDK in the link or if the compatiblility of this application is to be tested with various SDKs, refer to the appendix section to link the compatible SDK in Simplicity Studio IDE.
@@ -280,13 +280,13 @@ Below are some important APIs used in the application.
 The Virtual COM (VCOM) port interface is used for printing out debug prints from the application.
 1. In the Debug Adapters pane, right-click on the detected device and choose Launch Console to launch a console connection.
 
-**![](resources/launch_vcom.PNG)**
+**![](resources/launch_vcom.png)**
 
 2. J-link Silicon Labs console pane opens as shown below. Switch to the Serial 1 tab in the console pane, for viewing the debug prints from the application.
 
 3. Hit Enter on the Serial 1 tab to establish a serial connection between PC and setup.
 
-**![](resources/serial_com.PNG)**
+**![](resources/serial_com.png)**
 
 ### Debug the project
 
@@ -310,18 +310,18 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 1. Go to the J-link Silicon Labs console pane to observe the debug prints in the Serial 1 tab.
 2. Click Resume icon in the Simplicity Studio IDE toolbar to run the project.
 
-**![](resources/run.PNG)**
+**![](resources/run.png)**
 
 3. If the flow of application until IP configuration is successful, the following debug prints will appear on the Serial 1 tab.
 
-**![](resources/ip_configuration.PNG)** 
+**![](resources/ip_configuration.png)** 
 
 4. Now enter the IP Address of the module (which is displayed on the Serial 1 tab) in the URL field of Smart Phone/Laptop/PC’s
 browser (make sure that the device you are using to browse is connected to the same network to which RS9116 NCP module is connected). The following webpage will be displayed. Observe the debug prints parallelly on the Serial 1 tab.
 
-**![](resources/app_prints.PNG)**
+**![](resources/app_prints.png)**
 
-**![](resources/webpage.PNG)**
+**![](resources/webpage.png)**
 
 **NOTE**: 
 - The web page will be displayed on the browser only after the **Responded with the requested web page** print appeared
@@ -334,28 +334,28 @@ web page until it gets completely loaded on the browser.
     4. again enters power save mode, if no URL request is made within 10 seconds else serves the URL request. 
 5. When clicked on Get Time & date tab, the following will be displayed on the web page.
 
-**![](resources/time_date.PNG)**
+**![](resources/time_date.png)**
 
   - Upon clicking the dropdown menu, the regions will be listed as shown below. Select any of the regions listed.
 
-**![](resources/dropdown.PNG)**  
+**![](resources/dropdown.png)**  
 
   - Click on Submit. The date along with running time in the selected region will be displayed.
 
-**![](resources/time_run.PNG)**
+**![](resources/time_run.png)**
 
   - When clicked on the Get Temperature tab, the temperature value in Kelvin, Celsius, and Fahrenheit units will be displayed on the web page.
 
-**![](resources/temp1.PNG)**
+**![](resources/temp1.png)**
 
      - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
 
-**![](resources/temp2.PNG)**
+**![](resources/temp2.png)**
 
 
 6. When clicked on the Display Wi-Fi Networks tab, the scan results along with their Security Mode and RSSI values in dBm will be displayed on the web page in the descending order of their RSSI values.
 
-**![](resources/networks.PNG)**
+**![](resources/networks.png)**
 
    **NOTE**:
    - The network to which the device (which is currently being used for browsing IP address of module) is connected, will be highlighted. In the above case, SILABS_AP1 is the network, which is used for browsing. Hence it is highlighted.
@@ -376,7 +376,7 @@ the J-link Silicon Labs console.
    - UTC (Coordinated Universal Time) and date (obtained from SNTP server) string segregated into the month, day, year, hours, minutes, and seconds.
 3. In the picture below, highlighted are the intermediate prints obtained when DEBUG_PRINTS macro is set.
 
-**![](resources/debug_prints.PNG)**
+**![](resources/debug_prints.png)**
 
 4. By default, the application runs on FreeRTOS. Remove the `RSI_WITH_OS` preprocessor symbol to run the application on Bare metal.
 5. Assume that the connection with current AP to which the module is connected with is lost. In this scenario, module will try to rejoin the AP for a rejoin interval of time(40 sec). If the AP is not found during this period, the application prints `Connection with AP is lost`.
@@ -389,23 +389,23 @@ the J-link Silicon Labs console.
 
    a. In the Simplicity Studio IDE, go to **Preferences > Simplicity Studio > External Repos**. 
 
-   **![](resources/preferences.PNG)**
+   **![](resources/preferences.png)**
 
    b. By default, the **WiseConnect Wi-Fi/BT SDK** repo's GitHub path is available in external repos. Click on **update** as shown below so that the latest SDK at https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk gets cloned at path: **C:\SimplicityStudio\v5\developer\repos\wiseconnect-wifi-bt-sdk**.
 
-   **![](resources/default_repo_path.PNG)**
+   **![](resources/default_repo_path.png)**
 
    c. After updating the repo, the SDK gets updated locally as shown below.
 
-   **![](resources/repo_updated.PNG)**
+   **![](resources/repo_updated.png)**
 
-   **![](resources/SDK_updated_locally.PNG)**
+   **![](resources/SDK_updated_locally.png)**
 
 2. Check the available tags (repos pointing to other SDKs whose version is lower than the latest one) for the repo by giving the below command in command prompt
 
      ``` git tag ```
-**![](resources/cmd.PNG)** 
-**![](resources/tags.PNG)**  
+**![](resources/cmd.png)** 
+**![](resources/tags.png)**  
         
 3. Select the desired tag and create a new folder (in this case, it is **gitSDK_tag**) locally at any path and give the below git command at that path.
 
@@ -415,7 +415,7 @@ In this case, the tag name selected was **2.4.1**. Hence the command given is as
 
    ```git clone https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk.git --branch=2.4.1 ```
 
-**![](resources/clone_2.4.1.PNG)**  
+**![](resources/clone_2.4.1.png)**  
 
 4. Now you can place the webpage with real time data project folder in the above cloned SDK as shown below. 
 
@@ -427,12 +427,12 @@ In this case, the tag name selected was **2.4.1**. Hence the command given is as
    
    b. Browse to the local SDK location (append the path with **.git**extension) and click on **Finish**. Click on **Apply and Close**.
 
-**![](resources/add_local_path.PNG)** 
-
+   **![](resources/add_local_path.png)** 
+   
    c. Open Launcher perspective, you could see the linked SDK as below.
 
-**![](resources/SDK_launcher.png)**
-																										  
+   **![](resources/SDK_launcher.png)**
+   																										  
 6. Then, follow the steps from **Import the project** section.
 
   
