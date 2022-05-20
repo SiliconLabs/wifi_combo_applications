@@ -76,7 +76,7 @@ If the interconnect board is not available, make the connections between RS9116 
 
 This flow chart describes the application flow.
 
-**![](resources/flow_chart_app.PNG)** 
+**![](resources/flow_chart_app.png)** 
 
 **NOTE**: 
 1. The application does not automatically resume from the beginning, in case the application flow fails at any point. The module should be reset again.
@@ -114,7 +114,7 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
 This section provides the steps for importing the project into Simplicity Studio IDE.
 
 1. In the Simplicity Studio IDE, go to **File** and select **Import**.
-**![](resources/import.PNG)**
+**![](resources/import.png)**
 
 2. A pop up window appears.Click on **Browse**.
 
@@ -137,7 +137,7 @@ This section provides the steps for importing the project into Simplicity Studio
 
 3. Open the **web\_page\_with\_real\_time\_data.c** file present in **web\_page\_with\_real\_time\_data -brd4180b-mg21 → web\_page\_with\_real\_time\_data** folder.
 
-**![](resources/application.PNG)** 
+**![](resources/application.png)** 
 
 4. Configure the SSID, SECURITY_TYPE, PSK and DHCP_MODE macros.
    - In this application the RS9116 NCP (station) gets connected to Access Point. SSID refers to the advertised name of the Access point's network.
@@ -293,15 +293,15 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 1. To flash the code, right click on the project name and select **Debug As** → **Silicon Labs ARM Program**.
   - If the EFR32xG21 has an older SE firmware, the following warning may pop up. Click ‘Yes’ to continue
 
-  **![](resources/warning1.PNG)**
+  **![](resources/warning1.png)**
 
   - If the connected EFR32 board has any other radio board other than 20dbm, Simplicity Studio will not be able to detect the device and gives the below pop-up window for Device Selection. Select the device displayed and click OK.
 
-  **![](resources/warning2.PNG)**
+  **![](resources/warning2.png)**
 
   - The following warning might pop-up as shown below, Click Yes and continue. 
 
-  **![](resources/warning3.PNG)**
+  **![](resources/warning3.png)**
 
 2. As soon as the debug process is completed, the application control branches to the main().
 
@@ -423,7 +423,7 @@ In this case, the tag name selected was **2.4.1**. Hence the command given is as
 
 5. Link the local SDK path in Simplicity studio.
 						
-	a. Navigate to **preferences > Simplicity Studio > External Repos** and click on **Add**.
+	a. Navigate to **Preferences > Simplicity Studio > External Repos** and click on **Add**.
    
    b. Browse to the local SDK location (append the path with **.git**extension) and click on **Finish**. Click on **Apply and Close**.
 
