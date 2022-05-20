@@ -338,22 +338,22 @@ web page until it gets completely loaded on the browser.
 
   - Upon clicking the dropdown menu, the regions will be listed as shown below. Select any of the regions listed.
 
-**![](resources/dropdown.PNG)**  
+  **![](resources/dropdown.PNG)**  
 
   - Click on Submit. The date along with running time in the selected region will be displayed.
 
-**![](resources/time_run.PNG)**
+  **![](resources/time_run.PNG)**
 
-  - When clicked on the Get Temperature tab, the temperature value in Kelvin, Celsius, and Fahrenheit units will be displayed on the web page.
+6. When clicked on the Get Temperature tab, the temperature value in Kelvin, Celsius, and Fahrenheit units will be displayed on the web page.
 
-**![](resources/temp1.PNG)**
+**![](resources/temp1.png)**
 
   - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
 
-**![](resources/temp2.PNG)**
+  **![](resources/temp2.png)**
 
 
-6. When clicked on the Display Wi-Fi Networks tab, the scan results along with their Security Mode and RSSI values in dBm will be displayed on the web page in the descending order of their RSSI values.
+7. When clicked on the Display Wi-Fi Networks tab, the scan results along with their Security Mode and RSSI values in dBm will be displayed on the web page in the descending order of their RSSI values.
 
 **![](resources/networks.PNG)**
 
