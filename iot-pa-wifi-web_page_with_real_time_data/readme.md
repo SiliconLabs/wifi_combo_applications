@@ -72,14 +72,14 @@ This section describes the hardware setup and the connections.
        | UULP_3 (for RS9116 chip version-1.3 & below)|                 9 |
 
 If the interconnect board is not available, make the connections between RS9116 NCP and EFR32 Host MCU as described below.
-**![](resources/setup2.PNG)**
+**![](resources/setup2.png)**
 **![](resources/connections.PNG)**
 
 ## Application flow
 
 This flow chart describes the application flow.
 
-**![](resources/flow_chart_app.PNG)** 
+**![](resources/flow_chart_app.png)** 
 
 **NOTE**: 
 1. The application does not automatically resume from the beginning, in case the application flow fails at any point. The module should be reset again.
