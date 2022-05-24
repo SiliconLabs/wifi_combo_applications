@@ -34,7 +34,7 @@ For this lab, you will need the following:
 
          b. Follow the [Simplicity Studio user guide](https://docs.silabs.com/simplicity-studio-5-users-guide/1.1.0/ss-5-users-guide-getting-started/install-ss-5-and-software#install-ssv5) to install Simplicity Studio.
 
-- 2.5.1 RS9116 NCP release package from the [link](https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk/tree/2.5.1). 
+- 2.5.1 RS9116 NCP release package.
 
 - **web_page_with_real_time_data** project folder
 
