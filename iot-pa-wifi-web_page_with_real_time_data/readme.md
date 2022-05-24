@@ -2,7 +2,7 @@
 
 ## Description 
 
-This application demonstrates how to send real time data such as region based time and date, temperature and surrounding Wi-Fi networks scan results onto a web page from the host MCU(EFR32) to browser via RS9116 NCP module upon URL Request.
+This application demonstrates how to send real time data such as region based time and date, temperature, and surrounding Wi-Fi networks scan results onto a web page from the host MCU(EFR32) to browser via RS9116 NCP module upon URL Request.
 
 ## Prerequisites
 
@@ -29,15 +29,18 @@ For this lab, you will need the following:
 ### Software Requirements
 
 - Simplicity Studio v5 (v5.1.2.0 or higher)
+
          a. Download the simplicity studio from [Simplicity Studio](https://www.silabs.com/developers/simplicity-studio).
 
-- Follow the [Simplicity Studio user guide](https://docs.silabs.com/simplicity-studio-5-users-guide/1.1.0/ss-5-users-guide-getting-started/install-ss-5-and-software#install-ssv5) to install Simplicity Studio.
+         b. Follow the [Simplicity Studio user guide](https://docs.silabs.com/simplicity-studio-5-users-guide/1.1.0/ss-5-users-guide-getting-started/install-ss-5-and-software#install-ssv5) to install Simplicity Studio.
 
-- Download the latest RS9116 NCP release package from the [link](https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk). 
+- 2.5.1 RS9116 NCP release package from the [link](https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk/tree/2.5.1). 
+
+- **web_page_with_real_time_data** project folder
 
 **NOTE:**
 - This application project is designed to work with EFR32 with the radio board as either BRD4180A OR BRD4180B.
-- This application is tested with the latest 2.5.1 SDK and 2.5.1 firmware.
+- This application is tested with the 2.5.1 SDK and 2.5.1 firmware.
 - This example application supports Bare metal as well as FreeRTOS.
 
 ## Setup
@@ -69,14 +72,14 @@ This section describes the hardware setup and the connections.
        | UULP_3 (for RS9116 chip version-1.3 & below)|                 9 |
 
 If the interconnect board is not available, make the connections between RS9116 NCP and EFR32 Host MCU as described below.
-**![](resources/setup2.png)**
+**![](resources/setup2.PNG)**
 **![](resources/connections.PNG)**
 
 ## Application flow
 
 This flow chart describes the application flow.
 
-**![](resources/flow_chart_app.png)** 
+**![](resources/flow_chart_app.PNG)** 
 
 **NOTE**: 
 1. The application does not automatically resume from the beginning, in case the application flow fails at any point. The module should be reset again.
@@ -86,39 +89,84 @@ power save mode. Thereafter, the application flow gets halted as no URL request 
 ## Setting up the development environment
 
 The following section describes how to set up Simplicity IDE in Windows Operating System.
-1. Place the web_page_with_real_time_data folder in the downloaded SDK at path: <Release_Package>/examples/snippets/wlan
-**NOTE:** It is optional to add the readme.md file and resources folder inside the web_page_with_real_time_data folder so that the folder structure looks similar to other project folders in the SDK.																																		
-2. Ensure the RS9116 NCP module is pre-loaded with 2.5.1 firmware released by Silicon Labs following the steps mentioned in https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-pc/update-evk-firmware.
 
-3. Ensure the EFR32 and RS9116 NCP setup is connected to your PC and the power save connections are properly made.
+1. Ensure the RS9116 NCP module is pre-loaded with 2.5.1 firmware released by Silicon Labs following the steps mentioned in https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-pc/update-evk-firmware.
 
-4. Launch the Simplicity Studio IDE on your PC.
+2. Launch the Simplicity Studio IDE on your PC.
 
-5. Select the desired path as workspace directory. The following directory has been chosen for the workspace as shown in the image below.
+3. Select the desired path as workspace directory. The following directory has been chosen for the workspace as shown in the image below.
 
-6. Click on **Launch**.
+4. Click on **Launch**.
 
 **![](resources/directory.PNG)**
 
-7. When EFR32 is connected to the PC, radio board detection is indicated as below.
+5. Check the default repo to which the Simplicity Studio IDE is linked to.
+
+   a. In the Simplicity Studio IDE, go to **Preferences > Simplicity Studio > External Repos**. 
+
+   **![](resources/preferences.PNG)**
+
+   b. By default, the latest **WiseConnect Wi-Fi/BT SDK** repo is linked to external repos. Click on **update** as shown below so that the latest SDK at https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk gets cloned at path: 
+   **<Simplicity_Studio_Installed_Path>\SimplicityStudio\v5\developer\repos\wiseconnect-wifi-bt-sdk**.
+
+   **![](resources/default_repo_path.PNG)**
+
+   c. After updating the repo, the SDK gets updated locally as shown below.
+
+   **![](resources/repo_updated.PNG)**
+
+   **![](resources/SDK_updated_locally.PNG)**
+
+6. If this latest repo does not contain the desired SDK, check for available tags (repositories, that point to other SDKs whose version is lower than the latest one) of the repo by giving the below command in the command prompt opened at path:
+**<Simplicity_Studio_Installed_Path> → SimplicityStudio → v5 → developer → repos → wiseconnect-wifi-bt-sdk**
+
+     ``` 
+     git tag 
+     ```
+**![](resources/cmd.PNG)** 
+**![](resources/tags.PNG)**  
+        
+7. Select the desired tag and create a new folder (in this case, it is **gitSDK_tag**) locally at any path and give the below git command at that path.
+
+   ```
+   git clone https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk.git --branch=<tag name> 
+   ```
+
+   In this case, the tag name selected was **2.4.1**. Hence the command given is as follows:
+
+   ```
+   git clone https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk.git --branch=2.4.1 
+   ```
+
+**![](resources/clone_2.4.1.PNG)**  
+
+8. Now, you can place the **web_page_with_real_time_data** project folder in the above cloned SDK at path: **\<SDK_path\> → examples → snippets → wlan**
+
+**![](resources/project_copied.png)** 
+																							
+
+9. Ensure the EFR32 and RS9116 NCP setup is connected to your PC and the power save connections are properly made.
+
+10. When EFR32 is connected to the PC, radio board detection is indicated as below.
 
 **![](resources/radio_board.PNG)**
 
 **Note:** While importing, select the project based on radio board version:
 
-- For **BRD4180A** Select project related to brd4180a.
-- For **BRD4180B** Select project related to brd4180b.
+- For **BRD4180A**, select the project related to brd4180a.
+- For **BRD4180B**, select the project related to brd4180b.
+
    
 ### Import the Project
 
 This section provides the steps for importing the project into Simplicity Studio IDE.
 
 1. In the Simplicity Studio IDE, go to **File** and select **Import**.
-**![](resources/import.png)**
+**![](resources/import.PNG)**
 
 2. A pop up window appears.Click on **Browse**.
 
-3. Navigate to the path, **\<Release package\> → examples → snippets → wlan → web\_page\_with\_real\_time\_data → projects** in the release package downloaded.
+3. Navigate to the path, **\<SDK_path\> → examples → snippets → wlan → web\_page\_with\_real\_time\_data → projects** in the 2.5.1 release SDK downloaded.
 
 4. Select the appropriate project as per the detected radio board variant i.e., **web\_page\_with\_real\_time\_data\_brd4180a-mg21** → **BRD4180A**.
 **web\_page\_with\_real\_time\_data\_brd4180b-mg21** → **BRD4180B**.
@@ -142,7 +190,9 @@ This section provides the steps for importing the project into Simplicity Studio
 4. Configure the SSID, SECURITY_TYPE, PSK and DHCP_MODE macros.
    - In this application the RS9116 NCP (station) gets connected to Access Point. SSID refers to the advertised name of the Access point's network.
      
-     ```#define SSID                               "SILABS_AP"```
+     ```
+     #define SSID                               "SILABS_AP"
+     ```
      
    - SECURITY_TYPE refers to the mode of security in which the Access Point's network is configured. In this application STA supports Open, WPA-PSK, WPA2-PSK securities.
 
@@ -156,15 +206,21 @@ This section provides the steps for importing the project into Simplicity Studio
 
      - RSI_WPA3 - For WPA3 security mode
  
-     ``` #define SECURITY_TYPE                        RSI_WPA2 ```
+     ``` 
+     #define SECURITY_TYPE                        RSI_WPA2 
+     ```
 
    - PSK refers to the secret key if the Access point is configured in WPA-PSK / WPA2-PSK security modes.
 
-     ``` #define PSK                                 "123456789" ```
+     ``` 
+     #define PSK                                 "123456789" 
+     ```
 
 5. The google server's address is used as primary server address for making a DNS request by default. 
 
-     ``` #define primary_server_address               "8.8.8.8" ```
+     ```
+     #define primary_server_address               "8.8.8.8" 
+     ```
 
    **NOTE:**
    - Some Access points do not get the response for the DNS query (return 0xBBA3 error) when the primary address is set to google server's address (8.8.8.8), in such a case enable the `DHCP_DNS` pre-processor symbol so that the gateway address obtained during DHCP (IP configuration) will serve as the primary DNS server.
@@ -172,12 +228,14 @@ This section provides the steps for importing the project into Simplicity Studio
 
 6. By default, the global URL names for SNTP servers have been provided. These fields can also be configured with the URL names of SNTP servers provided in the available AP’s Configuration. 
     - Domain name1 for SNTP server
-      ```c
+      ```
       #define RSI_DNS_URL_NAME1                "time.nist.gov"
+      ```
       
     - Domain name2 for SNTP server (Backup)
-      ```c
+      ```
       #define RSI_DNS_URL_NAME2                "0.pool.ntp.org"
+      ```
 
 7. Open the **rsi\_wlan\_config.h** file and update/modify the following macros.
 
@@ -220,10 +278,9 @@ from RSI_EXT_CUSTOM_FEATURE_BITMAP.
 
 **![](resources/build.PNG)**
 
-  If there are no errors, you can go ahead with flashing the code into EFR32xG21.
-  **NOTE:** If the application is not compatible (in case of errors while executing the project) with the latest SDK in the link or if the compatiblility of this application is to be tested with various SDKs, refer to the appendix section to link the compatible SDK in Simplicity Studio IDE.
-
-**NOTE:** Make sure the setup (EFR32, RS9116 NCP module) is connected to PC, before flashing.
+  If there are no errors, you can go ahead with flashing the code onto EFR32xG21.
+ 
+  **NOTE:** Make sure the setup (EFR32, RS9116 NCP module) is connected to PC, before flashing.
 
 ## Execution of Project
 
@@ -232,49 +289,64 @@ from RSI_EXT_CUSTOM_FEATURE_BITMAP.
 Below are some important APIs used in the application.
 
 1. The following APIs have been used in the application for fetching temperature data.
-   ```TEMPDRV_Init()``` -  This API initializes the temperature Driver.
+   ```
+   TEMPDRV_Init() -  This API initializes the temperature Driver.
+   ```
 
-   ```TEMPDRV_Enable(bool enable)``` -  This API enables the temperature Driver.
-
+   ```
+   TEMPDRV_Enable(bool enable) -  This API enables the temperature Driver.
+   ```
                         
 2. The IP addresses of SNTP servers are erratic and unstable. Therefore, using the following API, a DNS request is made for fetching SNTP server’s IP address.
 
-    ```int32_t rsi_dns_req (uint8_t ip_version, uint8_t *url_name, uint8_t *primary_server_address, uint8_t  *secondary_server_address, rsi_rsp_dns_query_t *dns_query_resp, uint16_t length)```
+    ```
+    int32_t rsi_dns_req (uint8_t ip_version, uint8_t *url_name, uint8_t *primary_server_address, uint8_t  *secondary_server_address, rsi_rsp_dns_query_t *dns_query_resp, uint16_t length)
+    ```
 
    For more info about DNS network API, refer to [DNS](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-sapi-reference/network6) .
 
 3. The fetched SNTP server's IP address is fed into server_ip field of the following API, which creates SNTP client.
 
-   ```int32_t rsi_sntp_client_create_async (uint8_t flags, uint8_t *server_ip, uint8_t sntp_method, uint16_t sntp_timeout, void(*rsi_sntp_client_create_response_handler) (uint16_t status, const uint8_t cmd_type, const uint8_t *buffer))```
-
+   ```
+   int32_t rsi_sntp_client_create_async (uint8_t flags, uint8_t *server_ip, uint8_t sntp_method, uint16_t sntp_timeout, void(*rsi_sntp_client_create_response_handler) (uint16_t status, const uint8_t cmd_type, const uint8_t *buffer))
+   ```
 
 4. Upon reception of response from SNTP server (implicitly connection establishment with SNTP server), **rsi\_sntp\_client\_create\_response\_handler** in the aforementioned API gets triggered and time and date info can be fetched from the same using the following API and is stored in **sntp\_time\_date\_rsp** buffer.
 
-    ```int32_t rsi_sntp_client_gettime_date (uint16_t length, uint8_t *sntp_time_date_rsp)```
+    ```
+    int32_t rsi_sntp_client_gettime_date (uint16_t length, uint8_t *sntp_time_date_rsp)
+    ```
 
 5. After getting time & date info, the SNTP client will be deleted using the following API.
-   ```int32_t rsi_sntp_client_delete_async (void)```
+   ```
+   int32_t rsi_sntp_client_delete_async (void)
+   ```
 
    For more info about SNTP network APIs, refer to [SNTP](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-sapi-reference/network12) .
 
 6. Wi-Fi networks scan results can be obtained via instant background scan (bg scan).
 
-   ```int32_t rsi_wlan_bgscan_profile (uint8_t cmd, rsi_rsp_scan_t *result, uint32_t length)```
+   ```
+   int32_t rsi_wlan_bgscan_profile (uint8_t cmd, rsi_rsp_scan_t *result, uint32_t length)
+   ```
 
    For more info about bg scan WLAN API, refer to [WLAN](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-sapi-reference/wlan#rsi-wlan-bgscan-profile) .
 
 7. All the data obtained above will be included in the HTML code. This resulting HTML code will be stored in a buffer called **webpage** in the following API. This API is used to send web page to browser.
 
-    ```int32_t rsi_webpage_send (uint8_t flags, uint8_t *webpage, uint32_t length)```
+    ```
+    int32_t rsi_webpage_send (uint8_t flags, uint8_t *webpage, uint32_t length)
+    ```
   
    For more info about web page send API, refer to [Webpage](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-sapi-reference/network14).
 8. The following API sets the module in power save mode with listen interval-based wakeup. After listen interval elapses (set to
 500 milliseconds by default), the module wakes up and checks for the buffered data in the beacon frames.
 
-   ```rsi_wlan_power_save_with_listen_interval (PSP_MODE, PSP_TYPE, PS_LISTEN_INTERVAL) ```
+   ```
+   rsi_wlan_power_save_with_listen_interval (PSP_MODE, PSP_TYPE, PS_LISTEN_INTERVAL) 
+   ```
 
    **NOTE:** The PS_LISTEN_INTERVAL macro, which is used to configure sleep duration in power save should be less than the listen interval configured by RSI_LISTEN_INTERVAL Macro in join command parameters in rsi_wlan_config.h file.
-
 
 ### Set up the Virtual COM port on Simplicity Studio IDE
 
@@ -287,22 +359,22 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 3. Hit Enter on the Serial 1 tab to establish a serial connection between PC and setup.
 
-**![](resources/serial_com.png)**
+**![](resources/serial_com.PNG)**
 
 ### Debug the project
 
 1. To flash the code, right click on the project name and select **Debug As** → **Silicon Labs ARM Program**.
   - If the EFR32xG21 has an older SE firmware, the following warning may pop up. Click ‘Yes’ to continue
 
-  **![](resources/warning1.png)**
+  **![](resources/warning1.PNG)**
 
   - If the connected EFR32 board has any other radio board other than 20dbm, Simplicity Studio will not be able to detect the device and gives the below pop-up window for Device Selection. Select the device displayed and click OK.
 
-  **![](resources/warning2.png)**
+  **![](resources/warning2.PNG)**
 
   - The following warning might pop-up as shown below, Click Yes and continue. 
 
-  **![](resources/warning3.png)**
+  **![](resources/warning3.PNG)**
 
 2. As soon as the debug process is completed, the application control branches to the main().
 
@@ -315,7 +387,7 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 3. If the flow of application until IP configuration is successful, the following debug prints will appear on the Serial 1 tab.
 
-**![](resources/ip_configuration.png)** 
+**![](resources/ip_configuration.PNG)** 
 
 4. Now enter the IP Address of the module (which is displayed on the Serial 1 tab) in the URL field of Smart Phone/Laptop/PC’s
 browser (make sure that the device you are using to browse is connected to the same network to which RS9116 NCP module is connected). The following webpage will be displayed. Observe the debug prints parallelly on the Serial 1 tab.
@@ -339,22 +411,22 @@ web page until it gets completely loaded on the browser.
 
   - Upon clicking the dropdown menu, the regions will be listed as shown below. Select any of the regions listed.
 
-  **![](resources/dropdown.PNG)**  
+**![](resources/dropdown.PNG)**  
 
   - Click on Submit. The date along with running time in the selected region will be displayed.
 
-  **![](resources/time_run.PNG)**
+**![](resources/time_run.PNG)**
 
-6. When clicked on the Get Temperature tab, the temperature value in Kelvin, Celsius, and Fahrenheit units will be displayed on the web page.
+  - When clicked on the Get Temperature tab, the temperature value in Kelvin, Celsius, and Fahrenheit units will be displayed on the web page.
 
-**![](resources/temp1.png)**
+**![](resources/temp1.PNG)**
 
-  - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
+     - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
 
-  **![](resources/temp2.png)**
+**![](resources/temp2.PNG)**
 
 
-7. When clicked on the Display Wi-Fi Networks tab, the scan results along with their Security Mode and RSSI values in dBm will be displayed on the web page in the descending order of their RSSI values.
+6. When clicked on the Display Wi-Fi Networks tab, the scan results along with their Security Mode and RSSI values in dBm will be displayed on the web page in the descending order of their RSSI values.
 
 **![](resources/networks.PNG)**
 
@@ -382,59 +454,7 @@ the J-link Silicon Labs console.
 4. By default, the application runs on FreeRTOS. Remove the `RSI_WITH_OS` preprocessor symbol to run the application on Bare metal.
 5. Assume that the connection with current AP to which the module is connected with is lost. In this scenario, module will try to rejoin the AP for a rejoin interval of time(40 sec). If the AP is not found during this period, the application prints `Connection with AP is lost`.
 
-## Appendix
 
-### How to link the desired SDK in to Simplicity Studio IDE?
-
-1. Clone the external GitHub repo which contains the latest SDK.
-
-   a. In the Simplicity Studio IDE, go to **Preferences > Simplicity Studio > External Repos**. 
-
-   **![](resources/preferences.PNG)**
-
-   b. By default, the **WiseConnect Wi-Fi/BT SDK** repo's GitHub path is available in external repos. Click on **update** as shown below so that the latest SDK at https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk gets cloned at path: **C:\SimplicityStudio\v5\developer\repos\wiseconnect-wifi-bt-sdk**.
-
-   **![](resources/default_repo_path.PNG)**
-
-   c. After updating the repo, the SDK gets updated locally as shown below.
-
-   **![](resources/repo_updated.PNG)**
-
-   **![](resources/SDK_updated_locally.PNG)**
-
-2. Check the available tags (repos pointing to other SDKs whose version is lower than the latest one) for the repo by giving the below command in command prompt
-
-     ``` git tag ```
-**![](resources/cmd.PNG)** 
-**![](resources/tags.PNG)**  
-        
-3. Select the desired tag and create a new folder (in this case, it is **gitSDK_tag**) locally at any path and give the below git command at that path.
-
-     ```git clone https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk.git --branch=<tag name> ```
-
-In this case, the tag name selected was **2.4.1**. Hence the command given is as follows:
-
-   ```git clone https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk.git --branch=2.4.1 ```
-
-**![](resources/clone_2.4.1.PNG)**  
-
-4. Now you can place the webpage with real time data project folder in the above cloned SDK as shown below. 
-
-**![](resources/project_copied.PNG)** 
-
-5. Link the local SDK path in Simplicity studio.
-						
-	a. Navigate to **Preferences > Simplicity Studio > External Repos** and click on **Add**.
-   
-   b. Browse to the local SDK location (append the path with **.git**extension) and click on **Finish**. Click on **Apply and Close**.
-
-   **![](resources/add_local_path.PNG)** 
-   
-   c. Open Launcher perspective, you could see the linked SDK as below.
-
-   **![](resources/SDK_launcher.PNG)**
-   																										  
-6. Then, follow the steps from **Import the project** section.
 
   
 
