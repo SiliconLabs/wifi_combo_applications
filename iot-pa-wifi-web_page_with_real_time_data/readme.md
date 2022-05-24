@@ -387,7 +387,7 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 3. If the flow of application until IP configuration is successful, the following debug prints will appear on the Serial 1 tab.
 
-**![](resources/ip_configuration.PNG)** 
+**![](resources/ip_configuration.png)** 
 
 4. Now enter the IP Address of the module (which is displayed on the Serial 1 tab) in the URL field of Smart Phone/Laptop/PC’s
 browser (make sure that the device you are using to browse is connected to the same network to which RS9116 NCP module is connected). The following webpage will be displayed. Observe the debug prints parallelly on the Serial 1 tab.
@@ -419,11 +419,11 @@ web page until it gets completely loaded on the browser.
 
   - When clicked on the Get Temperature tab, the temperature value in Kelvin, Celsius, and Fahrenheit units will be displayed on the web page.
 
-**![](resources/temp1.PNG)**
+**![](resources/temp1.png)**
 
-    - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
+  - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
 
-    **![](resources/temp2.png)**
+**![](resources/temp2.png)**
 
 
 6. When clicked on the Display Wi-Fi Networks tab, the scan results along with their Security Mode and RSSI values in dBm will be displayed on the web page in the descending order of their RSSI values.
