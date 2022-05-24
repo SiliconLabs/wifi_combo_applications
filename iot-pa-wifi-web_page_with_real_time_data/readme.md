@@ -142,7 +142,7 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
 
 8. Now, you can place the **web_page_with_real_time_data** project folder in the above cloned SDK at path: **\<SDK_path\> → examples → snippets → wlan**
 
-**![](resources/project_copied.png)** 
+**![](resources/project_copied.PNG)** 
 																							
 
 9. Ensure the EFR32 and RS9116 NCP setup is connected to your PC and the power save connections are properly made.
@@ -359,22 +359,22 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 3. Hit Enter on the Serial 1 tab to establish a serial connection between PC and setup.
 
-**![](resources/serial_com.PNG)**
+**![](resources/serial_com.png)**
 
 ### Debug the project
 
 1. To flash the code, right click on the project name and select **Debug As** → **Silicon Labs ARM Program**.
   - If the EFR32xG21 has an older SE firmware, the following warning may pop up. Click ‘Yes’ to continue
 
-  **![](resources/warning1.PNG)**
+  **![](resources/warning1.png)**
 
   - If the connected EFR32 board has any other radio board other than 20dbm, Simplicity Studio will not be able to detect the device and gives the below pop-up window for Device Selection. Select the device displayed and click OK.
 
-  **![](resources/warning2.PNG)**
+  **![](resources/warning2.png)**
 
   - The following warning might pop-up as shown below, Click Yes and continue. 
 
-  **![](resources/warning3.PNG)**
+  **![](resources/warning3.png)**
 
 2. As soon as the debug process is completed, the application control branches to the main().
 
@@ -421,9 +421,9 @@ web page until it gets completely loaded on the browser.
 
 **![](resources/temp1.PNG)**
 
-     - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
+    - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
 
-**![](resources/temp2.PNG)**
+    **![](resources/temp2.png)**
 
 
 6. When clicked on the Display Wi-Fi Networks tab, the scan results along with their Security Mode and RSSI values in dBm will be displayed on the web page in the descending order of their RSSI values.
