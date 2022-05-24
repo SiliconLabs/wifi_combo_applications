@@ -33,7 +33,7 @@ For this lab, you will need the following:
 
 - Follow the [Simplicity Studio user guide](https://docs.silabs.com/simplicity-studio-5-users-guide/1.1.0/ss-5-users-guide-getting-started/install-ss-5-and-software#install-ssv5) to install Simplicity Studio.
 
-- Download the latest RS9116 release package from the [link](https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk). 
+- Download the latest RS9116 NCP release package from the [link](https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk). 
 
 **NOTE:**
 - This application project is designed to work with EFR32 with the radio board as either BRD4180A OR BRD4180B.
@@ -274,6 +274,7 @@ Below are some important APIs used in the application.
    ```rsi_wlan_power_save_with_listen_interval (PSP_MODE, PSP_TYPE, PS_LISTEN_INTERVAL) ```
 
    **NOTE:** The PS_LISTEN_INTERVAL macro, which is used to configure sleep duration in power save should be less than the listen interval configured by RSI_LISTEN_INTERVAL Macro in join command parameters in rsi_wlan_config.h file.
+
 
 ### Set up the Virtual COM port on Simplicity Studio IDE
 
