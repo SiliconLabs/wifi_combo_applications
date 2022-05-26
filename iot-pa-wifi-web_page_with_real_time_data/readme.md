@@ -30,11 +30,11 @@ For this lab, you will need the following:
 
 - Simplicity Studio v5 (v5.1.2.0 or higher)
 
-         a. Download the simplicity studio from [Simplicity Studio](https://www.silabs.com/developers/simplicity-studio).
+   a. Download the simplicity studio from [Simplicity Studio](https://www.silabs.com/developers/simplicity-studio).
 
-         b. Follow the [Simplicity Studio user guide](https://docs.silabs.com/simplicity-studio-5-users-guide/1.1.0/ss-5-users-guide-getting-started/install-ss-5-and-software#install-ssv5) to install Simplicity Studio.
+   b. Follow the [Simplicity Studio user guide](https://docs.silabs.com/simplicity-studio-5-users-guide/1.1.0/ss-5-users-guide-getting-started/install-ss-5-and-software#install-ssv5) to install Simplicity Studio.
 
-- 2.5.1 RS9116 NCP release package.
+- 2.5.1 RS9116 NCP release package from the [link](https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk/tree/2.5.1). 
 
 - **web_page_with_real_time_data** project folder
 
@@ -72,14 +72,14 @@ This section describes the hardware setup and the connections.
        | UULP_3 (for RS9116 chip version-1.3 & below)|                 9 |
 
 If the interconnect board is not available, make the connections between RS9116 NCP and EFR32 Host MCU as described below.
-**![](resources/setup2.png)**
+**![](resources/setup2.PNG)**
 **![](resources/connections.PNG)**
 
 ## Application flow
 
 This flow chart describes the application flow.
 
-**![](resources/flow_chart_app.png)** 
+**![](resources/flow_chart_app.PNG)** 
 
 **NOTE**: 
 1. The application does not automatically resume from the beginning, in case the application flow fails at any point. The module should be reset again.
@@ -90,7 +90,7 @@ power save mode. Thereafter, the application flow gets halted as no URL request 
 
 The following section describes how to set up Simplicity IDE in Windows Operating System.
 
-1. Ensure the RS9116 NCP module is pre-loaded with 2.5.1 firmware released by Silicon Labs following the steps mentioned in https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-pc/update-evk-firmware.
+1. Ensure the RS9116 NCP module is pre-loaded with 2.5.1 firmware (RS9116W.2.5.1.0.5.rps) following the steps mentioned in https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-pc/update-evk-firmware.
 
 2. Launch the Simplicity Studio IDE on your PC.
 
@@ -117,37 +117,29 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
 
    **![](resources/SDK_updated_locally.PNG)**
 
-6. If this latest repo does not contain the desired SDK, check for available tags (repositories, that point to other SDKs whose version is lower than the latest one) of the repo by giving the below command in the command prompt opened at path:
-**<Simplicity_Studio_Installed_Path> → SimplicityStudio → v5 → developer → repos → wiseconnect-wifi-bt-sdk**
-
-     ``` 
-     git tag 
-     ```
-**![](resources/cmd.PNG)** 
-**![](resources/tags.PNG)**  
+6. If this is the desired SDK (2.5.1), the SDK path <SDK_path> will be as given in point 5.b, else clone or download the desired SDK to your drive at any location (ensure this does not have too long path) and that location will be your SDK path <SDK_path> 
         
-7. Select the desired tag and create a new folder (in this case, it is **gitSDK_tag**) locally at any path and give the below git command at that path.
 
    ```
    git clone https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk.git --branch=<tag name> 
    ```
 
-   In this case, the tag name selected was **2.4.1**. Hence the command given is as follows:
+   In this case, the tag used is **2.5.1**. Hence the command given is as follows:
 
    ```
-   git clone https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk.git --branch=2.4.1 
+   git clone https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk.git --branch=2.5.1 
    ```
 
-**![](resources/clone_2.4.1.PNG)**  
+**![](resources/clone_2.5.1.PNG)**  
 
-8. Now, you can place the **web_page_with_real_time_data** project folder in the above cloned SDK at path: **\<SDK_path\> → examples → snippets → wlan**
+7. Now, you can place the **web_page_with_real_time_data** project folder in the above cloned SDK at path: **\<SDK_path\> → examples → snippets → wlan**
 
-**![](resources/project_copied.PNG)** 
+**![](resources/project_copied.png)** 
 																							
 
-9. Ensure the EFR32 and RS9116 NCP setup is connected to your PC and the power save connections are properly made.
+8. Ensure the EFR32 and RS9116 NCP setup is connected to your PC and the power save connections (if needed) are properly made.
 
-10. When EFR32 is connected to the PC, radio board detection is indicated as below.
+9. When EFR32 is connected to the PC, radio board detection is indicated as below.
 
 **![](resources/radio_board.PNG)**
 
@@ -359,22 +351,22 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 3. Hit Enter on the Serial 1 tab to establish a serial connection between PC and setup.
 
-**![](resources/serial_com.png)**
+**![](resources/serial_com.PNG)**
 
 ### Debug the project
 
 1. To flash the code, right click on the project name and select **Debug As** → **Silicon Labs ARM Program**.
   - If the EFR32xG21 has an older SE firmware, the following warning may pop up. Click ‘Yes’ to continue
 
-  **![](resources/warning1.png)**
+  **![](resources/warning1.PNG)**
 
   - If the connected EFR32 board has any other radio board other than 20dbm, Simplicity Studio will not be able to detect the device and gives the below pop-up window for Device Selection. Select the device displayed and click OK.
 
-  **![](resources/warning2.png)**
+  **![](resources/warning2.PNG)**
 
   - The following warning might pop-up as shown below, Click Yes and continue. 
 
-  **![](resources/warning3.png)**
+  **![](resources/warning3.PNG)**
 
 2. As soon as the debug process is completed, the application control branches to the main().
 
@@ -387,7 +379,7 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 3. If the flow of application until IP configuration is successful, the following debug prints will appear on the Serial 1 tab.
 
-**![](resources/ip_configuration.png)** 
+**![](resources/ip_configuration.PNG)** 
 
 4. Now enter the IP Address of the module (which is displayed on the Serial 1 tab) in the URL field of Smart Phone/Laptop/PC’s
 browser (make sure that the device you are using to browse is connected to the same network to which RS9116 NCP module is connected). The following webpage will be displayed. Observe the debug prints parallelly on the Serial 1 tab.
@@ -411,19 +403,19 @@ web page until it gets completely loaded on the browser.
 
   - Upon clicking the dropdown menu, the regions will be listed as shown below. Select any of the regions listed.
 
-**![](resources/dropdown.PNG)**  
+  **![](resources/dropdown.PNG)**  
 
   - Click on Submit. The date along with running time in the selected region will be displayed.
 
-**![](resources/time_run.PNG)**
+  **![](resources/time_run.PNG)**
 
   - When clicked on the Get Temperature tab, the temperature value in Kelvin, Celsius, and Fahrenheit units will be displayed on the web page.
 
-**![](resources/temp1.png)**
+  **![](resources/temp1.png)**
 
-  - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
+   - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
 
-**![](resources/temp2.png)**
+   **![](resources/temp2.png)**
 
 
 6. When clicked on the Display Wi-Fi Networks tab, the scan results along with their Security Mode and RSSI values in dBm will be displayed on the web page in the descending order of their RSSI values.
