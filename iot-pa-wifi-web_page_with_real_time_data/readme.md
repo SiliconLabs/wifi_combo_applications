@@ -72,8 +72,8 @@ This section describes the hardware setup and the connections.
        | UULP_3 (for RS9116 chip version-1.3 & below)|                 9 |
 
 If the interconnect board is not available, make the connections between RS9116 NCP and EFR32 Host MCU as described below.
-**![](resources/setup2.PNG)**
-**![](resources/connections.png)**
+**![](resources/setup2.png)**
+**![](resources/connections.PNG)**
 
 ## Application flow
 
@@ -154,7 +154,7 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
 This section provides the steps for importing the project into Simplicity Studio IDE.
 
 1. In the Simplicity Studio IDE, go to **File** and select **Import**.
-**![](resources/import.PNG)**
+**![](resources/import.png)**
 
 2. A pop up window appears.Click on **Browse**.
 
