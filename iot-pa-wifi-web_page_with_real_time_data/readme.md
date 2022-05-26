@@ -73,13 +73,13 @@ This section describes the hardware setup and the connections.
 
 If the interconnect board is not available, make the connections between RS9116 NCP and EFR32 Host MCU as described below.
 **![](resources/setup2.PNG)**
-**![](resources/connections.PNG)**
+**![](resources/connections.png)**
 
 ## Application flow
 
 This flow chart describes the application flow.
 
-**![](resources/flow_chart_app.PNG)** 
+**![](resources/flow_chart_app.png)** 
 
 **NOTE**: 
 1. The application does not automatically resume from the beginning, in case the application flow fails at any point. The module should be reset again.
@@ -134,7 +134,7 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
 
 7. Now, you can place the **web_page_with_real_time_data** project folder in the above cloned SDK at path: **\<SDK_path\> → examples → snippets → wlan**
 
-**![](resources/project_copied.png)** 
+**![](resources/project_copied.PNG)** 
 																							
 
 8. Ensure the EFR32 and RS9116 NCP setup is connected to your PC and the power save connections (if needed) are properly made.
@@ -351,22 +351,22 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 3. Hit Enter on the Serial 1 tab to establish a serial connection between PC and setup.
 
-**![](resources/serial_com.PNG)**
+**![](resources/serial_com.png)**
 
 ### Debug the project
 
 1. To flash the code, right click on the project name and select **Debug As** → **Silicon Labs ARM Program**.
   - If the EFR32xG21 has an older SE firmware, the following warning may pop up. Click ‘Yes’ to continue
 
-  **![](resources/warning1.PNG)**
+  **![](resources/warning1.png)**
 
   - If the connected EFR32 board has any other radio board other than 20dbm, Simplicity Studio will not be able to detect the device and gives the below pop-up window for Device Selection. Select the device displayed and click OK.
 
-  **![](resources/warning2.PNG)**
+  **![](resources/warning2.png)**
 
   - The following warning might pop-up as shown below, Click Yes and continue. 
 
-  **![](resources/warning3.PNG)**
+  **![](resources/warning3.png)**
 
 2. As soon as the debug process is completed, the application control branches to the main().
 
@@ -379,7 +379,7 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 3. If the flow of application until IP configuration is successful, the following debug prints will appear on the Serial 1 tab.
 
-**![](resources/ip_configuration.PNG)** 
+**![](resources/ip_configuration.png)** 
 
 4. Now enter the IP Address of the module (which is displayed on the Serial 1 tab) in the URL field of Smart Phone/Laptop/PC’s
 browser (make sure that the device you are using to browse is connected to the same network to which RS9116 NCP module is connected). The following webpage will be displayed. Observe the debug prints parallelly on the Serial 1 tab.
