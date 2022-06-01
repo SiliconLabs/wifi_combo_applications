@@ -12,7 +12,7 @@ For this lab, you will need the following:
 
 - EFR32xG21 Starter Kit with Wireless Gecko (SLSWSTK6006A Base board: BRD4001A, Radio board: BRD4180a or BRD4180b)
 
-- RS9116 Evaluation Board (RS9116X-SB-EVK1) / RS9116 Evaluation Board (RS9116X-DB-EVK1)
+- RS9116 Evaluation Board (RS9116X-SB-EVK1) / (RS9116X-DB-EVK1)
 
 - Mini-USB to USB Type-A cable (included with EFR32xG21)
 
@@ -72,7 +72,9 @@ This section describes the hardware setup and the connections.
        | UULP_3 (for RS9116 chip version-1.3 & below)|                 9 |
 
 If the interconnect board is not available, make the connections between RS9116 NCP and EFR32 Host MCU as described below.
+
 **![](resources/setup2.png)**
+
 **![](resources/connections.PNG)**
 
 ## Application flow
@@ -98,7 +100,7 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
 
 4. Click on **Launch**.
 
-**![](resources/directory.PNG)**
+   **![](resources/directory.PNG)**
 
 5. Check the default repo to which the Simplicity Studio IDE is linked to.
 
@@ -107,7 +109,7 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
    **![](resources/preferences.PNG)**
 
    b. By default, the latest **WiseConnect Wi-Fi/BT SDK** repo is linked to external repos. Click on **update** as shown below so that the latest SDK at https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk gets cloned at path: 
-   **<Simplicity_Studio_Installed_Path>\SimplicityStudio\v5\developer\repos\wiseconnect-wifi-bt-sdk**.
+   **<Simplicity_Studio_Installed_Path>SimplicityStudio\v5\developer\repos\wiseconnect-wifi-bt-sdk**.
 
    **![](resources/default_repo_path.PNG)**
 
@@ -117,7 +119,7 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
 
    **![](resources/SDK_updated_locally.PNG)**
 
-6. If this is the desired SDK (2.5.1), the SDK path <SDK_path> will be as given in point 5.b, else clone or download the desired SDK to your drive at any location (ensure this does not have too long path) and that location will be your SDK path <SDK_path> 
+6. If this is the desired SDK (2.5.1), place the **web_page_with_real_time_data** project folder at the SDK path **<Simplicity_Studio_Installed_Path>\SimplicityStudio\v5\developer\repos\wiseconnect-wifi-bt-sdk\examples\snippets\wlan**, else clone or download the desired SDK to your drive at any location (ensure this does not have too long path) and that location will be your SDK path <SDK_path>.
         
 
    ```
@@ -130,18 +132,17 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
    git clone https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk.git --branch=2.5.1 
    ```
 
-**![](resources/clone_2.5.1.PNG)**  
+   **![](resources/clone_2.5.1.PNG)**  
 
 7. Now, you can place the **web_page_with_real_time_data** project folder in the above cloned SDK at path: **\<SDK_path\> → examples → snippets → wlan**
 
-**![](resources/project_copied.PNG)** 
-																							
+   **![](resources/project_copied.PNG)** 												
 
 8. Ensure the EFR32 and RS9116 NCP setup is connected to your PC and the power save connections (if needed) are properly made.
 
 9. When EFR32 is connected to the PC, radio board detection is indicated as below.
 
-**![](resources/radio_board.PNG)**
+   **![](resources/radio_board.PNG)**
 
 **Note:** While importing, select the project based on radio board version:
 
@@ -154,7 +155,8 @@ The following section describes how to set up Simplicity IDE in Windows Operatin
 This section provides the steps for importing the project into Simplicity Studio IDE.
 
 1. In the Simplicity Studio IDE, go to **File** and select **Import**.
-**![](resources/import.png)**
+
+   **![](resources/import.png)**
 
 2. A pop up window appears.Click on **Browse**.
 
@@ -165,7 +167,7 @@ This section provides the steps for importing the project into Simplicity Studio
 
 5. Click on **Next** → **Next**.
 
-**![](resources/project_path.PNG)** 
+   **![](resources/project_path.PNG)** 
 
 6. Now click on **Finish**.
   
@@ -177,7 +179,7 @@ This section provides the steps for importing the project into Simplicity Studio
 
 3. Open the **web\_page\_with\_real\_time\_data.c** file present in **web\_page\_with\_real\_time\_data -brd4180b-mg21 → web\_page\_with\_real\_time\_data** folder.
 
-**![](resources/application.PNG)** 
+   **![](resources/application.PNG)** 
 
 4. Configure the SSID, SECURITY_TYPE, PSK and DHCP_MODE macros.
    - In this application the RS9116 NCP (station) gets connected to Access Point. SSID refers to the advertised name of the Access point's network.
@@ -268,7 +270,7 @@ from RSI_EXT_CUSTOM_FEATURE_BITMAP.
 40 seconds (according to the above parameters), the application prints Connection with AP is lost.
 8. Clean the Project. Build the project by right clicking on **web\_page\_with\_real\_time\_data-brd4180b-mg21** and select **Build Project**. It takes a few seconds to build.
 
-**![](resources/build.PNG)**
+   **![](resources/build.PNG)**
 
   If there are no errors, you can go ahead with flashing the code onto EFR32xG21.
  
@@ -331,6 +333,7 @@ Below are some important APIs used in the application.
     ```
   
    For more info about web page send API, refer to [Webpage](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-sapi-reference/network14).
+   
 8. The following API sets the module in power save mode with listen interval-based wakeup. After listen interval elapses (set to
 500 milliseconds by default), the module wakes up and checks for the buffered data in the beacon frames.
 
@@ -345,28 +348,28 @@ Below are some important APIs used in the application.
 The Virtual COM (VCOM) port interface is used for printing out debug prints from the application.
 1. In the Debug Adapters pane, right-click on the detected device and choose Launch Console to launch a console connection.
 
-**![](resources/launch_vcom.PNG)**
+   **![](resources/launch_vcom.PNG)**
 
 2. J-link Silicon Labs console pane opens as shown below. Switch to the Serial 1 tab in the console pane, for viewing the debug prints from the application.
 
 3. Hit Enter on the Serial 1 tab to establish a serial connection between PC and setup.
 
-**![](resources/serial_com.png)**
+   **![](resources/serial_com.png)**
 
 ### Debug the project
 
 1. To flash the code, right click on the project name and select **Debug As** → **Silicon Labs ARM Program**.
   - If the EFR32xG21 has an older SE firmware, the following warning may pop up. Click ‘Yes’ to continue
 
-  **![](resources/warning1.png)**
+    **![](resources/warning1.png)**
 
   - If the connected EFR32 board has any other radio board other than 20dbm, Simplicity Studio will not be able to detect the device and gives the below pop-up window for Device Selection. Select the device displayed and click OK.
 
-  **![](resources/warning2.png)**
+    **![](resources/warning2.png)**
 
   - The following warning might pop-up as shown below, Click Yes and continue. 
 
-  **![](resources/warning3.png)**
+    **![](resources/warning3.png)**
 
 2. As soon as the debug process is completed, the application control branches to the main().
 
@@ -375,18 +378,18 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 1. Go to the J-link Silicon Labs console pane to observe the debug prints in the Serial 1 tab.
 2. Click Resume icon in the Simplicity Studio IDE toolbar to run the project.
 
-**![](resources/run.PNG)**
+   **![](resources/run.PNG)**
 
 3. If the flow of application until IP configuration is successful, the following debug prints will appear on the Serial 1 tab.
 
-**![](resources/ip_configuration.png)** 
+   **![](resources/ip_configuration.png)** 
 
 4. Now enter the IP Address of the module (which is displayed on the Serial 1 tab) in the URL field of Smart Phone/Laptop/PC’s
 browser (make sure that the device you are using to browse is connected to the same network to which RS9116 NCP module is connected). The following webpage will be displayed. Observe the debug prints parallelly on the Serial 1 tab.
 
-**![](resources/app_prints.PNG)**
+   **![](resources/app_prints.PNG)**
 
-**![](resources/webpage.PNG)**
+   **![](resources/webpage.PNG)**
 
 **NOTE**: 
 - The web page will be displayed on the browser only after the **Responded with the requested web page** print appeared
@@ -399,28 +402,28 @@ web page until it gets completely loaded on the browser.
     4. again enters power save mode, if no URL request is made within 10 seconds else serves the URL request. 
 5. When clicked on Get Time & date tab, the following will be displayed on the web page.
 
-**![](resources/time_date.PNG)**
+   **![](resources/time_date.PNG)**
 
   - Upon clicking the dropdown menu, the regions will be listed as shown below. Select any of the regions listed.
 
-  **![](resources/dropdown.PNG)**  
+    **![](resources/dropdown.PNG)**  
 
   - Click on Submit. The date along with running time in the selected region will be displayed.
 
-  **![](resources/time_run.PNG)**
+    **![](resources/time_run.PNG)**
 
   - When clicked on the Get Temperature tab, the temperature value in Kelvin, Celsius, and Fahrenheit units will be displayed on the web page.
 
-  **![](resources/temp1.png)**
+    **![](resources/temp1.png)**
 
-   - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
+  - The background image of the webpage changes in accordance with the temperature, depicting the degree of hotness or coldness.
 
-   **![](resources/temp2.png)**
+    **![](resources/temp2.png)**
 
 
 6. When clicked on the Display Wi-Fi Networks tab, the scan results along with their Security Mode and RSSI values in dBm will be displayed on the web page in the descending order of their RSSI values.
 
-**![](resources/networks.PNG)**
+   **![](resources/networks.PNG)**
 
    **NOTE**:
    - The network to which the device (which is currently being used for browsing IP address of module) is connected, will be highlighted. In the above case, SILABS_AP1 is the network, which is used for browsing. Hence it is highlighted.
@@ -441,7 +444,7 @@ the J-link Silicon Labs console.
    - UTC (Coordinated Universal Time) and date (obtained from SNTP server) string segregated into the month, day, year, hours, minutes, and seconds.
 3. In the picture below, highlighted are the intermediate prints obtained when DEBUG_PRINTS macro is set.
 
-**![](resources/debug_prints.PNG)**
+   **![](resources/debug_prints.PNG)**
 
 4. By default, the application runs on FreeRTOS. Remove the `RSI_WITH_OS` preprocessor symbol to run the application on Bare metal.
 5. Assume that the connection with current AP to which the module is connected with is lost. In this scenario, module will try to rejoin the AP for a rejoin interval of time(40 sec). If the AP is not found during this period, the application prints `Connection with AP is lost`.
