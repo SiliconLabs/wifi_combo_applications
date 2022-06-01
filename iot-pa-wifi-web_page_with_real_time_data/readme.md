@@ -12,7 +12,7 @@ For this lab, you will need the following:
 
 - EFR32xG21 Starter Kit with Wireless Gecko (SLSWSTK6006A Base board: BRD4001A, Radio board: BRD4180a or BRD4180b)
 
-- RS9116 Evaluation Board (RS9116X-SB-EVK1) / (RS9116X-DB-EVK1)
+- RS9116 Evaluation Board (RS9116W-SB-EVK1) / (RS9116W-DB-EVK1)
 
 - Mini-USB to USB Type-A cable (included with EFR32xG21)
 
@@ -333,7 +333,7 @@ Below are some important APIs used in the application.
     ```
   
    For more info about web page send API, refer to [Webpage](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-sapi-reference/network14).
-   
+
 8. The following API sets the module in power save mode with listen interval-based wakeup. After listen interval elapses (set to
 500 milliseconds by default), the module wakes up and checks for the buffered data in the beacon frames.
 
