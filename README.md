@@ -17,7 +17,8 @@ The Silicon Labs Wi-Fi Combo stack allows for a wide variety applications to be 
 
 ## Examples ##
 
-- 
+- iot_pa_wifi_webpage_with_real_time_data
+- iot_pa_wifi_per_mode_ttl_script
 
 
 ## Documentation ##
