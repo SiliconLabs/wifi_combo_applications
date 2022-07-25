@@ -24,6 +24,7 @@ In Transmit test (conducted) make sure the RS9116W EVK is connected to the Spect
 
 ![Tera Term Macro](./resources/Transmit-Test-Setup.PNG)
 
+
 ##  Receive 
 In this case RS9116 EVK will be in receive mode, and the signal generator transmits the packet to the EVK.
 
@@ -45,13 +46,15 @@ Upon configuring the Tera Term settings, follow the below steps.
 
 ![Tera Term Macro](./resources/tera-term-macro.png)
 
-**STEP 3.** Now, navigate to the downloaded folder `iot-pa-wifi_per_mode_ttl_script` which contains the example ttl script. Select the file `wlan-per_mode.ttl`.
+**STEP 3.** Now, navigate to the downloaded folder `iot-pa-wifi-phy_per_ttl_script` which contains the example ttl script. Select the file `wlan_per_mode.ttl`.
 
-![Tera Term Script to be selected](./resources/tera-term-scripts-wlan_per_mode.PNG)
+
+<img alt="Tera Term Script to be selected" src="./resources/tera-term-scripts-wlan_per_mode.PNG" border="1">
 
 **STEP 4.** Now the wlan_per_mode script starts executing, it will show a pop-up as shown below.
 
 ![Application Start pop up](./resources/starting-message-popup.PNG)
+
 
 **STEP 5.** Initially, the ABRD process continues and you will see a pop-up with a message “Firmware Loading Done“.
 
@@ -177,14 +180,12 @@ Now start the transmit in the same channel from the signal generator.
 
 STATS RESPONSE 
 
-Each stats response starts with AT+RSI AT+RSI_PER_STATS= 
+Each stats response starts with AT+RSI_PER_STATS= 
 41 54 2B 52 53 49 5F 50 45 52 5F 53 54 41 54 53 3D - > (AT+RSI_PER_STATS=)
 
-Each stats response ends with 0D 0A 
+Each stats response ends with 0D 0A.
 
-For more information about PER stats and its fields, please refer to the per_stats command in the PRM [link.](https://docs.silabs.com/rs9116/wiseconnect/rs9116w-wifi-at-command-prm/latest/wlan-commands) 
+For more information about PER stats and its fields, please refer to the rsi_per_stats command in the [AT Command PRM](https://docs.silabs.com/rs9116/wiseconnect/rs9116w-wifi-at-command-prm/latest/wlan-commands#rsi-per-stats----query-per-statistics).
  
- Section -> rsi_per_stats:: Query PER Statistics
-
 
 
