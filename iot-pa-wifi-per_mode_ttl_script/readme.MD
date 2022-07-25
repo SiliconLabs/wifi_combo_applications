@@ -1,25 +1,34 @@
 # WLAN PER Mode Tera Term Script
-This application demonstrates the WLAN PER (Packet Error Rate) Transmit and Receive test, in RS9116W NCP Module. 
+This application demonstrates the WLAN PER (Packet Error Rate) Transmit and Receive test, in RS9116W NCP Module using AT commands.
+Customers going for regulatory tests ((FCC, CE/RED, TELEC etc) can utilize this script to setup the module in PHY test mode.
+User can set different band, channels, data rate, mode (Burst, Continuous, CW) and power.
+Both conducted and radiated tests can be performed.
+Below is the data rate and modulation details:
+802.11b (DSSS) : 1, 2, 5.5, 11 Mbps
+802.11g (OFDM): 6, 9, 12, 18, 24, 36, 48, 54 Mbps
+802.11n (OFDM): MCS0 to MCS7 with and without Short GI
+
+
 
 ## Prerequisites
 
 1. Windows PC
 2. RS9116 Evaluation Board (RS9116W-SB-EVK1) / (RS9116W-DB-EVK1) along with a Micro USB cable
-3. Tera term software from [link.](https://tera-term.en.softonic.com/download)
+3. Tera Term software from [link.](https://tera-term.en.softonic.com/download)
 4. Spectrum Analyzer and RF connectors 
 5. Signal Generator and RF connectors
 
 ## Setup 
 
 ## Transmit 
-In Transmit test make sure the RS9116W EVK is connected to the Spectrum Analyzer through u.Fl.
+In Transmit test (conduted) make sure the RS9116W EVK is connected to the Spectrum Analyzer through u.Fl.
 
 ![Tera Term Macro](./resources/Transmit-Test-Setup.PNG)
 
 ##  Receive 
 In this case RS9116 EVK will be in receive mode, and the signal generator transmits the packet to the EVK.
 
-Make sure to connect the u.Fl on the RS9116W EVK to the Signal generator using an RF connector.
+Make sure to connect the u.Fl on the RS9116W EVK to the Signal generator using an RF connector (conducted).
 
  ![Tera Term Macro](./resources/Receive-Test-Setup.PNG)
 
@@ -104,13 +113,14 @@ Select the appropriate [PER Tx](#per-modes) or [PER Rx](#receive-test) test and 
 
 ![PER modes selection](./resources/PER-mode-selection.PNG)
 
-The command `at+rsi_per` is used to perform regulatory certifications (FCC, ETSI, CE, etc).
+The command `at+rsi_per` is used to start transmission of packets.
 
-**STEP 2.** Enter the transmit power value.
+**STEP 2.** Enter the transmit power value. (127 - Based on the region set it takes automatically highest value that passes for EVM and Mask, User can set from 1-20 index value to arrive at pass value)
 
 ![power level selection](./resources/powerlevel.PNG)
 
 **Note:** To configure the maximum transmit power under the regulatory considerations and channels for that frequency band, set ***power*** = 127
+
 
 **STEP 3.** In the next pop-up, enter the data rate.
 
