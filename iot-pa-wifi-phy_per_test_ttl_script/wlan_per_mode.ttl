@@ -1,0 +1,269 @@
+TRUE = 1
+FALSE = 0
+
+
+message = 'This example demonstrates WLAN PER mode functionality'
+messagebox message ''
+
+send '|'
+wait 'U'
+sendln 'U'
+mpause 200
+sendln '1'
+wait 'Loading Done'
+message = 'Firmware Loading Done Successfully' 
+messagebox message ''
+
+sendln 'at+rsi_fwversion?'
+wait 'OK' 'ERROR'
+if result == 2 then
+	goto error
+else
+	messagebox 'Firmware query successfully' ''
+endif
+
+sendln 'at+rsi_opermode=8'
+wait 'OK' 'ERROR'
+if result == 2 then
+    goto error
+else 
+    messagebox 'Opermode Successfully' ''
+endif
+
+inputbox 'Enter the band 0 - 2.4GHz , 1 - 5GHz ' 'BAND' 
+BAND = inputstr
+
+
+sendln 'at+rsi_band='BAND
+wait 'OK' 'ERROR'
+if result == 2 then
+    goto error
+else 
+    messagebox 'Band Successful' ''
+endif
+
+sendln 'at+rsi_feat_frame=0,1,0,0,1,0'
+wait 'OK' 'ERROR'
+if result == 2 then
+	goto error
+else
+	messagebox 'Feature frame successfully' ''
+endif	
+
+sendln 'at+rsi_init' 
+setdebug 2     ; output is in binary, so best to display in hex format
+wait '4F 4B' '45 52' ; 'OK' or 'ER'
+setdebug 0
+if result == 2 then
+    goto error
+else 
+    messagebox 'Init Successful' ''
+endif
+
+mpause 1000
+
+;sendln ''
+inputbox 'Enter the Antenna slection: '#10#13' Configure which Antenna  is used: '#10#13' 1- u.FL Connector '#10#13' 0- Inbuilt Antenna :' 'Antenna'
+Antenna = inputstr
+
+
+sendln 'at+rsi_antenna='Antenna'' 
+wait 'OK' 'ERROR'
+if result == 2 then
+	goto error
+else
+	messagebox 'Antenna command successfully' ''
+endif
+
+inputbox 'Enter corresponding Region code '#10#13' 0/1-US domain(Default) '#10#13' 2-Europe domain '#10#13' 3-Japan Domain '#10#13'4-World mode domain :' 'CODE'
+CODE = inputstr
+
+sendln 'at+rsi_setregion=1,'CODE
+wait 'OK' 'ERROR'
+if result == 2 then
+	goto error
+else
+	messagebox 'Set Region Successfully' ''
+endif	
+
+
+inputbox 'Start PER Test '#10#13' 1.PER Transmit '#10#13' 2. PER Receive ' 'Test' 
+Test = inputstr
+
+strcompare Test '2'
+if result=0 then 
+   inputbox 'Enter the channel number :' 'channel'   
+   Channel = inputstr
+   sendln 'at+rsi_per_stats=0,'Channel
+   wait 'AT+RSI_PER_STATS' 'ERROR'
+   if result == 2 then
+       goto error
+   else 
+       messagebox 'PER Receive Successfully' ''
+   endif 
+       setdebug 2 
+       messagebox ' STOP PER MODE ' ''
+		;per_stop = inputstr
+		sendln 'at+rsi_per_stats=1'
+		wait 'OK' 'ERROR'
+	    if result == 2 then
+		     goto error
+        else
+	        messagebox 'PER mode stopped' ''
+	    endif
+   goto endscript
+endif
+
+	
+inputbox 'Enter PER mode '#10#13' 0.Burst mode '#10#13' 1.Continuous mode '#10#13' 2.Continuous Wave mode in DC mode '#10#13' 3.Continous Wave mode at single tone at: center frequency -2.5 MHz '#10#13' 4.Continous wave mode at single tone at: center frequency +5 MHz ' 'Mode'
+Mode = inputstr
+str2int var1 Mode
+if var1 == 0 || var1 == 1 then   
+	:retry
+		inputbox 'Enter power Range :  2 to 18(dBm) or 127  '#10#13' Note: For maximum power level set index as 127' 'Power'
+		Power = inputstr
+		str2int var Power
+		if	var >= 2 && var <= 18 then 
+			power1 = power 
+		elseif var==127 then 
+			power1 = power 
+		else
+			messagebox 'Given incorrect power index' ''
+			goto retry
+		endif
+
+
+	:retry1
+		inputbox 'Enter data rate : '#10#13' Rate(slected rate), Modulation Technique 	'#10#13' 0(1),DSS    		2(2),DSS  '#10#13' 4(5.5),CCK    		6(11)CCK '#10#13' 139(6),OFDM      		143(9),OFDM '#10#13' 138(12),OFDM    		142(18),OFDM '#10#13'137(24),OFDM    		141(36),OFDM  '#10#13'136(48),OFDM    		140(54),OFDM '#10#13'256(MCS0),OFDM   	257(MCS1),OFDM '#10#13'258(MCS2),OFDM   	259(MCS3),OFDM  '#10#13'260(MCS4),OFDM   	261(MCS5),OFDM  '#10#13'262(MCS6),OFDM   	 263(MCS7),OFDM ' 'Rate'
+		Rate = inputstr 
+		str2int var Rate
+		if var == 0 || var == 2 || var == 4	|| var == 6 || var == 139 || var == 139	|| var == 143 || var == 138	|| var == 142 || var == 137 || var == 141 || var == 136 || var == 140 || var == 256	|| var == 257 || var == 258 || var == 259 || var == 260	|| var == 261 || var == 262 || var == 263	then  
+			Rate1 = Rate
+		else
+			messagebox 'Given Incorrect Data rate'  ''
+			goto retry1
+		endif
+
+	:retry2
+		inputbox 'Enter the channel : '#10#13'  2.4GHz - 1 to 14 '#10#13' 5GHz - 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165 '#10#13' Channels : (US)1 to 11, (Europe)1 to 13, (Japan)1 to 14, (World Wide)1 to 14 : ' 'Channel'
+		Channel = inputstr
+		str2int var Channel
+		if var == 1 || var == 2 || var == 3	|| var == 4 || var == 5 || var == 6	|| var == 7 || var == 8	|| var == 9 || var == 10 || var == 11 || var == 12 || var == 13 || var == 14	|| var == 36 || var == 40  || var == 44 || var == 48	|| var == 52  || var == 56 || var == 60 || var == 64 || var == 100 || var == 104 || var == 108 || var == 112 || var == 116 || var == 132 ||  var == 136 || var == 140 || var == 144 || var == 149 || var == 153 || var == 157 || var == 161 || var == 165	then  
+			Channel1 = Channel 
+		else 
+			messagebox 'Given Incorrect channel' ''
+			goto retry2 
+		endif 
+	
+    if var1 == 0 then 
+		inputbox 'Enter length range of 24 to 1500 bytes in the Burst mode :' 'Length'
+	else 
+	   inputbox 'Enter length range of 24 to 260 bytes in the Continous mode :' 'Length'    
+	endif
+	
+	Length = inputstr
+	sendln 'at+rsi_per=1,'Power','Rate','Length','Mode','Channel',0,0,0,0'
+	wait 'OK' 'ERROR'
+	if result == 2 then
+		goto error
+	else	
+		if var1 == 0 then 
+			messagebox 'Burst Mode Executed Successfully' ''
+		elseif var1 == 1 then 
+			messagebox 'Continuous Mode Executed Successfully' ''
+	    endif
+		
+		messagebox ' STOP PER MODE ' ''
+		;per_stop = inputstr
+		sendln 'at+rsi_per=0'
+		wait 'OK' 'ERROR'
+	    if result == 2 then
+		     goto error
+        else
+	        messagebox 'PER mode stopped' ''
+	    endif
+	endif
+
+
+elseif var1 == 2 || var1 == 3 || var1 == 4 then 
+
+     :retry3
+		inputbox 'Enter power Range :  2 to 18(dBm) or 127  '#10#13' Note: For maximum power level set index as 127' 'Power'
+		Power = inputstr
+		str2int var Power
+		if	var >= 2 && var <= 18 then 
+			power1 = power 
+		elseif var==127 then 
+			power1 = power 
+		else
+			messagebox 'Given incorrect power index' ''
+			goto retry3
+		endif
+
+	:retry4
+		inputbox 'Enter data rate : '#10#13' Rate(slected rate), Modulation Technique 	'#10#13' 0(1),DSS    		2(2),DSS  '#10#13' 4(5.5),CCK    		6(11)CCK '#10#13' 139(6),OFDM      		143(9),OFDM '#10#13' 138(12),OFDM    		142(18),OFDM '#10#13'137(24),OFDM    		141(36),OFDM  '#10#13'136(48),OFDM    		140(54),OFDM '#10#13'256(MCS0),OFDM   	257(MCS1),OFDM '#10#13'258(MCS2),OFDM   	259(MCS3),OFDM  '#10#13'260(MCS4),OFDM   	261(MCS5),OFDM  '#10#13'262(MCS6),OFDM   	 263(MCS7),OFDM ' 'Rate'
+		Rate = inputstr 
+		str2int var Rate
+		if var == 0 || var == 2 || var == 4	|| var == 6 || var == 139 || var == 139	|| var == 143 || var == 138	|| var == 142 || var == 137 || var == 141 || var == 136 || var == 140 || var == 256	|| var == 257 || var == 258 || var == 259 || var == 260	|| var == 261 || var == 262 || var == 263	then  
+			Rate1 = Rate
+		else
+			messagebox 'Given Incorrect Data rate'  ''
+			goto retry4
+		endif
+
+	:retry5
+		inputbox 'Enter the channel : '#10#13'  2.4GHz - 1 to 14 '#10#13' 5GHz - 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165 '#10#13' Channels : (US)1 to 11, (Europe)1 to 13, '#10#13' (Japan)1 to 14, (World Wide)1 to 14 : ' 'Channel'
+		Channel = inputstr
+		str2int var Channel
+		if var == 1 || var == 2 || var == 3	|| var == 4 || var == 5 || var == 6	|| var == 7 || var == 8	|| var == 9 || var == 10 || var == 11 || var == 12 || var == 13 || var == 14	|| var == 36 || var == 40  || var == 44 || var == 48	|| var == 52  || var == 56 || var == 60 || var == 64 || var == 100 || var == 104 || var == 108 || var == 112 || var == 116 || var == 132 ||  var == 136 || var == 140 || var == 144 || var == 149 || var == 153 || var == 157 || var == 161 || var == 165	then  
+			Channel1 = Channel 
+		else 
+			messagebox 'Given Incorrect channel' ''
+			goto retry5 
+		endif    
+		
+		inputbox 'Enter Range : 24 to 260 bytes in the continuous mode :' 'CW_Length'
+		CW_Length = inputstr
+		sendln 'at+rsi_per=1,'Power','Rate','CW_Length','1','Channel',0,0,0,0'
+		wait 'OK' 'ERROR'
+		if result == 2 then
+			goto error
+		else
+		    sendln 'at+rsi_per=0'
+			wait 'OK' 'ERROR'
+			if result == 2 then 
+				goto error
+			else	
+				;messagebox 'PER mode stopped' ''
+				mpause 5
+				sendln 'at+rsi_per=1,'Power','Rate','CW_Length','Mode','Channel',0,0,0,0'
+				wait 'OK' 'ERROR'
+				if result == 2 then
+					goto error
+				else
+				    if var1 == 2 then 
+						messagebox 'Continuous Wave Mode Executed Successfully' ''
+					elseif var1 == 3 then 					   
+			           messagebox 'continous wave mode single tone at center frequency -2.5 MHz Executed successfully' ''
+		            elseif var1 == 4 then
+			             messagebox 'continous wave mode single tone at center frequency +5 MHz Executed successfully' ''
+	                endif
+					messagebox ' STOP PER MODE ' '' 
+					sendln 'at+rsi_per=0'
+					wait 'OK' 'ERROR'
+					if result == 2 then
+						goto error
+					endif	
+				endif
+			endif
+		endif	
+endif ;mode endif
+
+ 	
+goto endscript
+
+:error
+messagebox 'An error occurred, Please check your configuration and try again' 'ERROR'
+
+:endscript
+end
