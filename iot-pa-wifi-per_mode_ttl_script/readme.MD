@@ -21,7 +21,7 @@ Below is the data rate and modulation details:
 ## Setup 
 
 ## Transmit 
-In Transmit test (conduted) make sure the RS9116W EVK is connected to the Spectrum Analyzer through u.Fl.
+In Transmit test (conducted) make sure the RS9116W EVK is connected to the Spectrum Analyzer through u.Fl.
 
 ![Tera Term Macro](./resources/Transmit-Test-Setup.PNG)
 
