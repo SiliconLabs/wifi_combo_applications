@@ -74,7 +74,7 @@ The command `at+rsi_band=0` configures the operating band of the Wi-Fi radio to 
 
 **STEP 8.** Now, `at+rsi_feat_frame` command is sent to the module. This command is used to select Internal RF type or External RF type, and Clock Frequency. Default parameters are already selected.
 
-![feat frame success](./resources/Feature-Frame-sent.png)
+![feat frame success](./resources/Feature-Frame-sent.PNG)
 
 **STEP 9.** `at+rsi_init` command initializes the RF of the module. The module responds with OK<MAC_Address> (MAC Address is in hex format).
 
