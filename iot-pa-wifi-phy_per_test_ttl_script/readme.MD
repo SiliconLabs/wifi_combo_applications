@@ -56,7 +56,7 @@ Upon configuring the Tera Term settings, follow the below steps.
 ![Application Start pop up](./resources/starting-message-popup.PNG)
 
 
-**STEP 5.** Initially, the ABRD process continues and you will see a pop-up with the message “Firmware qieried successfully“.
+**STEP 5.** Initially, the ABRD process continues and you will see a pop-up with the message “Firmware queried successfully“.
 
 ![Fimware queried successfully](./resources/Firmware-queried-successfully.PNG)
 
