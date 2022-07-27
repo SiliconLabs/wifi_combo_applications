@@ -19,7 +19,7 @@ wait 'OK' 'ERROR'
 if result == 2 then
 	goto error
 else
-	messagebox 'Firmware query successfully' ''
+	messagebox 'Firmware queried successfully' ''
 endif
 
 sendln 'at+rsi_opermode=8'
@@ -27,7 +27,7 @@ wait 'OK' 'ERROR'
 if result == 2 then
     goto error
 else 
-    messagebox 'Opermode Successfully' ''
+    messagebox 'Opermode Successful' ''
 endif
 
 inputbox 'Enter the band 0 - 2.4GHz , 1 - 5GHz ' 'BAND' 
@@ -47,7 +47,7 @@ wait 'OK' 'ERROR'
 if result == 2 then
 	goto error
 else
-	messagebox 'Feature frame successfully' ''
+	messagebox 'Feature frame Sent' ''
 endif	
 
 sendln 'at+rsi_init' 
@@ -63,7 +63,7 @@ endif
 mpause 1000
 
 ;sendln ''
-inputbox 'Enter the Antenna slection: '#10#13' Configure which Antenna  is used: '#10#13' 1- u.FL Connector '#10#13' 0- Inbuilt Antenna :' 'Antenna'
+inputbox 'Enter the Antenna selection: '#10#13' Configure which Antenna  is used: '#10#13' 1- u.FL Connector '#10#13' 0- Inbuilt Antenna :' 'Antenna'
 Antenna = inputstr
 
 
@@ -72,7 +72,7 @@ wait 'OK' 'ERROR'
 if result == 2 then
 	goto error
 else
-	messagebox 'Antenna command successfully' ''
+	messagebox 'Antenna command successful' ''
 endif
 
 inputbox 'Enter corresponding Region code '#10#13' 0/1-US domain(Default) '#10#13' 2-Europe domain '#10#13' 3-Japan Domain '#10#13'4-World mode domain :' 'CODE'
@@ -115,7 +115,7 @@ if result=0 then
 endif
 
 	
-inputbox 'Enter PER mode '#10#13' 0.Burst mode '#10#13' 1.Continuous mode '#10#13' 2.Continuous Wave mode in DC mode '#10#13' 3.Continous Wave mode at single tone at: center frequency -2.5 MHz '#10#13' 4.Continous wave mode at single tone at: center frequency +5 MHz ' 'Mode'
+inputbox 'Enter PER mode '#10#13' 0.Burst mode '#10#13' 1.Continuous mode '#10#13' 2.Continuous Wave Mode in DC mode '#10#13' 3.Continuous Wave Mode at single tone at: center frequency -2.5 MHz '#10#13' 4.Continuous Wave Mode at single tone at: center frequency +5 MHz ' 'Mode'
 Mode = inputstr
 str2int var1 Mode
 if var1 == 0 || var1 == 1 then   
@@ -222,7 +222,7 @@ elseif var1 == 2 || var1 == 3 || var1 == 4 then
 			goto retry5 
 		endif    
 		
-		inputbox 'Enter Range : 24 to 260 bytes in the continuous mode :' 'CW_Length'
+		inputbox 'Enter Range: 24 to 260 bytes in the continuous mode:' 'CW_Length'
 		CW_Length = inputstr
 		sendln 'at+rsi_per=1,'Power','Rate','CW_Length','1','Channel',0,0,0,0'
 		wait 'OK' 'ERROR'
@@ -244,9 +244,9 @@ elseif var1 == 2 || var1 == 3 || var1 == 4 then
 				    if var1 == 2 then 
 						messagebox 'Continuous Wave Mode Executed Successfully' ''
 					elseif var1 == 3 then 					   
-			           messagebox 'continous wave mode single tone at center frequency -2.5 MHz Executed successfully' ''
+			           messagebox 'continuous wave mode single tone at center frequency -2.5 MHz Executed successfully' ''
 		            elseif var1 == 4 then
-			             messagebox 'continous wave mode single tone at center frequency +5 MHz Executed successfully' ''
+			             messagebox 'continuous wave mode single tone at center frequency +5 MHz Executed successfully' ''
 	                endif
 					messagebox ' STOP PER MODE ' '' 
 					sendln 'at+rsi_per=0'
@@ -263,7 +263,7 @@ endif ;mode endif
 goto endscript
 
 :error
-messagebox 'An error occurred, Please check your configuration and try again' 'ERROR'
+messagebox 'An error occurred, please check your configuration and try again' 'ERROR'
 
 :endscript
 end
