@@ -30,7 +30,7 @@ else
     messagebox 'Opermode Successful' ''
 endif
 
-inputbox 'Enter the band 0 - 2.4GHz , 1 - 5GHz ' 'BAND' 
+inputbox 'Enter the band'#10#13' 0- 2.4GHz '#10#13' 1- 5GHz ' 'BAND' 
 BAND = inputstr
 
 
@@ -63,7 +63,7 @@ endif
 mpause 1000
 
 ;sendln ''
-inputbox 'Enter the Antenna selection: '#10#13' Configure which Antenna  is used: '#10#13' 1- u.FL Connector '#10#13' 0- Inbuilt Antenna :' 'Antenna'
+inputbox 'Enter the Antenna selection:'#10#13'Configure which Antenna  is used: '#10#13' 1- u.FL Connector '#10#13' 0- Inbuilt Antenna ' 'Antenna'
 Antenna = inputstr
 
 
@@ -75,7 +75,7 @@ else
 	messagebox 'Antenna command successful' ''
 endif
 
-inputbox 'Enter corresponding Region code '#10#13' 0/1-US domain(Default) '#10#13' 2-Europe domain '#10#13' 3-Japan Domain '#10#13'4-World mode domain :' 'CODE'
+inputbox 'Enter corresponding Region code '#10#13' 0/1- US domain(Default) '#10#13' 2- Europe domain '#10#13' 3- Japan Domain '#10#13' 4- World mode domain ' 'CODE'
 CODE = inputstr
 
 sendln 'at+rsi_setregion=1,'CODE
@@ -83,7 +83,7 @@ wait 'OK' 'ERROR'
 if result == 2 then
 	goto error
 else
-	messagebox 'Set Region Successfully' ''
+	messagebox 'Set Region Successful' ''
 endif	
 
 
@@ -99,9 +99,9 @@ if result=0 then
    if result == 2 then
        goto error
    else 
-       messagebox 'PER Receive Successfully' ''
-   endif 
        setdebug 2 
+       messagebox 'PER stats Received Successfully' ''
+   endif 
        messagebox ' STOP PER MODE ' ''
 		;per_stop = inputstr
 		sendln 'at+rsi_per_stats=1'
@@ -120,7 +120,7 @@ Mode = inputstr
 str2int var1 Mode
 if var1 == 0 || var1 == 1 then   
 	:retry
-		inputbox 'Enter power Range :  2 to 18(dBm) or 127  '#10#13' Note: For maximum power level set index as 127' 'Power'
+		inputbox 'Enter Power Range :  2 to 18(dBm) or 127  '#10#13'Note: For maximum power level set index as 127' 'Power'
 		Power = inputstr
 		str2int var Power
 		if	var >= 2 && var <= 18 then 
@@ -134,7 +134,7 @@ if var1 == 0 || var1 == 1 then
 
 
 	:retry1
-		inputbox 'Enter data rate : '#10#13' Rate(slected rate), Modulation Technique 	'#10#13' 0(1),DSS    		2(2),DSS  '#10#13' 4(5.5),CCK    		6(11)CCK '#10#13' 139(6),OFDM      		143(9),OFDM '#10#13' 138(12),OFDM    		142(18),OFDM '#10#13'137(24),OFDM    		141(36),OFDM  '#10#13'136(48),OFDM    		140(54),OFDM '#10#13'256(MCS0),OFDM   	257(MCS1),OFDM '#10#13'258(MCS2),OFDM   	259(MCS3),OFDM  '#10#13'260(MCS4),OFDM   	261(MCS5),OFDM  '#10#13'262(MCS6),OFDM   	 263(MCS7),OFDM ' 'Rate'
+		inputbox 'Enter data rate : '#10#13'Rate(slected rate), Modulation Technique 	'#10#13'0(1),DSS    		2(2),DSS  '#10#13'4(5.5),CCK    		6(11)CCK '#10#13'139(6),OFDM      		143(9),OFDM '#10#13'138(12),OFDM    		142(18),OFDM '#10#13'137(24),OFDM    		141(36),OFDM  '#10#13'136(48),OFDM    		140(54),OFDM '#10#13'256(MCS0),OFDM   	257(MCS1),OFDM '#10#13'258(MCS2),OFDM   	259(MCS3),OFDM  '#10#13'260(MCS4),OFDM   	261(MCS5),OFDM  '#10#13'262(MCS6),OFDM   	263(MCS7),OFDM ' 'Rate'
 		Rate = inputstr 
 		str2int var Rate
 		if var == 0 || var == 2 || var == 4	|| var == 6 || var == 139 || var == 139	|| var == 143 || var == 138	|| var == 142 || var == 137 || var == 141 || var == 136 || var == 140 || var == 256	|| var == 257 || var == 258 || var == 259 || var == 260	|| var == 261 || var == 262 || var == 263	then  
@@ -145,7 +145,7 @@ if var1 == 0 || var1 == 1 then
 		endif
 
 	:retry2
-		inputbox 'Enter the channel : '#10#13'  2.4GHz - 1 to 14 '#10#13' 5GHz - 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165 '#10#13' Channels : (US)1 to 11, (Europe)1 to 13, (Japan)1 to 14, (World Wide)1 to 14 : ' 'Channel'
+		inputbox 'Enter the channel :'#10#13'2.4GHz - 1 to 14 '#10#13'5GHz - 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165 '#10#13'Region               Channels '#10#13' 1. US                     (1 to 11)  '#10#13' 2. Europe            (1 to 13) '#10#13' 3. Japan              (1 to 14) '#10#13' 4. World Wide    (1 to 14)  ' 'Channel'
 		Channel = inputstr
 		str2int var Channel
 		if var == 1 || var == 2 || var == 3	|| var == 4 || var == 5 || var == 6	|| var == 7 || var == 8	|| var == 9 || var == 10 || var == 11 || var == 12 || var == 13 || var == 14	|| var == 36 || var == 40  || var == 44 || var == 48	|| var == 52  || var == 56 || var == 60 || var == 64 || var == 100 || var == 104 || var == 108 || var == 112 || var == 116 || var == 132 ||  var == 136 || var == 140 || var == 144 || var == 149 || var == 153 || var == 157 || var == 161 || var == 165	then  
@@ -201,7 +201,7 @@ elseif var1 == 2 || var1 == 3 || var1 == 4 then
 		endif
 
 	:retry4
-		inputbox 'Enter data rate : '#10#13' Rate(slected rate), Modulation Technique 	'#10#13' 0(1),DSS    		2(2),DSS  '#10#13' 4(5.5),CCK    		6(11)CCK '#10#13' 139(6),OFDM      		143(9),OFDM '#10#13' 138(12),OFDM    		142(18),OFDM '#10#13'137(24),OFDM    		141(36),OFDM  '#10#13'136(48),OFDM    		140(54),OFDM '#10#13'256(MCS0),OFDM   	257(MCS1),OFDM '#10#13'258(MCS2),OFDM   	259(MCS3),OFDM  '#10#13'260(MCS4),OFDM   	261(MCS5),OFDM  '#10#13'262(MCS6),OFDM   	 263(MCS7),OFDM ' 'Rate'
+		inputbox 'Enter data rate : '#10#13' Rate(slected rate), Modulation Technique 	'#10#13' 0(1),DSS    		2(2),DSS  '#10#13' 4(5.5),CCK    		6(11)CCK '#10#13'139(6),OFDM      		143(9),OFDM '#10#13'138(12),OFDM    		142(18),OFDM '#10#13'137(24),OFDM    		141(36),OFDM  '#10#13'136(48),OFDM    		140(54),OFDM '#10#13'256(MCS0),OFDM   	257(MCS1),OFDM '#10#13'258(MCS2),OFDM   	259(MCS3),OFDM  '#10#13'260(MCS4),OFDM   	261(MCS5),OFDM  '#10#13'262(MCS6),OFDM   	263(MCS7),OFDM ' 'Rate'
 		Rate = inputstr 
 		str2int var Rate
 		if var == 0 || var == 2 || var == 4	|| var == 6 || var == 139 || var == 139	|| var == 143 || var == 138	|| var == 142 || var == 137 || var == 141 || var == 136 || var == 140 || var == 256	|| var == 257 || var == 258 || var == 259 || var == 260	|| var == 261 || var == 262 || var == 263	then  
@@ -212,7 +212,7 @@ elseif var1 == 2 || var1 == 3 || var1 == 4 then
 		endif
 
 	:retry5
-		inputbox 'Enter the channel : '#10#13'  2.4GHz - 1 to 14 '#10#13' 5GHz - 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165 '#10#13' Channels : (US)1 to 11, (Europe)1 to 13, '#10#13' (Japan)1 to 14, (World Wide)1 to 14 : ' 'Channel'
+		inputbox 'Enter the channel : '#10#13'2.4GHz - 1 to 14 '#10#13'5GHz - 36 40 44 48 52 56 60 64 100 104 108 112 116 120 124 128 132 136 140 144 149 153 157 161 165 '#10#13' Channels : (US)1 to 11, (Europe)1 to 13, '#10#13' (Japan)1 to 14, (World Wide)1 to 14  ' 'Channel'
 		Channel = inputstr
 		str2int var Channel
 		if var == 1 || var == 2 || var == 3	|| var == 4 || var == 5 || var == 6	|| var == 7 || var == 8	|| var == 9 || var == 10 || var == 11 || var == 12 || var == 13 || var == 14	|| var == 36 || var == 40  || var == 44 || var == 48	|| var == 52  || var == 56 || var == 60 || var == 64 || var == 100 || var == 104 || var == 108 || var == 112 || var == 116 || var == 132 ||  var == 136 || var == 140 || var == 144 || var == 149 || var == 153 || var == 157 || var == 161 || var == 165	then  
@@ -222,7 +222,7 @@ elseif var1 == 2 || var1 == 3 || var1 == 4 then
 			goto retry5 
 		endif    
 		
-		inputbox 'Enter Range: 24 to 260 bytes in the continuous mode:' 'CW_Length'
+		inputbox 'Enter Range: 24 to 260 bytes in the continuous mode' 'CW_Length'
 		CW_Length = inputstr
 		sendln 'at+rsi_per=1,'Power','Rate','CW_Length','1','Channel',0,0,0,0'
 		wait 'OK' 'ERROR'
