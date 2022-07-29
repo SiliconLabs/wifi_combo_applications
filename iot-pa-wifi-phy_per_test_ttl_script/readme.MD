@@ -1,7 +1,7 @@
 # WLAN PER Mode Tera Term Script
-This application demonstrates the WLAN PER (Packet Error Rate) Transmit and Receive test, in RS9116W NCP Module using AT commands.
-Customers going for regulatory tests ((FCC, CE/RED, TELEC etc) can utilize this script to setup the module in PHY test mode.
-User can set different band, channels, data rate, mode (Burst, Continuous, CW) and power.
+This application demonstrates the WLAN PER (Packet Error Rate) Transmit and Receive test, in RS9116 NCP Module using AT commands.
+Customers going for regulatory tests ((FCC, CE/RED, TELEC, etc) can utilize this script to setup the module in PHY test mode.
+You can set different bands, channels, data rates, mode (Burst, Continuous, CW), and power.
 Both conducted and radiated tests can be performed. 
 
 Below is the data rate and modulation details: <br />
@@ -20,27 +20,27 @@ Below is the data rate and modulation details: <br />
 ## Setup 
 
 ## Transmit 
-In Transmit test (conducted) make sure the RS9116W EVK is connected to the Spectrum Analyzer through u.Fl.
+In Transmit test (conducted) make sure the RS9116 NCP EVK is connected to the Spectrum Analyzer through u.Fl.
 
 ![Tera Term Macro](./resources/Transmit-Test-Setup.PNG)
 
 
 ##  Receive 
-In this case RS9116 EVK will be in receive mode, and the signal generator transmits the packet to the EVK.
+In this case, RS9116 NCP EVK will be in receive mode, and the signal generator transmits the packet to the EVK.
 
-Make sure to connect the u.Fl on the RS9116W EVK to the Signal generator using an RF connector (conducted).
+Make sure to connect u.Fl on the RS9116 NCP EVK to the Signal generator using an RF connector (conducted).
 
  ![Tera Term Macro](./resources/Receive-Test-Setup.PNG)
 
 ## Sequence of Steps for executing PER Script 
-Connect the RS9116 EVK to your PC using a USB cable and connect u.Fl on the RS9116 EVK to Spectrum Analyzer/Signal generator as per the above mentioned setup.
+Connect the RS9116 NCP EVK to your PC using a USB cable and connect u.Fl on the RS9116 NCP EVK to Spectrum Analyzer/Signal generator as per the above-mentioned setup.
 To do this, perform the following:
 
-For setting up Tera Term to use with the RS9116W EVK, refer this [link](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-pc/tera-term-setup).
+For setting up Tera Term to use with the RS9116 NCP EVK, refer to this [link](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-pc/tera-term-setup).
 
 Upon configuring the Tera Term settings, follow the below steps.
 
-**STEP 1.** Reset the RS9116 EVK.
+**STEP 1.** Reset the RS9116 NCP EVK.
 
 **STEP 2.** In the Tera Term menu go to `Control -> Macro`.
 
@@ -49,22 +49,22 @@ Upon configuring the Tera Term settings, follow the below steps.
 **STEP 3.** Now, navigate to the downloaded folder `iot-pa-wifi-phy_per_ttl_script` which contains the example ttl script. Select the file `wlan_per_mode.ttl`.
 
 
-<img alt="Tera Term Script to be selected" src="./resources/tera-term-scripts-wlan_per_mode.PNG" border="1">
+![Tera Term Script to be selected](./resources/tera-term-scripts-wlan_per_mode.PNG)
 
 **STEP 4.** Now the wlan_per_mode script starts executing, it will show a pop-up as shown below.
 
 ![Application Start pop up](./resources/starting-message-popup.PNG)
 
 
-**STEP 5.** Initially, the ABRD process continues and you will see a pop-up with a message “Firmware Loading Done“.
+**STEP 5.** Initially, the ABRD process is continuous and you will see a pop-up with the message “Firmware queried successfully“.
 
-![Opermode command success](./resources/firmware-update-done.PNG)
+![Fimware queried successfully](./resources/Firmware-queried-successfully.PNG)
 
 **STEP 6.** The Opermode command `at+rsi_opermode=8`, configures the module in PER mode and you can see the module responds with “OK”.
 
 ![Opermode command success](./resources/opermode-successful.PNG)
 
-**STEP 7.** Next,select the band as per your choice.
+**STEP 7.** Next, select the band as per your choice.
 
 2.4GHz - 0  
 5GHz   - 1
@@ -75,7 +75,7 @@ The command `at+rsi_band=0` configures the operating band of the Wi-Fi radio to 
 
 **STEP 8.** Now `at+rsi_feat_frame` is sent to the module. This command is used to select Internal RF type or External RF type and Clock Frequency. Default parameters are already selected.
 
-![feat frame success](./resources/feat-frame.png)
+![feat frame success](./resources/Feature-Frame-sent.PNG)
 
 **STEP 9.** `at+rsi_init` command initializes the RF of the module. The module responds with OK<MAC_Address> (MAC Address is in hex format).
 
@@ -92,7 +92,7 @@ The command `at+rsi_band=0` configures the operating band of the Wi-Fi radio to 
 
 **STEP 11.** Select the region in the pop-up window, This command `at+rsi_setregion` configures the device to operate according to the regulations of the selected region.
 
-![Region slection](./resources/region.PNG)
+![Region selection](./resources/region.PNG)
 
 **STEP 12.** Now select the options for PER test.
 Select the appropriate [PER Tx](#per-modes) or [PER Rx](#receive-test) test and click on 'OK'
@@ -103,21 +103,21 @@ Select the appropriate [PER Tx](#per-modes) or [PER Rx](#receive-test) test and 
 ### PER Modes : 
 **0 - Burst Mode:** This mode is used to transmit valid WLAN packets, with a few microseconds gap between the packets.
 
-**1 - Continuous Mode:**  This mode is used to transmit valid WLAN packets, with no gap between the packets. This mode will trasmit packets with 100% duty cycle.  
+**1 - Continuous Mode:**  This mode is used to transmit valid WLAN packets, with no gap between the packets. This mode will transmit packets with a 100% duty cycle.  
 
 **2 - Continuous Wave Mode in DC:** This mode generates an unmodulated Sine wave.
 
-**3 - Continuous Wave Mode in single tone mode (center freq - 2.5MHz):** This mode generates Unmodulated Sine wave with frequency offset of minus 2.5 MHz.
+**3 - Continuous Wave Mode in single tone mode (center freq - 2.5MHz):** This mode generates an  Unmodulated Sine wave with a frequency offset of minus 2.5 MHz.
 
-**4 - Continuous Wave Mode in a single tone mode (center freq + 5MHz):** This mode generates Unmodulated Sine wave with frequency offset of plus 5 MHz.
+**4 - Continuous Wave Mode in a single tone mode (center freq + 5MHz):** This mode generates an Unmodulated Sine wave with a frequency offset of plus 5 MHz.
 
 **STEP 1.** Now, select the type of PER Transmit mode. Here, Burst mode is selected.
 
 ![PER modes selection](./resources/PER-mode-selection.PNG)
 
-The command `at+rsi_per` is used to start transmission of packets.
+The command `at+rsi_per` is used to start the transmission of packets.
 
-**STEP 2.** Enter the transmit power value. (127 - Based on the region set it takes automatically highest value that passes for EVM and Mask, User can set from 1-20 index value to arrive at pass value)
+**STEP 2.** Enter the transmit power value. (127 - Based on the region set, it takes automatically the highest value that passes for EVM and Mask. You can set the power index value from 2-18 to arrive at pass value). 
 
 ![power level selection](./resources/powerlevel.PNG)
 
@@ -136,7 +136,7 @@ The command `at+rsi_per` is used to start transmission of packets.
 
 ![pop up to take for length](./resources/Enter-length.PNG)
 
-**STEP 6.** You can see that the PER Burst mode executed successfully.
+**STEP 6.** You can see that the PER Burst mode was executed successfully.
 
 **Note:** The process to input parameters is similar for all PER modes.
 
@@ -151,20 +151,20 @@ The command `at+rsi_per` is used to start transmission of packets.
 
 ![Result](./resources/Burst-mode-OFDM.PNG)
 
-2. The below result is for PER Mode with Channel '1' with 1Mbps data rate and max 127dBm Power in Burst mode,DSSS modualtion technique. 
+2. The below result is for PER Mode with Channel '1' with 1Mbps data rate and max 127dBm Power in Burst mode, DSSS modulation technique. 
 
 ![Result](./resources/Burst-mode-DSSS.PNG)
 
-3. The below result is for PER Mode with Channel '6' with 5.5Mbps data rateand max 127dBm Power in Continous mode,CCK modualtion technique. 
+3. The below result is for PER Mode with Channel '6' with 5.5Mbps data rate and max 127dBm Power in Continuous mode, CCK modulation technique. 
 
 ![Result](./resources/Continous-mode-CCK.PNG)
 
  ## Receive Test 
 
-**STEP 1.** Select the channel number in which module needs to be receiving the packet and click on 'OK'.
+**STEP 1.** Select the channel number in which the module needs to be receiving the packet and click on 'OK'.
 
 Now start the transmit in the same channel from the signal generator.
-(Here you can also use other RS9116W Module for transmitting the signal)
+(Here you can also use other RS9116 NCP Module for transmitting the signal)
 
 ![PER-RX-Test-Enter-Channel](./resources/PER-RX-Test-Enter-Channel.PNG)
 
