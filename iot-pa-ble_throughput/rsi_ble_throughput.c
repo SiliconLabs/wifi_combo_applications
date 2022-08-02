@@ -47,32 +47,30 @@
 
 
 #ifdef RSI_M4_INTERFACE
-#include "rsi_board.h"
+	#include "rsi_board.h"
 #endif
 
-//! Memory to initialize driver
-uint8_t global_buf[BT_GLOBAL_BUFF_LEN];
 
 //! local device name
 #define RSI_BLE_DEVICE_NAME (void *)"Throughput Test"
 
-
-#define RSI_BLE_SMP_PASSKEY       0
 #define MITM_REQ                  0x01
 
-#define MAX_MTU_SIZE 240
+#define MAX_MTU_SIZE 							240
 
 //! application event list
 #define RSI_BLE_CONN_EVENT                0x01
 #define RSI_BLE_DISCONN_EVENT             0x02
-#define RSI_BLE_SMP_REQ_EVENT             0x03
-#define RSI_BLE_SMP_RESP_EVENT            0x04
-#define RSI_BLE_SMP_PASSKEY_EVENT         0x05
-#define RSI_BLE_SMP_FAILED_EVENT          0x06
-#define RSI_BLE_ENCRYPT_STARTED_EVENT     0x07
-#define RSI_BLE_SMP_PASSKEY_DISPLAY_EVENT 0x08
-#define RSI_BLE_SC_PASSKEY_EVENT          0x09
-#define RSI_BLE_LTK_REQ_EVENT             0x0A
+#if SMP_ENABLE
+	#define RSI_BLE_SMP_REQ_EVENT             0x03
+	#define RSI_BLE_SMP_RESP_EVENT            0x04
+	#define RSI_BLE_SMP_PASSKEY_EVENT         0x05
+	#define RSI_BLE_SMP_FAILED_EVENT          0x06
+	#define RSI_BLE_ENCRYPT_STARTED_EVENT     0x07
+	#define RSI_BLE_SMP_PASSKEY_DISPLAY_EVENT 0x08
+	#define RSI_BLE_SC_PASSKEY_EVENT          0x09
+	#define RSI_BLE_LTK_REQ_EVENT             0x0A
+#endif
 #define RSI_BLE_RECEIVE_REMOTE_FEATURES   0x0B
 #define RSI_APP_EVENT_DATA_LENGTH_CHANGE  0x0C
 #define RSI_APP_EVENT_PHY_UPDATE_COMPLETE 0x0D
@@ -81,12 +79,12 @@ uint8_t global_buf[BT_GLOBAL_BUFF_LEN];
 #define RSI_BLE_GATT_WRITE_EVENT          0x10
 #define RSI_BLE_MORE_DATA_REQ_EVENT       0x11
 #define RSI_DATA_TRANSMIT_EVENT           0x12
-#define RSI_TRANSMISSION_NOTIFICATION_ENABLE_INTERRUPT  0x13
-#define RSI_TRANSMISSION_NOTIFICATION_DISABLE_INTERRUPT 0x14
-#define RSI_CONNECTION_PARAMETERS   0X15
-#define RSI_DEV_ADDR_LEN 6
+#define RSI_TRANSMISSION_NOTIFICATION_ENABLE_EVENT  0x13
+#define RSI_TRANSMISSION_NOTIFICATION_DISABLE_EVENT 0x14
+#define RSI_CONNECTION_PARAMETERS_EVENT   0X15
+#define RSI_DEV_ADDR_LEN 									6
 //! error code
-#define BT_HCI_COMMAND_DISALLOWED 0x4E0C
+#define BT_HCI_COMMAND_DISALLOWED 				0x4E0C
 
 
 #define WRITE_WITHOUT_RESPONSE   0   //Notifications
@@ -97,33 +95,35 @@ uint8_t global_buf[BT_GLOBAL_BUFF_LEN];
 #define RSI_BLE_CLIENT_CHAR_DESP 0x2901
 
 #ifdef RSI_WITH_OS
-//! BLE task stack size
-#define RSI_BT_TASK_STACK_SIZE 1000
+	//! BLE task stack size
+	#define RSI_BT_TASK_STACK_SIZE 1000
 
-//! BT task priority
-#define RSI_BT_TASK_PRIORITY 1
+	//! BT task priority
+	#define RSI_BT_TASK_PRIORITY 1
 
-//! Number of packet to send or receive
-#define NUMBER_OF_PACKETS 1000
+	//! Number of packet to send or receive
+	#define NUMBER_OF_PACKETS 1000
 
-//! Wireless driver task priority
-#define RSI_DRIVER_TASK_PRIORITY 2
+	//! Wireless driver task priority
+	#define RSI_DRIVER_TASK_PRIORITY 2
 
-//! Wireless driver task stack size
-#define RSI_DRIVER_TASK_STACK_SIZE 3000
-
-void rsi_wireless_driver_task(void);
+	//! Wireless driver task stack size
+	#define RSI_DRIVER_TASK_STACK_SIZE 3000
 
 #endif
+
+//! Memory to initialize driver
+uint8_t global_buf[BT_GLOBAL_BUFF_LEN];
+
 //! global parameters list
 static uint32_t ble_app_event_mask;
 static uint8_t str_remote_address[18];
 static uint8_t remote_dev_address[6] = {0};
 #if SMP_ENABLE
-static uint32_t numeric_value;
-static rsi_bt_event_encryption_enabled_t encrypt_keys;
-static rsi_bt_event_le_ltk_request_t ble_ltk_req;
-static rsi_bt_event_le_security_keys_t app_ble_sec_keys;
+	static uint32_t numeric_value;
+	static rsi_bt_event_encryption_enabled_t encrypt_keys;
+	static rsi_bt_event_le_ltk_request_t ble_ltk_req;
+	static rsi_bt_event_le_security_keys_t app_ble_sec_keys;
 #endif
 static rsi_ble_event_phy_update_t rsi_app_phy_update_complete;
 static rsi_ble_event_conn_update_t rsi_app_conn_update_complete;
@@ -131,31 +131,35 @@ static rsi_ble_event_remote_features_t remote_dev_feature;
 static rsi_ble_event_mtu_t rsi_app_ble_mtu_event;
 static rsi_ble_event_write_t app_ble_write_event;
 static uint16_t rsi_ble_att1_val_hndl;
-uint8_t notifies_enabled;
-
 static uint8_t device_found            = 0;
-uint8_t conn_params_updated     = 0;
 static uint64_t counter=0;
+static uint16_t connection_phy_handle =0, connection_interval_handle=0, slave_latency_handle=0,supervision_timeout_handle=0,pdu_handle=0,mtu_handle=0;
+static uint16_t ota_service_handle;
+static uint8_t start_timer_var;
+static uint8_t minimum_connection_interval=0,maximum_connection_interval =0;
+static uint32_t ble_app_event_map;
+static uint32_t ble_app_event_map1;
 float throughput =0;
+float timing=0;
+rsi_semaphore_handle_t ble_main_task_sem;
+uint8_t conn_params_updated     = 0;
 uint8_t notifications_handle,device_connected;
 uint8_t data_transfer_handle;
 uint8_t transfer_on;
-uint8_t notifications_data_handle, inidcations_data_handle, data_send_handle;
-uint8_t sending_data[230] ={0x00, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75};
-static uint16_t connection_phy_handle =0, connection_interval_handle=0, slave_latency_handle=0,supervision_timeout_handle=0,pdu_handle=0,mtu_handle=0;
+uint8_t notifications_data_handle, indications_data_handle, data_sent_handle;
+uint8_t send_buf[230] ={0x00, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75};
 uint16_t throughput_result_handle=0;
 uint8_t transmission_on = 0;
 uint32_t start_timer=0;
 uint32_t stop_timer=0;
-float timing=0;
-static uint16_t ota_service_handle;
-static uint8_t timer_start_var;
+uint16_t latest_connection_interval;
 uint8_t pdu_length[1]={0};
-static uint8_t minimum_connection_interval=0,maximum_connection_interval =0;
-rsi_semaphore_handle_t ble_main_task_sem;
-static uint32_t ble_app_event_map;
-static uint32_t ble_app_event_map1;
-	/*==============================================*/
+int32_t event_id;
+
+
+void rsi_wireless_driver_task(void);
+
+/*==============================================*/
 /**
  * @fn         rsi_ble_app_init_events
  * @brief      initializes the event parameter.
@@ -164,13 +168,11 @@ static uint32_t ble_app_event_map1;
  * @section description
  * This function is used during BLE initialization.
  */
-static void rsi_ble_app_init_events()
-{
+static void rsi_ble_app_init_events(){
   ble_app_event_map  = 0;
   ble_app_event_mask = 0xFFFFFFFF;
   ble_app_event_mask = ble_app_event_mask; //To suppress warning while compiling
-
-  return;
+	return;
 }
 
 /*==============================================*/
@@ -182,17 +184,16 @@ static void rsi_ble_app_init_events()
  * @section description
  * This function is used to set/raise the specific event.
  */
-void rsi_ble_app_set_event(uint32_t event_num)
-{
+void rsi_ble_app_set_event(uint32_t event_num){
   if (event_num < 32) {
     ble_app_event_map |= BIT(event_num);
   } else {
     ble_app_event_map1 |= BIT((event_num - 32));
   }
 	#ifdef RSI_WITH_OS
-  rsi_semaphore_post_from_isr(&ble_main_task_sem);
+		rsi_semaphore_post_from_isr(&ble_main_task_sem);
 	#else
-	rsi_semaphore_post(&ble_main_task_sem);
+		rsi_semaphore_post(&ble_main_task_sem);
 	#endif
   return;
 }
@@ -206,8 +207,7 @@ void rsi_ble_app_set_event(uint32_t event_num)
  * @section description
  * This function is used to clear the specific event.
  */
-static void rsi_ble_app_clear_event(uint32_t event_num)
-{
+static void rsi_ble_app_clear_event(uint32_t event_num){
   if (event_num < 32) {
      ble_app_event_map &= ~BIT(event_num);
    } else {
@@ -224,8 +224,7 @@ static void rsi_ble_app_clear_event(uint32_t event_num)
  * @section description
  * This function is used to clear the specific event.
  */
-static void rsi_ble_app_clear_all_event(void)
-{
+static void rsi_ble_app_clear_all_event(void){
   ble_app_event_map = 0;
   return;
 }
@@ -241,8 +240,7 @@ static void rsi_ble_app_clear_all_event(void)
  * @section description
  * This function returns the highest priority event among all the set events
  */
-static int32_t rsi_ble_app_get_event(void)
-{
+static int32_t rsi_ble_app_get_event(void){
   uint32_t ix;
 
   for (ix = 0; ix < 64; ix++) {
@@ -291,7 +289,6 @@ static void rsi_ble_on_connect_event(rsi_ble_event_conn_status_t *resp_conn)
   memcpy(remote_dev_address, resp_conn->dev_addr, 6);
   LOG_PRINT("\r\nConnected - str_remote_address : %s\r\n",
             rsi_6byte_dev_address_to_ascii(str_remote_address, resp_conn->dev_addr));
-
   rsi_ble_app_set_event(RSI_BLE_CONN_EVENT);
 }
 
@@ -311,7 +308,6 @@ static void rsi_ble_on_disconnect_event(rsi_ble_event_disconnect_t *resp_disconn
   memcpy(remote_dev_address, resp_disconnect->dev_addr, 6);
   LOG_PRINT("\r\nDisconnected - str_remote_address : %s\r\n",
             rsi_6byte_dev_address_to_ascii(str_remote_address, resp_disconnect->dev_addr));
-
   rsi_ble_app_set_event(RSI_BLE_DISCONN_EVENT);
 }
 
@@ -389,6 +385,16 @@ void rsi_ble_on_smp_passkey_display(rsi_bt_event_smp_passkey_display_t *smp_pass
   rsi_ble_app_set_event(RSI_BLE_SMP_PASSKEY_DISPLAY_EVENT);
 }
 
+/*==============================================*/
+/**
+ * @fn         rsi_ble_on_sc_passkey
+ * @brief      its invoked when smp passkey event is received.
+ * @param[in]  remote_dev_address, it indicates remote bd address.
+ * @return     none.
+ * @section description
+ * This callback function is invoked when SMP passkey events is received
+ * Note: We have to send SMP passkey command
+ */
 void rsi_ble_on_sc_passkey(rsi_bt_event_sc_passkey_t *sc_passkey)
 {
   memcpy(remote_dev_address, sc_passkey->dev_addr, 6);
@@ -470,7 +476,7 @@ void rsi_ble_on_encrypt_started(uint16_t status, rsi_bt_event_encryption_enabled
 }
 
 #endif
-
+/*==============================================*/
 /**
  * @fn         rsi_ble_fill_128bit_uuid
  * @brief      this function is used to form 128bit uuid of apple device from 32 bit uuid.
@@ -497,13 +503,12 @@ static void rsi_ble_fill_128bit_uuid (uint32_t uuid_32bit, uint16_t data2, uint1
 		serv_uuid->val.val128.data4[6] = data4[6]; 
 		serv_uuid->val.val128.data4[7] = data4[7]; 
 	}
-
 	return;
 }
 /*==============================================*/
 /**
  * @fn         rsi_ble_add_char_serv_att
- * @brief      this function is used to add characteristic service attribute..
+ * @brief      this function is used to add characteristic service attribute.
  * @param[in]  serv_handler, service handler.
  * @param[in]  handle, characteristic service attribute handle.
  * @param[in]  val_prop, characteristic value property.
@@ -550,6 +555,21 @@ static void rsi_ble_add_char_serv_att(void *serv_handler,
   return;
 }
 
+/*==============================================*/
+/**
+ * @fn         rsi_ble_add_char_val_att
+ * @brief      this function is used to add characteristic value attribute.
+ * @param[in]  serv_handler, new service handler.
+ * @param[in]  handle, characteristic value attribute handle.
+ * @param[in]  att_type_uuid, attribute uuid value.
+ * @param[in]  val_prop, characteristic value property.
+ * @param[in]  data, characteristic value data pointer.
+ * @param[in]  data_len, characteristic value length.
+ * @return     none.
+ * @section description
+ * This function is used at application to create new service.
+ */
+
 static void rsi_ble_add_char_val_att(void *serv_handler,
                                      uint16_t handle,
                                      uuid_t att_type_uuid,
@@ -579,7 +599,6 @@ static void rsi_ble_add_char_val_att(void *serv_handler,
   //! check the attribute property with notification
   if (val_prop & RSI_BLE_ATT_PROPERTY_NOTIFY || val_prop & RSI_BLE_ATT_PROPERTY_INDICATE) {
     //! if notification property supports then we need to add client characteristic service.
-
     //! preparing the client characteristic attribute & values
     memset(&new_att, 0, sizeof(rsi_ble_req_add_att_t));
     new_att.serv_handler       = serv_handler;
@@ -612,19 +631,16 @@ static void rsi_ble_add_char_val_att(void *serv_handler,
  * @fn         rsi_ble_add_simple_chat_serv
  * @brief      this function is used to add new servcie i.e.., simple chat service.
  * @param[in]  none.
- * @return     int32_t
- *             0  =  success
- *             !0 = failure
+ * @return     none.
  * @section description
  * This function is used at application to create new service.
  */
-static uint32_t rsi_ble_add_simple_chat_serv(void)
+static void rsi_ble_add_simple_chat_serv(void)
 {
   uuid_t new_uuid                       = { 0 };
   rsi_ble_resp_add_serv_t new_serv_resp = { 0 };
   uint8_t data1[232]                      = {'0'};
   uint8_t connection_parameter_data[2]= {0};
-	
 
 	//! adding the "OTA service" primary service (UUID: 1d14d6ee-fd63-4fa1-bfa4-8f47b42119f0)
   new_uuid.size = 16;
@@ -657,13 +673,11 @@ static uint32_t rsi_ble_add_simple_chat_serv(void)
 
 	//! adding the "Throughput Test Service" Primary serice(UUID:bbb99e70-fff7-46cf-abc7-2d32c71820f2) 
   new_uuid.size = 16;
-	rsi_ble_att1_val_hndl = new_serv_resp.start_handle + 3;
-	
+	rsi_ble_att1_val_hndl = new_serv_resp.start_handle + 3;	
   uint8_t data6[8]={ 0xc7, 0xab,0x32, 0x2d, 0xf2,0x20, 0x18, 0xc7,};
   rsi_ble_fill_128bit_uuid(0xbbb99e70,0xfff7,0x46cf, data6,&new_uuid);
   rsi_ble_add_service(new_uuid, &new_serv_resp);
 	
-
 	//! adding the "Indications" characteristic service attribute to the "Throughput Test Service"i.e,(UUID:6109b631-a643-4a51-83d2-2059700ad49f)
 	rsi_ble_att1_val_hndl = 0;
 	rsi_ble_att1_val_hndl = new_serv_resp.start_handle;
@@ -675,7 +689,6 @@ static uint32_t rsi_ble_add_simple_chat_serv(void)
                             RSI_BLE_ATT_PROPERTY_INDICATE,
                             rsi_ble_att1_val_hndl+2,
                             new_uuid);
-	
 
 	new_uuid.size = 16;
 	rsi_ble_att1_val_hndl = new_serv_resp.start_handle + 2; 
@@ -687,7 +700,7 @@ static uint32_t rsi_ble_add_simple_chat_serv(void)
                             RSI_BLE_ATT_PROPERTY_INDICATE,	
                             (uint8_t *)&data1,
                             sizeof (data1), 0);
-	inidcations_data_handle = rsi_ble_att1_val_hndl;
+	indications_data_handle = rsi_ble_att1_val_hndl;
 	rsi_ble_att1_val_hndl = rsi_ble_att1_val_hndl +2;
 	
 	//! adding the "Notifications" characteristic service attribute to the "Throughput Test Service" i.e,(UUID:47b73dd6-dee3-4da1-9be0-f5c539a9a4be).
@@ -702,7 +715,6 @@ static uint32_t rsi_ble_add_simple_chat_serv(void)
 
 	new_uuid.size = 16;
 	rsi_ble_att1_val_hndl = rsi_ble_att1_val_hndl+2;
-	
 	rsi_ble_fill_128bit_uuid(0x47b73dd6,0xdee3,0x4da1, data8,&new_uuid);
 	rsi_ble_add_char_val_att (new_serv_resp.serv_handler,
                             rsi_ble_att1_val_hndl,
@@ -725,7 +737,6 @@ static uint32_t rsi_ble_add_simple_chat_serv(void)
 	
 	new_uuid.size = 16;
 	rsi_ble_att1_val_hndl = rsi_ble_att1_val_hndl+2;
-	
 	rsi_ble_fill_128bit_uuid(0xbe6b6be1,0xcd8a,0x4106, data9,&new_uuid);
 	rsi_ble_add_char_val_att (new_serv_resp.serv_handler,
                             rsi_ble_att1_val_hndl,
@@ -748,7 +759,6 @@ static uint32_t rsi_ble_add_simple_chat_serv(void)
 	
 	new_uuid.size = 16;
 	rsi_ble_att1_val_hndl = rsi_ble_att1_val_hndl+2; 
-	
 	rsi_ble_fill_128bit_uuid(0xadf32227,0xb00f,0x400c, data10,&new_uuid);
 	rsi_ble_add_char_val_att (new_serv_resp.serv_handler,
                             rsi_ble_att1_val_hndl,
@@ -847,7 +857,7 @@ static uint32_t rsi_ble_add_simple_chat_serv(void)
 	
 
 	new_uuid.size = 16;
- rsi_ble_att1_val_hndl = rsi_ble_att1_val_hndl + 2;
+  rsi_ble_att1_val_hndl = rsi_ble_att1_val_hndl + 2;
 	rsi_ble_fill_128bit_uuid(0x67e2c4f2,0x2f50,0x914c, data15,&new_uuid);
 	rsi_ble_add_char_val_att (new_serv_resp.serv_handler,
                             rsi_ble_att1_val_hndl,
@@ -902,8 +912,6 @@ static uint32_t rsi_ble_add_simple_chat_serv(void)
                             (uint8_t *)&connection_parameter_data,
                             sizeof (connection_parameter_data), 0);
 	mtu_handle =rsi_ble_att1_val_hndl;
-
-  return 0;
 }
 
 /*==============================================*/
@@ -938,7 +946,6 @@ void rsi_ble_phy_update_complete_event(rsi_ble_event_phy_update_t *rsi_ble_event
   LOG_PRINT("\r\n Tx Phy rate = %x  and Rx Phy rate = %x \n",
             rsi_ble_event_phy_update_complete->TxPhy,
             rsi_ble_event_phy_update_complete->RxPhy);
-   //rsi_delay_ms(1);
   rsi_ble_app_set_event(RSI_APP_EVENT_PHY_UPDATE_COMPLETE);
 }
 /*==============================================*/
@@ -951,23 +958,20 @@ void rsi_ble_phy_update_complete_event(rsi_ble_event_phy_update_t *rsi_ble_event
  * @section description
  * This Callback function indicated the conn update complete event is received
  */
-uint16_t latest_connection_interval;
 void rsi_ble_on_conn_update_complete_event(rsi_ble_event_conn_update_t *rsi_ble_event_conn_update_complete,
                                            uint16_t resp_status)
 {
   memcpy(remote_dev_address, rsi_ble_event_conn_update_complete->dev_addr, 6);
 	memcpy(&rsi_app_conn_update_complete,rsi_ble_event_conn_update_complete,sizeof(rsi_ble_event_conn_update_t));
 	latest_connection_interval = rsi_ble_event_conn_update_complete->conn_interval;
-	latest_connection_interval =latest_connection_interval *1.25;
+	latest_connection_interval = latest_connection_interval *1.25;
   LOG_PRINT("\r\n Connection parameters update completed \n ");
   LOG_PRINT("\r\n Connection interval = %d, \t Latency = %d, \tSupervision Timeout = %d \n",
             latest_connection_interval,
             rsi_ble_event_conn_update_complete->conn_latency,
             rsi_ble_event_conn_update_complete->timeout);
-
-	if((conn_params_updated == 0)&&(rsi_app_conn_update_complete.conn_interval != 0xC8))
-	{
-		rsi_ble_app_set_event(RSI_CONNECTION_PARAMETERS);
+	if((conn_params_updated == 0)&&(rsi_app_conn_update_complete.conn_interval != 0xC8)){
+		rsi_ble_app_set_event(RSI_CONNECTION_PARAMETERS_EVENT);
 	}
   rsi_ble_app_set_event(RSI_BLE_CONN_UPDATE_EVENT);
 }
@@ -1001,7 +1005,6 @@ void rsi_ble_simple_peripheral_on_remote_features_event(rsi_ble_event_remote_fea
 static void rsi_ble_on_mtu_event(rsi_ble_event_mtu_t *rsi_ble_mtu)
 {
   memcpy(&rsi_app_ble_mtu_event, rsi_ble_mtu, sizeof(rsi_ble_event_mtu_t));
-  //mtu_size = (uint16_t)rsi_app_ble_mtu_event.mtu_size;
   LOG_PRINT("\r\n MTU size received from remote device(%s) is %d\n",
             rsi_6byte_dev_address_to_ascii(str_remote_address, rsi_app_ble_mtu_event.dev_addr),
             rsi_app_ble_mtu_event.mtu_size);
@@ -1037,8 +1040,6 @@ static void rsi_ble_more_data_req_event(rsi_ble_event_le_dev_buf_ind_t *rsi_ble_
 {
   //! set conn specific event
   rsi_ble_app_set_event(RSI_BLE_MORE_DATA_REQ_EVENT);
-
-  return;
 }
 /*==============================================*/
 /**
@@ -1056,7 +1057,6 @@ static void ble_on_indicate_confirmation_event(uint16_t event_status,rsi_ble_set
 {
 	rsi_ble_app_set_event(RSI_DATA_TRANSMIT_EVENT);
 }
-
 
 /*==============================================*/
 /**
@@ -1081,10 +1081,10 @@ int32_t rsi_ble_throughput_test_app(void)
     return status;
   }
 
-  //! Redpine module intialisation
+  //! SiLabs module intialisation
   status = rsi_device_init(LOAD_NWP_FW);
   if (status != RSI_SUCCESS) {
-    LOG_PRINT("\r\nDevice Initialization Failed, Error Code : 0x%lX\r\n", status);
+    LOG_PRINT("\r\nDevice Initialization Failed, Error Code : 0x%X\r\n", status);
     return status;
   } else {
     LOG_PRINT("\r\nDevice Initialization Success\r\n");
@@ -1094,7 +1094,7 @@ int32_t rsi_ble_throughput_test_app(void)
   //! SiLabs module intialisation
   status = rsi_device_init(LOAD_NWP_FW);
   if (status != RSI_SUCCESS) {
-    LOG_PRINT("\r\nDevice Initialization Failed, Error Code : 0x%lX\r\n", status);
+    LOG_PRINT("\r\nDevice Initialization Failed, Error Code : 0x%X\r\n", status);
     return status;
   } else {
     LOG_PRINT("\r\nDevice Initialization Success\r\n");
@@ -1107,11 +1107,11 @@ int32_t rsi_ble_throughput_test_app(void)
                   RSI_DRIVER_TASK_PRIORITY,
                   &driver_task_handle);
 #endif
-rsi_button_config();
+	rsi_button_config();
   //! WC initialization
   status = rsi_wireless_init(0, RSI_OPERMODE_WLAN_BLE);
   if (status != RSI_SUCCESS) {
-    LOG_PRINT("\r\nWireless Initialization Failed, Error Code : 0x%lX\r\n", status);
+    LOG_PRINT("\r\nWireless Initialization Failed, Error Code : 0x%X\r\n", status);
     return status;
   } else {
     LOG_PRINT("\r\nWireless Initialization Success\r\n");
@@ -1154,20 +1154,20 @@ rsi_button_config();
                                   ble_on_indicate_confirmation_event,
                                   NULL);
 
-#if SMP_ENABLE
-  //! registering the SMP callback functions
-  rsi_ble_smp_register_callbacks(rsi_ble_on_smp_request,
-                                 rsi_ble_on_smp_response,
-                                 rsi_ble_on_smp_passkey,
-                                 rsi_ble_on_smp_failed,
-                                 rsi_ble_on_encrypt_started,
-                                 rsi_ble_on_smp_passkey_display,
-                                 rsi_ble_on_sc_passkey,
-                                 rsi_ble_on_le_ltk_req_event,
-                                 rsi_ble_on_le_security_keys,
-                                 NULL,
-                                 NULL);
-#endif
+	#if SMP_ENABLE
+		//! registering the SMP callback functions
+		rsi_ble_smp_register_callbacks(rsi_ble_on_smp_request,
+																	 rsi_ble_on_smp_response,
+																	 rsi_ble_on_smp_passkey,
+																	 rsi_ble_on_smp_failed,
+																	 rsi_ble_on_encrypt_started,
+																	 rsi_ble_on_smp_passkey_display,
+																	 rsi_ble_on_sc_passkey,
+																	 rsi_ble_on_le_ltk_req_event,
+																	 rsi_ble_on_le_security_keys,
+																	 NULL,
+																	 NULL);
+	#endif
   //! create ble main task if ble protocol is selected
   rsi_semaphore_create(&ble_main_task_sem, 0);
   //!  initializing the application events map
@@ -1176,7 +1176,13 @@ rsi_button_config();
   rsi_ble_add_simple_chat_serv();
 
   //! Set local name
-  rsi_bt_set_local_name(RSI_BLE_DEVICE_NAME);
+  status=rsi_bt_set_local_name(RSI_BLE_DEVICE_NAME);
+	if (status != RSI_SUCCESS) {
+    LOG_PRINT("\r\nSet local name failed Error Code : 0x%X\r\n", status);
+    return status;
+  } else {
+    LOG_PRINT("\r\nSet local name Success\r\n");
+  }
 
   //! prepare advertise data //local/device name
   adv[3] = strlen(RSI_BLE_DEVICE_NAME) + 1;
@@ -1184,24 +1190,34 @@ rsi_button_config();
   strcpy((char *)&adv[5], RSI_BLE_DEVICE_NAME);
 
   //! set advertise data
-  rsi_ble_set_advertise_data(adv, strlen(RSI_BLE_DEVICE_NAME) + 5);
-
+  status = rsi_ble_set_advertise_data(adv, strlen(RSI_BLE_DEVICE_NAME) + 5);
+	  if (status != RSI_SUCCESS) {
+    LOG_PRINT("\r\nSet Advertising data failed Error Code : 0x%X\r\n", status);
+    return status;
+  } else {
+    LOG_PRINT("\r\nSet Advertising data Success\r\n");
+  }
   //! start addvertising
   status = rsi_ble_start_advertising();
   if (status != RSI_SUCCESS) {
     LOG_PRINT("\r\n start advertising cmd failed with error code = %lx \n", status);
+		return status;
   } else {
     LOG_PRINT("\r\n RS9116W device Advertising as Throughput Test\r\n");
   }
 
-    status = rsi_throughput_ble_app();
+  status = rsi_throughput_ble_app();
+  if (status != RSI_SUCCESS) {
+    LOG_PRINT("\r\n Error code = %lx \n", status);
+		return status;
+  }
     //! Application main loop
 return 0;
 }
-int32_t event_id;
+
 int rsi_throughput_ble_app()
 {
-    int32_t status =0;
+  int32_t status =0;
 	  //! waiting for events from controller.
   while (1) 
 	{
@@ -1212,35 +1228,36 @@ int rsi_throughput_ble_app()
     event_id = rsi_ble_app_get_event();
 
     if (event_id == -1) {
-        rsi_semaphore_wait(&ble_main_task_sem, 0);
+      rsi_semaphore_wait(&ble_main_task_sem, 0);
       continue;
     }
 
     switch (event_id) {
       case RSI_BLE_CONN_EVENT: {
         //! event invokes when connection was completed
-
+				
         //! clear the served event
         rsi_ble_app_clear_event(RSI_BLE_CONN_EVENT);
 				status = rsi_ble_stop_advertising();
 				 if (status == RSI_SUCCESS) {
-
           LOG_PRINT("\r\n RS9116W device stops the advertising \n");
         }
-
-         device_connected =1;
-					#if(THROUGHPUT_TYPE == WRITE_WITHOUT_RESPONSE)
-				  data_send_handle = notifications_data_handle;
-					#elif(THROUGHPUT_TYPE == WRITE_WITH_RESPONSE)
-						data_send_handle = inidcations_data_handle;
-					#endif
-				
+        device_connected =1;
+				#if(THROUGHPUT_TYPE == WRITE_WITHOUT_RESPONSE)
+					data_sent_handle = notifications_data_handle;
+				#elif(THROUGHPUT_TYPE == WRITE_WITH_RESPONSE)
+					data_sent_handle = indications_data_handle;
+				#endif
+	#ifdef SMP_ENABLE
 				 //! initiating the SMP pairing process
         status = rsi_ble_smp_pair_request(remote_dev_address, RSI_BLE_SMP_IO_CAPABILITY, MITM_REQ);
-				        //! Setting MTU Exchange event
+        if (status != RSI_SUCCESS) {
+          LOG_PRINT("\r\n smp request cmd failed with error code = %lx \n", status);
+        }
+	#endif
+				 //! Setting MTU Exchange event
         status = rsi_ble_mtu_exchange_event(remote_dev_address, MAX_MTU_SIZE);
         if (status != RSI_SUCCESS) {
-
           LOG_PRINT("\r\n mtu request cmd failed with error code = %lx \n", status);
         }
       } break;
@@ -1254,9 +1271,10 @@ int rsi_throughput_ble_app()
         //! clear all pending events
         rsi_ble_app_clear_all_event();
 
-        device_found       = 0;
+        device_found        = 0;
         conn_params_updated = 0;
-        device_connected =0;
+        device_connected 		= 0;
+				
         //! start addvertising
         status = rsi_ble_start_advertising();
         if (status != RSI_SUCCESS) {
@@ -1265,13 +1283,13 @@ int rsi_throughput_ble_app()
           LOG_PRINT("\r\n Started Advertising \n");
         }
       } break;
-#if SMP_ENABLE
+	#if SMP_ENABLE
       case RSI_BLE_SMP_REQ_EVENT: {
         //! initiate SMP protocol as a Master
 
         //! clear the served event
         rsi_ble_app_clear_event(RSI_BLE_SMP_REQ_EVENT);
-
+        
         //! initiating the SMP pairing process
         status = rsi_ble_smp_pair_request(remote_dev_address, RSI_BLE_SMP_IO_CAPABILITY, MITM_REQ);
         if (status != RSI_SUCCESS) {
@@ -1334,12 +1352,12 @@ int rsi_throughput_ble_app()
 
       case RSI_BLE_ENCRYPT_STARTED_EVENT: {
         //! start the encrypt event
-
+				
         //! clear the served event
         rsi_ble_app_clear_event(RSI_BLE_ENCRYPT_STARTED_EVENT);
       } break;
 
-#endif
+	#endif
       case RSI_BLE_RECEIVE_REMOTE_FEATURES: {
         //! clear the served event
         rsi_ble_app_clear_event(RSI_BLE_RECEIVE_REMOTE_FEATURES);
@@ -1348,12 +1366,9 @@ int rsi_throughput_ble_app()
           if (status != RSI_SUCCESS) {
             LOG_PRINT("\r\n set data length cmd failed with error code = %lx \n", status);
             rsi_ble_app_set_event(RSI_BLE_RECEIVE_REMOTE_FEATURES);
-            //return status;
           }
-
         } 
-			 else if (remote_dev_feature.remote_features[1] & 0x01) 
-				{
+			 else if (remote_dev_feature.remote_features[1] & 0x01) {
 					status = rsi_ble_setphy((int8_t *)remote_dev_address, TX_PHY_RATE, RX_PHY_RATE, CODED_PHY_RATE);
           if (status != RSI_SUCCESS) {
             if (status != BT_HCI_COMMAND_DISALLOWED) {
@@ -1361,11 +1376,7 @@ int rsi_throughput_ble_app()
               rsi_ble_app_set_event(RSI_APP_EVENT_DATA_LENGTH_CHANGE);
             } 
           }
-        } else {
-
-        }
-				
-
+        }			
       } break;
 
       case RSI_APP_EVENT_DATA_LENGTH_CHANGE: {
@@ -1380,64 +1391,53 @@ int rsi_throughput_ble_app()
               //retry the same command
               rsi_ble_app_set_event(RSI_APP_EVENT_DATA_LENGTH_CHANGE);
             } 
-						else
-						{
+						else{
 							LOG_PRINT("\r\n set phy cmd failed with error code = %lx \n", status);
 						}
           }
         }
-
       } break;
 
       case RSI_APP_EVENT_PHY_UPDATE_COMPLETE: {
         //! phy update complete event
 
-        //! clear the phy updare complete event.
+        //! clear the phy update complete event.
         rsi_ble_app_clear_event(RSI_APP_EVENT_PHY_UPDATE_COMPLETE);
       } break;
 
       case RSI_BLE_CONN_UPDATE_EVENT: {
-
+				//! clear the connection update event.
         rsi_ble_app_clear_event(RSI_BLE_CONN_UPDATE_EVENT);
-				status = rsi_ble_set_local_att_value(connection_interval_handle,2,(uint8_t*)&rsi_app_conn_update_complete.conn_interval);//(uint8_t*)&rsi_app_conn_update_complete.conn_interval);
-				if(status !=0)
-				{
-					LOG_PRINT("\r\nconnetion interval update failure:0x%lx\n",status);
+				status = rsi_ble_set_local_att_value(connection_interval_handle,2,(uint8_t*)&rsi_app_conn_update_complete.conn_interval);
+				if(status !=RSI_SUCCESS){
+					LOG_PRINT("\r\nconnetion interval update failure:0x%X\n",status);
 				}
-				else
-				{
+				else {
 					LOG_PRINT("\r\nconnetion interval update success\n");
 				}
 				status = rsi_ble_set_local_att_value(slave_latency_handle,2,(uint8_t*)&rsi_app_conn_update_complete.conn_latency);
-				if(status !=0)
-				{
-					LOG_PRINT("\r\nconnetion latency update failure:0x%lx\n",status);
+				if(status !=RSI_SUCCESS){
+					LOG_PRINT("\r\nconnetion latency update failure:0x%X\n",status);
 				}
-				else
-				{
+				else{
 					LOG_PRINT("\r\nconnetion latency update success\n");
 				}
-				
 				uint16_t supervision_timeout_var = rsi_app_conn_update_complete.timeout/10;
 				status = rsi_ble_set_local_att_value(supervision_timeout_handle,2,(uint8_t*)&supervision_timeout_var);	
-				if(status !=0)
-				{
-					LOG_PRINT("\r\nsupervision timeout update failure:0x%lx\n",status);
+				if(status !=RSI_SUCCESS){
+					LOG_PRINT("\r\nsupervision timeout update failure:0x%X\n",status);
 				}
-				else
-				{
+				else{
 					LOG_PRINT("\r\nsupervision timeout update success\n");
 				}
 				status = rsi_ble_notify_value(remote_dev_address,connection_phy_handle,2,&rsi_app_phy_update_complete.RxPhy);
-				if(status !=0)
-				{
-					LOG_PRINT("\r\nphy update failure:0x%lx\n",status);
+				if(status !=RSI_SUCCESS){
+					LOG_PRINT("\r\nphy update failure:0x%X\n",status);
 				}
-				else
-				{
+				else{
 					LOG_PRINT("\r\nphy update success\n");
 				}
-      rsi_ble_app_set_event(RSI_DATA_TRANSMIT_EVENT);
+				rsi_ble_app_set_event(RSI_DATA_TRANSMIT_EVENT);
       } break;
 
       case RSI_BLE_MTU_EVENT: {
@@ -1445,10 +1445,9 @@ int rsi_throughput_ble_app()
 
         //! clear the served event
         rsi_ble_app_clear_event(RSI_BLE_MTU_EVENT);
-
         status = rsi_ble_set_wo_resp_notify_buf_info(remote_dev_address, DLE_BUFFER_MODE, DLE_BUFFER_COUNT);
         if (status != RSI_SUCCESS) {
-          LOG_PRINT("\r\n failed to set the buffer configuration mode, error:0x%lx \r\n", status);
+          LOG_PRINT("\r\n failed to set the buffer configuration mode, error:0x%X \r\n", status);
           break;
         } else {
           LOG_PRINT("\r\n Buf configuration done for notify and set_att cmds buf mode = %d , max buff count =%d \n",
@@ -1456,26 +1455,22 @@ int rsi_throughput_ble_app()
                     DLE_BUFFER_COUNT);
         }
       	status = rsi_ble_set_local_att_value(mtu_handle,2,(uint8_t*)&rsi_app_ble_mtu_event.mtu_size);	
-				if(status !=0)
-				{
-					LOG_PRINT("\r\nMTU size update failure:0x%lx\n",status);
+				if(status !=RSI_SUCCESS){
+					LOG_PRINT("\r\nMTU size update failure:0x%X\n",status);
 				}
-				else
-				{
+				else{
 					LOG_PRINT("\r\nMTU size update success\n");
 				}		
-				pdu_length[0] =sizeof(sending_data);
+				pdu_length[0] =sizeof(send_buf);
 				status = rsi_ble_set_local_att_value(pdu_handle,2,&pdu_length[0]);	
-				if(status !=0)
-				{
-					LOG_PRINT("\r\nPDU size update failure:0x%lx\n",status);
+				if(status !=RSI_SUCCESS){
+					LOG_PRINT("\r\nPDU size update failure:0x%X\n",status);
 				}
-				else
-				{
+				else{
 					LOG_PRINT("\r\nPDU size update success\n");
 				}
 				 status = rsi_ble_conn_params_update(remote_dev_address,CONN_INTERVAL_DEFAULT_MIN,CONN_INTERVAL_DEFAULT_MAX,CONN_LATENCY,SUPERVISION_TIMEOUT);
-          if (status != RSI_SUCCESS) {
+         if (status != RSI_SUCCESS) {
             LOG_PRINT("\r\n conn params update cmd failed with status = %lx \r\n", status);
           } else {
             LOG_PRINT("\r\nDefault Connection intervals are updated");
@@ -1485,26 +1480,21 @@ int rsi_throughput_ble_app()
       case RSI_BLE_GATT_WRITE_EVENT: {
 
         //! event invokes when write/notification events receive
-#if(RSI_BLE_GATT_ASYNC_ENABLE==1)
-        //! clear the served event
-        rsi_ble_app_clear_event(RSI_BLE_GATT_WRITE_EVENT);
-#endif
+				#if(RSI_BLE_GATT_ASYNC_ENABLE==1)
+							//! clear the served event
+					rsi_ble_app_clear_event(RSI_BLE_GATT_WRITE_EVENT);
+				#endif
       } break;
 
-      case RSI_DATA_TRANSMIT_EVENT: 
-				{
-        if (transmission_on == 1) 
-				{
-					if(timer_start_var == 0x01)
-					{
-						timer_start_var = 0;
+      case RSI_DATA_TRANSMIT_EVENT: {
+        if (transmission_on == 1) {
+					if(start_timer_var == 0x01){
+						start_timer_var = 0;
 						LOG_PRINT("\r\nstarted\r\n");
-						start_timer = rsi_hal_gettickcount();//HAL_GetTick();();
-
+						start_timer = rsi_hal_gettickcount();
 					}
-					#if(THROUGHPUT_TYPE == WRITE_WITHOUT_RESPONSE)
-
-					status = rsi_ble_set_local_att_value(data_send_handle,sizeof(sending_data),(uint8_t *)sending_data);
+				#if(THROUGHPUT_TYPE == WRITE_WITHOUT_RESPONSE)
+					status = rsi_ble_set_local_att_value(data_sent_handle,sizeof(send_buf),(uint8_t *)send_buf);
           if (status != RSI_SUCCESS) {
             if (status == RSI_ERROR_BLE_DEV_BUF_FULL) {
               //! wait for the more data request received from the device
@@ -1516,16 +1506,14 @@ int rsi_throughput_ble_app()
           }
 					else{
 					  counter=counter+1;
-						++sending_data[0];
-						if(sending_data[0] == 0x64)
-						{
-							sending_data[0]=0x00;
-													
+						++send_buf[0];
+						if(send_buf[0] == 0x64){
+							send_buf[0]=0x00;													
 						}
 						break;
 					}
-					#elif(THROUGHPUT_TYPE == WRITE_WITH_RESPONSE)
-					status = rsi_ble_indicate_value(remote_dev_address,data_send_handle,sizeof(sending_data),(uint8_t *)sending_data);
+				#elif(THROUGHPUT_TYPE == WRITE_WITH_RESPONSE)
+					status = rsi_ble_indicate_value(remote_dev_address,data_sent_handle,sizeof(send_buf),(uint8_t *)send_buf);
           if (status != RSI_SUCCESS) 
 					{
             if (status == RSI_ERROR_BLE_DEV_BUF_FULL) {
@@ -1534,23 +1522,19 @@ int rsi_throughput_ble_app()
               break;
             } 
           }
-					else
-					{
+					else{
 					  counter=counter+1;
-						++sending_data[0];
-						if(sending_data[0] == 0x64)
-						{
-							sending_data[0]=0x00;					
+						++send_buf[0];
+						if(send_buf[0] == 0x64){
+							send_buf[0]=0x00;					
 						}
 						break;
 					}
-					#endif
+			#endif
         } else {
           //! clear the served event
           rsi_ble_app_clear_event(RSI_DATA_TRANSMIT_EVENT);
         }
-
-
       } break;
 
       case RSI_BLE_MORE_DATA_REQ_EVENT: {
@@ -1562,77 +1546,64 @@ int rsi_throughput_ble_app()
         rsi_ble_app_set_event(RSI_DATA_TRANSMIT_EVENT);
       } break;
       
-			case RSI_TRANSMISSION_NOTIFICATION_ENABLE_INTERRUPT:
-			{
+			case RSI_TRANSMISSION_NOTIFICATION_ENABLE_EVENT: {
 				 //! clear the served event
-					rsi_ble_app_clear_event(RSI_TRANSMISSION_NOTIFICATION_ENABLE_INTERRUPT);
+					rsi_ble_app_clear_event(RSI_TRANSMISSION_NOTIFICATION_ENABLE_EVENT);
 					uint8_t enable_notify[1]={1};
-					status = rsi_ble_set_local_att_value(data_transfer_handle,1,&enable_notify[0]);//(uint8_t *)transfer_on);
-					if(status == RSI_SUCCESS)
-					{
+					status = rsi_ble_set_local_att_value(data_transfer_handle,1,&enable_notify[0]);
+					if(status == RSI_SUCCESS) {
 							LOG_PRINT("\r\n Remote device enabled the notification \n");
 							//! set the data tranfer event
 							counter=0;
-						  timer_start_var =1;
-
-							rsi_ble_app_set_event(RSI_CONNECTION_PARAMETERS);						  						
-  				}
-				
-			}break;
-			case RSI_TRANSMISSION_NOTIFICATION_DISABLE_INTERRUPT:
-			{
+						  start_timer_var =1;
+							rsi_ble_app_set_event(RSI_CONNECTION_PARAMETERS_EVENT);						  						
+  				}				
+			} break;
+			case RSI_TRANSMISSION_NOTIFICATION_DISABLE_EVENT: {
 				//! clear the served event
-        rsi_ble_app_clear_event(RSI_TRANSMISSION_NOTIFICATION_DISABLE_INTERRUPT);
+        rsi_ble_app_clear_event(RSI_TRANSMISSION_NOTIFICATION_DISABLE_EVENT);
 				transfer_on = 0;
 				stop_timer =rsi_hal_gettickcount();
 				timing =(((float)(stop_timer -start_timer))/1000);
 				throughput=(((float)(counter*230*8))/timing);
 				uint8_t disabel_notify[1]={0};
-				# if (THROUGHPUT_TYPE == WRITE_WITHOUT_RESPONSE)
+# if (THROUGHPUT_TYPE == WRITE_WITHOUT_RESPONSE)
 				status = rsi_ble_set_local_att_value(data_transfer_handle,1,&disabel_notify[0]);
-        if(status == RSI_SUCCESS)
-				{
+        if(status == RSI_SUCCESS){
 					status = rsi_ble_set_local_att_value(throughput_result_handle,2,(uint8_t *)&throughput);
 				}					
-				 status = rsi_ble_indicate_value(remote_dev_address,throughput_result_handle,4,(uint8_t *)&throughput); 
-					if(status == RSI_SUCCESS)
-					{
-						LOG_PRINT("\r\nThroughput : %.02f bps\n",throughput);
-						LOG_PRINT("\r\nThroughput : %.02f kbps\n",(throughput/1000));
-						LOG_PRINT("\r\n Time duration in sec:%0.2f \n",timing);
-						rsi_ble_app_set_event(RSI_CONNECTION_PARAMETERS);	
+				status = rsi_ble_indicate_value(remote_dev_address,throughput_result_handle,4,(uint8_t *)&throughput); 
+				if(status == RSI_SUCCESS){
+					LOG_PRINT("\r\nThroughput : %.02f bps\n",throughput);
+					LOG_PRINT("\r\nThroughput : %.02f kbps\n",(throughput/1000));
+					LOG_PRINT("\r\n Time duration in sec:%0.2f \n",timing);
+					rsi_ble_app_set_event(RSI_CONNECTION_PARAMETERS_EVENT);	
 					}
-				#elif (THROUGHPUT_TYPE == WRITE_WITH_RESPONSE)
+#elif (THROUGHPUT_TYPE == WRITE_WITH_RESPONSE)
 				rsi_delay_ms(1);
 				status = rsi_ble_notify_value(remote_dev_address,data_transfer_handle,1,&disabel_notify[0]);
-        if(status == RSI_SUCCESS)
-				{				
-				 status = rsi_ble_indicate_value(remote_dev_address,throughput_result_handle,4,(uint8_t *)&throughput); //throughput_result_handle
-         if(status!= RSI_SUCCESS)
-          {
-             LOG_PRINT("\r\n Indication error:0x%lx \n",status);
+        if(status == RSI_SUCCESS){				
+				 status = rsi_ble_indicate_value(remote_dev_address,throughput_result_handle,4,(uint8_t *)&throughput); 
+         if(status!= RSI_SUCCESS){
+             LOG_PRINT("\r\n Indication error:0x%X \n",status);
           }
-				 LOG_PRINT("\r\nThroughput : %.07f bps\n",throughput);
-			   LOG_PRINT("\r\nThroughput : %.07f kbps\n",(throughput/1000));
-				 LOG_PRINT("\r\n Time duration in sec:%0.2f \n",timing);
+				LOG_PRINT("\r\nThroughput : %.07f bps\n",throughput);
+			  LOG_PRINT("\r\nThroughput : %.07f kbps\n",(throughput/1000));
+				LOG_PRINT("\r\n Time duration in sec:%0.2f \n",timing);
 
-						rsi_ble_app_set_event(RSI_CONNECTION_PARAMETERS);
+				rsi_ble_app_set_event(RSI_CONNECTION_PARAMETERS_EVENT);
 				}
-				#endif
+#endif
 
-			}break;
-			
-			case RSI_CONNECTION_PARAMETERS:
-			{
-				rsi_ble_app_clear_event(RSI_CONNECTION_PARAMETERS);
-				if(conn_params_updated == 0)
-				{
+			} break;			
+			case RSI_CONNECTION_PARAMETERS_EVENT: {
+				//! clear the served event
+				rsi_ble_app_clear_event(RSI_CONNECTION_PARAMETERS_EVENT);
+				if(conn_params_updated == 0){
  				 minimum_connection_interval = CONN_INTERVAL_DEFAULT_MIN;
 				 maximum_connection_interval = CONN_INTERVAL_DEFAULT_MAX;
 				}
-				 
-				else
-				{
+				else{
 				 minimum_connection_interval = CONN_INTERVAL_MIN;
 				 maximum_connection_interval = CONN_INTERVAL_MAX;
 				}
@@ -1641,37 +1612,34 @@ int rsi_throughput_ble_app()
 					LOG_PRINT("\r\n conn params update cmd failed with status = %lx \r\n", status);
 				} else {
 					LOG_PRINT("\r\nConnection intervals are updated");
-				}
-				
+				}				
 			}break;
       default: {
       }
     }
 	}
 }
+/*==============================================*/
 /**
- * @fn         transmission_on_notifications_handling
+ * @fn         data_transfer
  * @brief      this function is used to start or stop the data transfer
  * @param[in]  transfer_on, start or stop the data transfer
  * @return     none
  * @section description
  * This function is used to start or stop the data transfer to the remote device.
  */
-void transmission_on_notifications_handling(uint8_t transfer_on)
+void data_transfer(uint8_t transfer_on)
 {
-			if(transfer_on == 0x01)
-			{
+			if(transfer_on == 0x01){
 				transmission_on =1;
 				conn_params_updated =1;
-			  rsi_ble_app_set_event(RSI_TRANSMISSION_NOTIFICATION_ENABLE_INTERRUPT);
+			  rsi_ble_app_set_event(RSI_TRANSMISSION_NOTIFICATION_ENABLE_EVENT);
 			}
-			else
-			{
+			else{
 				transmission_on =0;
 				conn_params_updated =0;
-			  rsi_ble_app_set_event(RSI_TRANSMISSION_NOTIFICATION_DISABLE_INTERRUPT);
-			}
-			
+			  rsi_ble_app_set_event(RSI_TRANSMISSION_NOTIFICATION_DISABLE_EVENT);
+			}			
 }
 /*==============================================*/
 /**
@@ -1707,7 +1675,6 @@ int main(void)
 #endif
 
 #ifndef RSI_WITH_OS
-
   //Start BT Stack
   intialize_bt_stack(STACK_BTLE_MODE);
   //! Call Simple SMP protocol test Application
@@ -1718,6 +1685,7 @@ int main(void)
 
   return 0;
 #endif
+	
 #ifdef RSI_WITH_OS
   //! Driver initialization
   status = rsi_driver_init(global_buf, BT_GLOBAL_BUFF_LEN);

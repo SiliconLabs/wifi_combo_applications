@@ -207,7 +207,7 @@
 #define TX_PHY_RATE     0x02//0x01//0x04
 #define RX_PHY_RATE     0x02//0x01//0x04
 // CODED_PHY_RATE: 0x01
-#define CODED_PHY_RATE 0x01
+#define CODED_PHY_RATE 0x00
 
 //! Notify status
 #define NOTIFY_DISABLE 0x00
@@ -231,7 +231,7 @@
 #endif
 #endif
 
-void transmission_on_notifications_handling(uint8_t transfer_on);
+void data_transfer(uint8_t transfer_on);
 void rsi_ble_app_set_event(uint32_t event_num);
 int rsi_throughput_ble_app(void);
 void rsi_button_config(void);

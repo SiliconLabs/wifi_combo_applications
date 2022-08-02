@@ -75,7 +75,7 @@ For this lab, the user will need the following:
 
 This section describes the block diagram of the BLE Throughput application.
 
-**![](resources/readme/image_block_1.png)**
+**![](resources/readme/block_diagram.png)**
 
 The RS9116 NCP EVK and the host MCU are connected over the SPI interface and both are connected to the Windows PC with USB cables.
 
@@ -86,7 +86,7 @@ This section describes the hardware setup and the connections for EFR32 and STM3
 ### **EFR32**
 This section describes the hardware setup and the connections for EFR32.
 
-   **![](resources/readme/setup.png)**
+   **![](resources/readme/efr32_setup.png)**
 
    1. Connect the Interconnect adapter board provided with the RS9116 NCP Development Kit to the expansion header of EFR32.
 
@@ -103,9 +103,9 @@ This section describes the hardware setup and the connections for EFR32.
       
 If the interconnect board is not available, make the connections between RS9116 NCP EVK and EFR32 Host MCU with the SPI cable as described below.
 
-**![](resources/readme/setup2.png)**
+**![](resources/readme/efr32_setup2.png)**
 
-**![](resources/readme/connections.PNG)**
+**![](resources/readme/efr32_pin_connections.PNG)**
 
 ### **STM32**
 
@@ -239,7 +239,7 @@ This section provides the steps for importing the project into Simplicity Studio
 
 3. Open the **rsi\_ble\_throughput.c** file present in **ble\_throughput-brd4180b-mg21 → ble\_throughput** folder.
 
-   **![](resources/readme/application_1.png)** 
+   **![](resources/readme/application.png)** 
 
 4. The application has the provision to measure the throughput for both notifications and indications. **“THROUGHPUT\_TYPE”** MACRO refers to the type of throughput either “Notifications” or “Indications”.
 
@@ -414,12 +414,12 @@ This section demonstrates the execution flow of the application based on the con
 - Once the program gets executed, as per the above configuration the RS9116 NCP EVK acts as a **"GATT** **SERVER”** and a peripheral device where the RS9116 NCP EVK advertises as “Throughput Test”.
 
 - In the EFR connect mobile application, navigate to the Demos section then select the “Throughput” demo. Under the “Throughput” demo project you can observe the RS9116 NCP EVK advertising as a “Throughput Test” as demonstrated in the below image.
-![](resources/readme/image3.png)
+![](resources/readme/device_advertising.png)
 
 - Initiate the connection from the mobile application. Once the connection is successfully established, the RS9116 NCP EVK automatically tries to establish a secure connection.
 
 - During the secure pairing, the mobile phone gets a pop-up message to connect. Click on the “pair & connect” option as demonstrated in the below image.
-![](resources/readme/image4.png)
+![](resources/readme/device_pairing.png)
 
 - Once the secure connection is successfully established, the PHY, connection interval, slave latency, supervision timeout, PDU & MTU sizes are updated as demonstrated in the above image.
 
@@ -435,26 +435,26 @@ This section demonstrates the execution flow of the application based on the con
 
 - Once the secure connection is successfully established, the PHY, connection interval, slave latency, supervision timeout, PDU & MTU sizes are updated as demonstrated in the below image.
 
-   <img src ="resources/readme/image5.jpeg
+   <img src ="resources/readme/device_is_successfully_connected.jpeg
    " width ="250" height="450" border ="2">
 
 - For the EFR32 host MCU platform, a user needs to click on the “Push button PB0”. Once the button is pressed, the interrupt is triggered and the RS9116 NCP EVK sends the data to the remote device.
 
-   <img src ="resources/readme/image7.jpeg
+   <img src ="resources/readme/efr32_setup_diagram.jpeg
    " width ="250" height="350" border ="2" >
 
 - For the STM32 host MCU platform, a user needs to click on the Push button "B1” (which indicates in blue color). Once the button is pressed, the interrupt gets triggered in the application and the RS9116 NCP EVK sends the data to the remote device.
 
-   <img src ="resources/readme/image6.jpeg
+   <img src ="resources/readme/stm32_setup_diagram.jpeg
    " width ="250" height="300" border ="2" > 
 
 - The EFR connect application continuously receives the data and displays the RSSI value of the corresponding packet. As the RSSI value changes, the meter deflection is also updated accordingly as demonstrated in the image.
 
-   ![](resources/readme/image8.png)
+   ![](resources/readme/notification_throughput_readings.png)
 
 - To stop the data transfer the a user needs to click on the Push button "PB0" again on the EFR32 platform and similarly the Push button "B1” for the STM32 platform. Automatically the interrupt gets triggered and the notifications are disabled. The final throughput is displayed on the host MCU (either EFR32 or STM32) serial terminal as shown in the below image.
 
-   ![](resources/readme/image9.png)
+   ![](resources/readme/notification_serial_prints.png)
 
 ### **Indications**
 
@@ -462,28 +462,28 @@ This section demonstrates the execution flow of the application based on the con
 
 - Once the secure connection is successfully established, the PHY, connection interval, slave latency, supervision timeout, PDU & MTU sizes are updated as demonstrated in the below image.
 
-   <img src ="resources/readme/image10.jpeg
+   <img src ="resources/readme/device_is_successfully_connected_for_indications.jpeg
    " width ="250" height="450" border ="2">
 
 - For the EFR32 host MCU platform, a user needs to click on the “Push button PB0”. Once the button is pressed, the interrupt gets triggered and the RS9116 NCP EVK sends the data to the remote device.
 
-    <img src ="resources/readme/image7.jpeg
+    <img src ="resources/readme/efr32_setup_diagram.jpeg
    " width ="250" height="350" border ="2" >
 
 - For the STM32 host MCU platform, a user needs to click on the “Push button B1” (which indicates in blue color). Once the button is pressed, the interrupt gets triggered and the RS9116 NCP EVK sends the data to the remote device.
 
-   <img src ="resources/readme/image6.jpeg
+   <img src ="resources/readme/stm32_setup_diagram.jpeg
    " width ="250" height="300" border ="2"> 
 
 
 - The EFR connect application continuously receives the data and displays the RSSI value of the corresponding packet. As the RSSI value changes then the meter deflection is also updated accordingly as demonstrated in the image.
 
-   <img src = "resources/readme/image11.png" border ="2">
+   <img src = "resources/readme/indications_throughput_readings.png" border ="2">
 
 
 - To stop the data transfer the user needs to click on the "Push button PB0" again on the EFR32 platform and similarly the “Push button B1” for the STM32 platform.  Automatically the interrupt gets triggered and the indications are disabled. The final throughput is displayed on the host MCU (either EFR32 or STM32) serial terminal as shown in the below image.
 
-   ![](resources/readme/image12.png)
+   ![](resources/readme/indications_serial_prints.png)
 
 ## Observations
 
