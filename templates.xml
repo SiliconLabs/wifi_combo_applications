@@ -281,8 +281,7 @@
     <properties key="template.projectFilePaths" value="examples/featured/powersave_standby_associated/projects/powersave_standby_associated-brd2204a-gg11.slsproj"/>
   </descriptors>
 
-  <descriptors label="Wi-Fi - Low Power Measurement" description="An out-of-the-box software demo where the device acts as a WLAN station, connects to an Access Point.
-Upon successful connection, the device goes into the standby associated powersave mode. This application is optimized for low current consumption where both MCU and the WLAN station are in low power mode. Also showcasing periodic data transfer using ping, to depict real world use case for battery operated low throughput applications.">
+  <descriptors label="Wi-Fi - Low Power Measurement" description="An out-of-the-box software demo where the device acts as a WLAN station, connects to an Access Point. Upon successful connection, the device goes into the standby associated powersave mode. This application is optimized for low current consumption where both MCU and the WLAN station are in low power mode. Also showcasing periodic data transfer using ping, to depict real world use case for battery operated low throughput applications.">
     
     <properties key="core.boardCompatibility" value="brd4181b"/>
     <properties key="core.partCompatibility" value="mcu.arm.efr32.mg21.*"/>
@@ -292,15 +291,5 @@ Upon successful connection, the device goes into the standby associated powersav
     <properties key="template.initiallyOpenedResource" value="readme.txt"/>
     <properties key="template.projectFilePaths" value="examples/featured/low_power_wlan/projects/low_power_wlan-brd4181b-mg21.slsproj"/>
   </descriptors>
-  <descriptors label="Wi-Fi - Low Power Measurement" description="An out-of-the-box software demo where the device acts as a WLAN station, connects to an Access Point.
-Upon successful connection, the device goes into the standby associated powersave mode. This application is optimized for low current consumption where both MCU and the WLAN station are in low power mode. Also showcasing periodic data transfer using ping, to depict real world use case for battery operated low throughput applications.">
-    
-    <properties key="core.boardCompatibility" value="brd4180b"/>
-    <properties key="core.partCompatibility" value="mcu.arm.efr32.mg21.*"/>
-    <properties key="core.sdkAndProtocolTags" value="Wi-Fi"/>
-    <properties key="defaultName" value="low_power_wlan-brd4180b-mg21"/>
-    <properties key="template.category" value="ACMP"/>
-    <properties key="template.initiallyOpenedResource" value="readme.txt"/>
-    <properties key="template.projectFilePaths" value="examples/featured/low_power_wlan/projects/low_power_wlan-brd4181b-mg21.slsproj"/>
-  </descriptors>
+  
 </model:MDescriptors>
