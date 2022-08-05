@@ -54,7 +54,7 @@
 #endif
 
 // Access point SSID to connect
-#define SSID "AP_7"
+#define SSID "SILABS_AP"
 
 //Scan Channel number , 0 - to scan all channels
 #define CHANNEL_NO 0
@@ -63,7 +63,7 @@
 #define SECURITY_TYPE RSI_WPA2
 
 // Password
-#define PSK "12345678"
+#define PSK "1234567890"
 
 // DHCP mode 1- Enable 0- Disable
 #define DHCP_MODE 1
