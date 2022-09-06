@@ -358,7 +358,9 @@ The Serial COM port interface is used for printing out debug prints from the app
    **![](resources/readme/stm32_device_detection.PNG)**
 
 2. When the EFR32/STM32 is connected, Open the Teraterm tool and choose the detected EFR32/STM32 serial port and click on "OK" as shown below.
+
    **![](resources/readme/port_selection.PNG)**
+
    **![](resources/readme/stm32_port.PNG)**
 
 3. Once the EFR32/STM32 is detected, Navigate to the **setup** → **Terminal** and update the below specified setup information as shown in the below image, and click on "OK".
@@ -368,6 +370,7 @@ The Serial COM port interface is used for printing out debug prints from the app
 
 4. Navigate to the **setup** → **Serial port** and update the baud rate to "115200" and click on "OK".
    **![](resources/readme/serial_port_setup.PNG)**
+
    **![](resources/readme/serial_port.PNG)**
 5. The EFR32/STM32 serial port is connected and the teraterm terminal displays the debug prints in the application.
 
@@ -431,18 +434,15 @@ This section demonstrates the execution flow of the application based on the con
 
 - Once the secure connection is successfully established, the PHY, connection interval, slave latency, supervision timeout, PDU & MTU sizes are updated as demonstrated in the below image.
 
-   <img src ="resources/readme/device_is_successfully_connected.jpeg
-   " width ="250" height="450" border ="2">
+   ![](resources/readme/device_is_successfully_connected.jpeg)
 
 - For the EFR32 host MCU platform, a user needs to click on the “Push button PB0”. Once the button is pressed, the interrupt is triggered and the RS9116 NCP EVK sends the data to the remote device.
 
-   <img src ="resources/readme/efr32_setup_diagram.jpeg
-   " width ="250" height="350" border ="2" >
+   ![](resources/readme/efr32_setup_diagram.jpeg)
 
 - For the STM32 host MCU platform, a user needs to click on the Push button "B1” (which indicates in blue color). Once the button is pressed, the interrupt gets triggered in the application and the RS9116 NCP EVK sends the data to the remote device.
 
-   <img src ="resources/readme/stm32_setup_diagram.jpeg
-   " width ="250" height="300" border ="2" > 
+   ![](resources/readme/stm32_setup_diagram.jpeg)
 
 - The EFR connect application continuously receives the data and displays the RSSI value of the corresponding packet. As the RSSI value changes, the meter deflection is also updated accordingly as demonstrated in the image.
 
@@ -458,24 +458,19 @@ This section demonstrates the execution flow of the application based on the con
 
 - Once the secure connection is successfully established, the PHY, connection interval, slave latency, supervision timeout, PDU & MTU sizes are updated as demonstrated in the below image.
 
-   <img src ="resources/readme/device_is_successfully_connected_for_indications.jpeg
-   " width ="250" height="450" border ="2">
+   ![](resources/readme/device_is_successfully_connected_for_indications.jpeg)
 
 - For the EFR32 host MCU platform, a user needs to click on the “Push button PB0”. Once the button is pressed, the interrupt gets triggered and the RS9116 NCP EVK sends the data to the remote device.
 
-    <img src ="resources/readme/efr32_setup_diagram.jpeg
-   " width ="250" height="350" border ="2" >
+   ![](resources/readme/efr32_setup_diagram.jpeg)
 
 - For the STM32 host MCU platform, a user needs to click on the “Push button B1” (which indicates in blue color). Once the button is pressed, the interrupt gets triggered and the RS9116 NCP EVK sends the data to the remote device.
 
-   <img src ="resources/readme/stm32_setup_diagram.jpeg
-   " width ="250" height="300" border ="2"> 
-
+   ![](resources/readme/stm32_setup_diagram.jpeg)
 
 - The EFR connect application continuously receives the data and displays the RSSI value of the corresponding packet. As the RSSI value changes then the meter deflection is also updated accordingly as demonstrated in the image.
 
-   <img src = "resources/readme/indications_throughput_readings.png" border ="2">
-
+   ![](resources/readme/indications_throughput_readings.png)
 
 - To stop the data transfer the user needs to click on the "Push button PB0" again on the EFR32 platform and similarly the “Push button B1” for the STM32 platform.  Automatically the interrupt gets triggered and the indications are disabled. The final throughput is displayed on the host MCU (either EFR32 or STM32) serial terminal as shown in the below image.
 
