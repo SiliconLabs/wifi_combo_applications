@@ -241,20 +241,6 @@ This section provides the steps for importing the project into Simplicity Studio
 
    **![](resources/readme/application.png)** 
 
-4. The application has the provision to measure the throughput for both notifications and indications. **“THROUGHPUT\_TYPE”** MACRO refers to the type of throughput either “Notifications” or “Indications”.
-
-   When the “THROUGHPUT_TYPE”  is configured as “WRITE_WITHOUT_RESPONSE”, The RS9116 NCP EVK is configured for “Notifications”.
-
-     ```c
-      #define   THROUGHPUT_TYPE    WRITE_WITHOUT_RESPONSE
-      ```
-
-   When the “THROUGHPUT_TYPE”  is configured as “WRITE_WITH_RESPONSE”, The RS9116 NCP EVK is configured for “Indications”.
-
-   ```c
-   #define  THROUGHPUT_TYPE                       WRITE_WITH_RESPONSE
-   ```
-
 **Note**:
 The required features are already set with the default values. Following are the non-configurable macros in the application:
 
@@ -264,6 +250,53 @@ The required features are already set with the default values. Following are the
    #define RSI_BLE_DEVICE_NAME                        "Throughput Test"
    ```
 
+4. Open rsi_ble_config.h file which is present under “ble_throughput” folder and update/modify following macros,
+
+  - The application has the provision to measure the throughput for both notifications and indications. **“THROUGHPUT\_TYPE”** MACRO refers to the type of throughput either “Notifications” or “Indications”.
+
+   When the “THROUGHPUT_TYPE”  is configured as “WRITE_WITHOUT_RESPONSE”, The RS9116 NCP EVK is configured for “Notifications”.
+   ```c
+   #define  THROUGHPUT_TYPE                      NOTIFICATIONS
+   ```  
+
+   When the “THROUGHPUT_TYPE”  is configured as “WRITE_WITH_RESPONSE”, The RS9116 NCP EVK is configured for “Indications”.
+
+   ```c
+   #define  THROUGHPUT_TYPE                       INDICATIONS
+   ```    
+  - Depending on the TX_PHY_RATE and RX_PHY_RATE MACROs the below configurations are valid.
+      - For 2Mbps the TX_PHY_RATE & RX_PHY_RATE values is 0x02
+
+      - For 1Mbps the TX_PHY_RATE & RX_PHY_RATE values is 0x01
+
+      - For Coded-500K the TX_PHY_RATE & RX_PHY_RATE values is 0x04
+
+   //! Phy parameters
+   ```c
+   #define TX_PHY_RATE         0x02
+   #define RX_PHY_RATE         0x02
+   ```
+ - The "Coded-PHY"  rates to be choose as below
+      - For Coded-500K the CODED_PHY_RATE value is 0x01
+      - For Coded-125K the CODED_PHY_RATE value is 0x02
+      - For Uncoded -PHY (1Mbps & 2 Mbps) the CODED_PHY_RATE value should be 0x00
+
+```c
+#define CODED_PHY_RATE          0x00
+```
+//! Connection update params
+
+```c
+
+#define CONN_INTERVAL_MIN        0x08
+
+#define CONN_INTERVAL_MAX        0x08
+
+#define CONN_LATENCY             0
+
+#define SUPERVISION_TIMEOUT      800
+
+```
 - “RSI_BLE_CHAR_SERV_UUID” refers to the attribute type of the characteristics to be added to a service.
    ```c
    #define RSI_BLE_CHAR_SERV_UUID                        0x2803
@@ -313,44 +346,7 @@ The required features are already set with the default values. Following are the
    ```c
     #define BT_GLOBAL_BUFF_LEN                           15000
     ```
-
-5. Open rsi_ble_config.h file which is present under “ble_throughput” folder and update/modify following macros,
-   
-  - Depending on the TX_PHY_RATE and RX_PHY_RATE MACROs the below configurations are valid.
-      - For 2Mbps the TX_PHY_RATE & RX_PHY_RATE values is 0x02
-
-      - For 1Mbps the TX_PHY_RATE & RX_PHY_RATE values is 0x01
-
-      - For Coded-500K the TX_PHY_RATE & RX_PHY_RATE values is 0x04
-
-   //! Phy parameters
-   ```c
-   #define TX_PHY_RATE         0x02
-   #define RX_PHY_RATE         0x02
-   ```
- - The "Coded-PHY"  rates to be choose as below
-      - For Coded-500K the CODED_PHY_RATE value is 0x01
-      - For Coded-125K the CODED_PHY_RATE value is 0x02
-      - For Uncoded -PHY (1Mbps & 2 Mbps) the CODED_PHY_RATE value should be 0x00
-
-```c
-#define CODED_PHY_RATE          0x00
-```
-//! Connection update params
-
-```c
-
-#define CONN_INTERVAL_MIN        0x08
-
-#define CONN_INTERVAL_MAX        0x08
-
-#define CONN_LATENCY             0
-
-#define SUPERVISION_TIMEOUT      800
-
-```
-
-Note: rsi_ble_config.h file is already set with the desired configurations in the respective example folders. Users may not be required to change them for each example.
+Note: rsi_ble_config.h file is already set with the desired configurations in the respective example folder. Users may not be required to change them for this example except "THROUGHPUT_TYPE". By default the "THROUGHPUT_TYPE" is configured to the "NOTIFICATIONS". If you want to validate the "INDICATIONS" the "THROUGHPUT_TYPE" parameter need to be updated.
 
 ## Execution of Project
 
