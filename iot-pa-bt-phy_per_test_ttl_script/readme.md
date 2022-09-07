@@ -1,7 +1,7 @@
 
 # Introduction
 
-This document details the requirements, steps and commands needed for the execution of BT Classic/BLE PER mode via RS9116 NCP module using AT commands. Customers going for regulatory tests ((FCC, CE/RED, TELEC, etc) can utilize this script to setup the module in PHY test mode.
+This document details the requirements, steps and commands needed for the execution of BT Classic/BLE PER mode via RS9116 NCP module using AT commands. Customers going for regulatory tests (FCC, CE/RED, TELEC, etc) can utilize this script to setup the module in PHY test mode.
 
 
 # Terminology
