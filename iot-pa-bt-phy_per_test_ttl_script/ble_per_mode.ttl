@@ -1,0 +1,361 @@
+TRUE = 1
+FALSE = 0
+message = 'This example demonstrates BLE PER mode functionality'
+messagebox message ''
+send '|'
+wait 'U'
+sendln 'U'
+mpause 200
+sendln '1'
+wait 'Loading Done'
+message = 'Firmware Loading Done'
+messagebox message ''
+sendln 'at+rsi_opermode=851968,0,1,2147483648,2150629376,3221225472,0,275349504,2048'
+wait 'OK' 'ERROR'
+if result = 2 then
+	goto error
+else
+	messagebox 'Opermode Successful' ''
+endif
+
+
+inputbox 'Enter BLE Mode '#10#13' 1 - Transmit '#10#13' 2 - Receive ' 'Indication'
+Mode= inputstr
+str2int val Mode
+if val=1 then
+elseif val=2 then 
+else
+	goto error
+endif
+
+strcompare Mode '1'
+if result=0 then
+	inputbox 'Enable PER mode '#10#13' 1 - Yes '#10#13' 2 - No' 'Indication'
+	switch = inputstr
+	str2int val switch
+	if val=1 then
+	elseif val=2 then 
+	else
+		goto error
+	endif
+	
+	
+	inputbox 'Enter Device Access Address(4 bytes, e.g. 12121212)' 'Indication'
+	address = inputstr
+	
+	inputbox 'Enter BLE PHY rate:'#10#13' 1 - 1 Mbps '#10#13' 2 - 2 Mbps '#10#13' 4 - 125 kbps Coded '#10#13' 8 - 500 kbps Coded' 'Indication'
+	phy_rate = inputstr
+	str2int val phy_rate
+	if val=1 then
+	elseif val=2 then 
+	elseif val=4 then 
+	elseif val=8 then 
+	else
+		goto error
+	endif
+	
+	inputbox 'Enter BLE Channel Type:'#10#13' 0 - Advertise Channel '#10#13' 1 - Data Channel(to be used by Default) ' 'Indication'
+	ltype = inputstr
+	str2int val ltype
+	if val=0 then	 
+	elseif val=1 then 	 
+	else
+		goto error
+	endif
+	
+	inputbox 'Enter Frequency Hopping Type: '#10#13' 0 - No Hopping '#10#13' 1 - Fixed Hopping '#10#13' 2 - Random Hopping' 'Indication'
+	hp_type = inputstr
+	str2int val hp_type
+	if val=0 then	 
+	elseif val=1 then 	 
+	elseif val=2 then 	 
+	else
+		goto error
+	endif
+	
+	rx_no='0'
+	tx_no='0'
+	strcompare hp_type '2'
+	if result !=0 then
+		inputbox 'Enter Tx Channel Number(0-39):' 'Tx Channel Number'
+		tx_no = inputstr	
+		str2int txval tx_no
+		if txval>-1 then
+		elseif txval<40 then 	 
+		else 
+			goto error
+		endif
+	
+		inputbox 'Enter Rx Channel Number(0-39):' 'Rx Channel Number'
+		rx_no = inputstr
+		str2int rxval rx_no
+		if rxval>-1 then
+		elseif rxval<40 then 	 
+		else 
+			goto error
+		endif
+	endif
+	
+	
+	inputbox 'Enter Antenna Selection Type: '#10#13' 2 - ONBOARD_ANT_SEL '#10#13' 3 - EXT_ANT_SEL ' 'Indication'
+	ant_type = inputstr
+	str2int val ant_type
+	if val=2 then	 
+	elseif val=3 then 	 
+	else
+		goto error
+	endif
+	
+	
+	pll = '0' ;PLL_MODE0
+	rf ='1'	;Internal_RF
+	
+	inputbox 'Enter BLE RF Chain:  '#10#13' 2 - HP_CHAIN '#10#13' 3 - LP_CHAIN ' 'Indication'
+	rc = inputstr
+	str2int val rc
+	if val=2 then	 
+	elseif val=3 then 	 
+	else
+		goto error
+	endif
+	
+	inputbox 'Enter Packet Length (max 240):' 'Indication'
+	length = inputstr
+	str2int val length
+	if val>-1 then 
+	else 
+		goto error
+	endif
+	if val<241 then  
+	else
+		goto error
+	endif
+	
+	inputbox 'Enter Payload Type:'#10#13' 0 - PRBS9 sequence 11111111100000111101... '#10#13' 1 - Repeated 11110000 '#10#13' 2 - Repeated 10101010 '#10#13' 3 - PRBS15 '#10#13' 4 - Repeated 11111111 '#10#13' 5 - Repeated 00000000 '#10#13' 6 - Repeated 00001111 '#10#13' 7 - Repeated 01010101 ' 'Indication'
+	pt = inputstr
+	str2int val pt
+	if val>-1 then 
+	else 
+		goto error
+	endif
+	if val<8 then  
+	else
+		goto error
+	endif
+	
+	inputbox 'Enter Tx Power Index: '#10#13' The range for the Tx Power Index is 1 to 63 (0 and 32 are invalid) '#10#13' '#10#13' RF Chain: HP_CHAIN '#10#13' >Range: 1 - 12 '#10#13' > Magic Number for selecting maximum possible power output: 127 '#10#13''#10#13' RF Chain: LP_CHAIN '#10#13' > 0 dBm Mode Range: 1 - 31 '#10#13' > 10 dBm Mode Range: 33 - 63 ' 'Indication'
+	ti = inputstr
+	str2int val ti
+	if val>0 then	 
+	else 
+		goto error
+	endif
+	if val=127 then 	 
+	elseif val =32 then
+		goto error
+	elseif val < 64 then	 
+	else
+		goto error
+	endif
+	
+	inputbox 'Enter PER Mode: '#10#13' 0 - BURST_MODE '#10#13' 1 - CONTINUOUS_MODE '#10#13' 2 - CONTINUOUS_WAVE_MODE (CW_MODE)' 'Indication'
+	tm = inputstr
+	str2int val tm
+	if val=0 then
+	elseif val=1 then 
+	elseif val=2 then 
+	else
+		goto error
+	endif
+	
+	seed = '0'
+	strcompare tm '2'
+	if result=0 then
+		seed = '5'
+	endif
+	
+	no_pkt='0'
+	
+	sendln 'at+rsibt_bletransmit='switch','address','phy_rate','rx_no','tx_no','seed','ltype','hp_type','ant_type','pll','rf','rc','length','pt','ti','tm',0,'no_pkt''
+	wait 'OK' 'ERROR'
+	if result = 2 then
+		goto error
+	else
+		strcompare tm '2'
+		if result = 0 then
+			messagebox 'BLE Tx PER Continuous Wave mode executed successfully.' ''
+		endif
+		
+		strcompare tm '1'
+		if result = 0 then
+			messagebox 'BLE Tx PER Continuous mode executed successfully.' ''
+		endif
+		
+		strcompare tm '0'
+		if result = 0 then
+			messagebox 'BLE Tx PER Burst mode executed successfully.' ''
+		endif
+	endif
+	while 1
+		dispstr #10#13
+		setdebug 0
+		mpause 1000
+		sendln 'at+rsibt_perstats'
+		dispstr 'PER Stats:'#13#10 
+		setdebug 2     ; output is in binary, so best to display in hex format
+		wait '4F 4B' '45 52 52' '50 45 52' ; 'OK' or 'ERR' or 'PER'
+		setdebug 0
+		if result = 2 then
+			goto error
+		elseif result = 1 then
+			flushrecv
+			dispstr #10#13
+		else
+			continue
+		endif
+	endwhile 
+endif
+
+strcompare Mode '2'
+if result=0 then
+	inputbox 'Enable PER mode '#10#13' 1 - Yes '#10#13' 2 - No' 'Indication'
+	switch = inputstr
+	str2int val switch
+	if val=1 then
+	elseif val=2 then 
+	else
+		goto error
+	endif
+	
+	inputbox 'Enter Device Access Address(4 bytes, e.g. 12121212)' 'Indication'
+	address = inputstr
+	
+	inputbox 'Enter BLE PHY rate:'#10#13' 1 - 1 Mbps '#10#13' 2 - 2 Mbps '#10#13' 4 - 125 kbps Coded' 'Indication'
+	phy_rate = inputstr
+	str2int val phy_rate
+	if val=1 then
+	elseif val=2 then 
+	elseif val=4 then 
+	else
+		goto error
+	endif
+	
+	
+	inputbox 'Enter BLE Channel Type:'#10#13' 0 - Advertise Channel '#10#13' 1 - Data Channel(to be used by Default) ' 'Indication'
+	ltype = inputstr
+	str2int val ltype
+	if val=0 then	 
+	elseif val=1 then 	 
+	else
+		goto error
+	endif
+	
+	inputbox 'Enter Frequency Hopping Type: '#10#13' 0 - No Hopping '#10#13' 1 - Fixed Hopping '#10#13' 2 - Random Hopping' 'Indication'
+	hp_type = inputstr
+	str2int val hp_type
+	if val=0 then	 
+	elseif val=1 then 	 
+	elseif val=2 then 	 
+	else
+		goto error
+	endif
+	
+	rx_no='0'
+	rx_no='0'
+	strcompare hp_type '2'
+	if result !=0 then
+		inputbox 'Enter Receive Tx Channel Number(0-39, same as Transmit Rx channel number):' 'Tx Channel Number'
+		tx_no = inputstr	
+		str2int txval tx_no
+		if txval>-1 then
+		elseif txval<40 then 	 
+		else 
+			goto error
+		endif
+	
+		inputbox 'Enter Receive Rx Channel Number(0-39, same as Transmit Tx channel number):' 'Rx Channel Number'
+		rx_no = inputstr
+		str2int rxval rx_no
+		if rxval>-1 then
+		elseif rxval<40 then 	 
+		else 
+			goto error
+		endif
+	endif
+	
+	inputbox 'Enter Antenna Selection Type: '#10#13' 2 - ONBOARD_ANT_SEL '#10#13' 3 - EXT_ANT_SEL ' 'Indication'
+	ant_type = inputstr
+	str2int val ant_type
+	if val=2 then	 
+	elseif val=3 then 	 
+	else
+		goto error
+	endif
+	
+	pll = '0' ;PLL_MODE0
+	rf ='1'	;Internal_RF
+	seed = '0'; receiver seed is 0
+	dc = '0'; duty cycle feature disabled
+	
+	inputbox 'Enter BLE RF Chain:  '#10#13' 2 - HP_CHAIN '#10#13' 3 - LP_CHAIN ' 'Indication'
+	rc = inputstr
+	str2int val rc
+	if val=2 then	 
+	elseif val=3 then 	 
+	else
+		goto error
+	endif
+	
+	inputbox 'Extended Data Length Feature'#10#13' 0 - Disable (Data Length: 27 Bytes) '#10#13' 1 - Enable (Data Length: 240 Bytes) ' 'Indication'
+	extend_ind = inputstr
+	str2int val extend_ind
+	if val=0 then
+	elseif val=1 then 
+	else
+		goto error
+	endif
+	
+	inputbox 'Loopback Feature: '#10#13' 0 - Disable '#10#13' 1 - Enable' 'Indication'
+	lb = inputstr
+	str2int val lb
+	if val=0 then
+	elseif val=1 then 
+	else
+		goto error
+	endif
+	
+	
+	sendln 'at+rsibt_blereceive='switch','address','phy_rate','rx_no','tx_no','seed','ltype','hp_type','ant_type','pll','rf','rc','extend_ind','lb','dc''
+	wait 'OK' 'ERROR'
+	if result = 2 then
+		goto error
+	else
+		messagebox 'BLE Rx PER mode executed successfully.' ''
+	endif
+	while 1
+		dispstr #10#13
+		setdebug 0
+		mpause 1000
+		sendln 'at+rsibt_perstats'
+		dispstr 'PER Stats:'#13#10 
+		setdebug 2     ; output is in binary, so best to display in hex format
+		wait '4F 4B' '45 52 52' '50 45 52' ; 'OK' or 'ERR' or 'PER'
+		setdebug 0
+		if result = 2 then
+			goto error
+		elseif result = 1 then
+			flushrecv
+			dispstr #10#13
+		else
+			continue
+		endif
+	endwhile 
+endif
+
+goto endscript
+
+:error
+messagebox 'An error occurred, Please check your configuration and try again' 'ERROR'
+
+:endscript
+end
