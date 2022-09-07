@@ -26,12 +26,10 @@ This document details the requirements, steps and commands needed for the execut
 
 Connect EVK to PC over UART port using USB-Micro cable.
 Make sure the RS9116 NCP EVK is connected to the Spectrum Analyzer through u.Fl.<br>
-*Rx Block Diagram:*<br><br>
-
+*Rx Block Diagram:*<br>
 <img src="resources/image1.png" alt="" width=600><br>
 
-*Tx Block Diagram:*<br><br>
-
+*Tx Block Diagram:*<br>
 <img src="resources/image2.png" alt="" width=600><br>
 
 
