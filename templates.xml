@@ -243,7 +243,7 @@ mplate.e    <properties key="core.boardCompatibility" value="brd2204a"/>
     
   </descriptors>
 
-  <descriptors label="Wi-Fi - Low Power Measurement" description="An out-of-the-box software demo where the RS9116 NCP module acts as a WLAN station, connects to an Access Point. Upon successful connection, the device goes into the standby associated powersave mode. This application is optimized for low current consumption where both EFR32 acting as MCU and the RS9116 are in low power mode. Also showcasing periodic data transfer using ping, to depict real world use case for battery operated low throughput applications.">
+  <descriptors label="Wi-Fi - Low Power Measurement" description="An out-of-the-box software demo where the RS9116 NCP module acts as a WLAN station, connects to an Access Point. Upon successful connection, the device goes into the standby associated powersave mode. This application is optimized for low current consumption where both EFR32MG21 acting as MCU and the RS9116 are in low power mode. Also showcasing periodic data transfer using ping, to depict real world use case for battery operated low throughput applications.">
     
     <properties key="core.boardCompatibility" value="brd4181b"/>
     <properties key="core.partCompatibility" value="mcu.arm.efr32.mg21.*"/>
