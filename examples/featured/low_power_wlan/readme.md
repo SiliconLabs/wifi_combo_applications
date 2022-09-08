@@ -29,11 +29,11 @@ For this session you will need the following:
 
 - Simplicity Studio v5 (Version 5.5 or higher)
 
-   1. Download the simplicity studio from [Simplicity studio](https://www.silabs.com/developers/simplicity-studio) .
+   1. Download the simplicity Studio from [Simplicity Studio](https://www.silabs.com/developers/simplicity-studio).
 
    2. Follow the [Simplicity Studio user guide](https://www.silabs.com/documents/public/application-notes/an1211-simplicity-studio-v4-installation-methods.pdf)  to install Simplicity Studio.
 
-   **Note:** It is recommended to connect the setup to the PC and choose Install Software by Connecting Devices, to install the toolchains required to run the project.
+   **Note:** It is recommended to connect the setup to the PC and choose ***Install Software by Connecting Devices***, to install the toolchains required to run the project.
 
 - Ensure the Gecko SDK is updated to the latest version (v4.1.0 or higher)
 
@@ -41,28 +41,28 @@ For this session you will need the following:
 
 - **Configure Simplicity Studio External Repos**
 
-   The RS9116 NCP SDK with the demo project needed for this demo, is present at wifi_combo_applications repository. Follow the below steps to clone the SDK into the Simplicity Studio.
+   The RS9116 NCP SDK with the project needed for this session, is present at [wifi_combo_applications](https://github.com/SiliconLabs/wifi_combo_applications/tree/master) repository. Follow the below steps to clone the SDK into the Simplicity Studio.
 
    1. Connect the setup to the PC, and open Simplicity Studio.
    2. In the ***Launcher*** tab, select ***Preferences*** → ***Simplicity Studio*** → ***External Repos***. A list of external repositories linked to the Simplicity Studio can be seen.
 
-      ![Image Not Available](resources/image29.png)
+      ![Select Preferences](resources/image29.png)
 
-   3. Select ***Add*** and enter the url: [https://github.com/SiliconLabs/wifi_combo_applications.git](https://github.com/SiliconLabs/wifi_combo_applications.git) , select ***Next***.
+   3. Select ***Add*** and enter the URL: [https://github.com/SiliconLabs/wifi_combo_applications.git](https://github.com/SiliconLabs/wifi_combo_applications.git) , select ***Next***.
 
-      ![Image Not Available](resources/image30.png)
+      ![Enter URL](resources/image30.png)
 
    4. Select ***OK*** in the following prompt.
 
-      ![Image Not Available](resources/image31.png)
+      ![select OK](resources/image31.png)
 
    5. Make sure the Branch is set to master, and select ***Finish***.
 
-      ![Image Not Available](resources/image32.png)
+      ![Finish adding](resources/image32.png)
 
    6. The updated list can be seen in the ***External Repos***. Click ***Apply and Close*** to save the changes.
 
-      ![Image Not Available](resources/image42.png)
+      ![External repos](resources/image42.png)
 
    7.	In preferences, navigate to Simplicity Studio → SDKs, select the Gecko SDK, and click Refresh.
 
@@ -70,30 +70,30 @@ For this session you will need the following:
 
    8. Click Apply and Close to save the changes.
    
-   ![Image Not Available](resources/image43.png)
+   ![Apply and Close](resources/image43.png)
 
-- EFR32MG21 with the latest Secure (SE) firmware and Adapter firmware.
+- Firmware update
 
    Follow the below steps to update the SE and Adapter firmwares of the EFR32MG21.
    1. Connect the EFR32MG21 to the PC using the USB type C- type A cable.
-   2. In Simplicity Studio ***Launcher*** Perspective, select the device in the ***Debug Adapetrs***. In the ***Overview*** tab, nsure the following.
+   2. In Simplicity Studio ***Launcher*** Perspective, select the device in the ***Debug Adapters***. In the ***Overview*** tab, ensure the following.
 
       a. Secure Firmware is updated to 1.2.13 or higher.
 
       b. Adapter Firmware is updated to 0v8p7b171 or higher.
 
-      ![Image Not Available](resources/image36.png)
+      ![Firmware update](resources/image36.png)
 
    3. To update a firmware, click on the latest version that appears beside the current version.
 
-      ![Image Not Available](resources/image37.png)
+      ![Firmware update](resources/image37.png)
    
 
 ## **Setup**
 
 This section provides details on the setup and the connections.
 
-![Image Not Available](resources/image38.png)
+![Setup connections](resources/image38.png)
 
 1. Connect the Interconnect board provided with the RS9116 NCP Development Kit to the EXP header of EFR32. Also, make sure the radio board is connected to the Wireless Pro kit.
 
@@ -103,7 +103,7 @@ This section provides details on the setup and the connections.
 
 4. Connect the RST_PS pin on the J9 header of RS9116 NCP to the pin labeled 9 on the J4 header of the Interconnect board using a female-to-female connector. 
 
-5. Connect the GND pin on J9 header of the RS9116 NCP to the pin labeled GND on the J4 header of the interconnect adapter board using a female-to-female connector. 
+5. Connect the GND pin on the J9 header of the RS9116 NCP to the pin labeled GND on the J4 header of the interconnect adapter board using a female-to-female connector. 
 
 6. Connect pin number 2 on the EFR32 expansion header to pin number 2 on the J19 header of RS9116 NCP. This provides a measured supply to the RS9116 NCP from EFR32.
 
@@ -118,7 +118,7 @@ This section provides details on the setup and the connections.
 
 **Note:** Ensure that the switch on the EFR32 Wireless Pro Kit is set to AEM mode
 
-![Image Not Available](resources/image39.png)
+![AEM switch](resources/image39.png)
 
 ## **Setting up the Development Environment**
 
@@ -130,13 +130,13 @@ The following section describes how to set up Simplicity Studio IDE on a PC.
 
 3. Select a workspace path of your choice. In this example, **“C:\\Silicon\_Labs”** is used as the workspace. Then click ***Launch***.
 
-   ![Image Not Available](resources/image2.png)
+   ![workspace path](resources/image2.png)
 
 4. In the ***Launcher*** perspective, when the device is connected to the PC, the device name appears in the ***Debug Adapters*** tab.
 
 5. Select the device. In the ***Overview*** tab, ensure the ***Secure Firmware*** and ***Adapter Firmware*** are updated to the latest version.
 
-   ![Image Not Available](resources/image40.png)
+   ![firmware update](resources/image40.png)
 
 
 ## **Create the Project**
@@ -148,17 +148,17 @@ The following section describes how to set up Simplicity Studio IDE on a PC.
 
 2. In Simplicity Studio ***Launcher*** perspective, select the device detected in the ***Debug Adapters*** tab.
 
-    ![Image Not Available](resources/image4.png)
+    ![select device](resources/image4.png)
 
 3. Switch to the ***EXAMPLE PROJECTS & DEMOS*** tab, select ***wifi\_combo\_applications*** as Provider.
 
 4. Click ***CREATE*** against the project named ***Wi-Fi- Low Power Measurement***.
 
-   ![Image Not Available](resources/image5.png)
+   ![create project](resources/image5.png)
 
 5. Click on Finish to complete the creation of project.
 
-    ![Image Not Available](resources/image6.png)
+    ![finish creation](resources/image6.png)
 
 ## **Update preferences for the Simplicity Studio Energy Profiler**
 
@@ -168,13 +168,13 @@ The following section describes how to set up Simplicity Studio IDE on a PC.
 
 1. Open Simplicity Studio Preferences by selecting ***Windows → Preferences*** from the toolbar.
 
-   ![Image Not Available](resources/image7.png)
+   ![open preferences](resources/image7.png)
 
 2. In Preferences, navigate to ***Network Analyzer → Energy Profiler Integration.***
 
 3. Select ***Min/Max Sampler (BETA)*** from the dropdown as below.
 
-   ![Image Not Available](resources/image8.png)
+   ![change scale](resources/image8.png)
 
 4. Click on ***Apply and Close*** to save the changes.
 
@@ -184,11 +184,11 @@ The following section describes how to set up Simplicity Studio IDE on a PC.
 
    **Note:** If you’re unable to see the ***Project Explorer*** tab, select ***Window → Show View → Project Explorer*** to get it visible.
 
-   ![Image Not Available](resources/image9.png)
+   ![open project explorer](resources/image9.png)
 
 2. Expand the project and navigate to the **rsi\_low\_power\_wlan.c** file present in ***low\_power\_wlan-brd4181b-mg21 → low\_power\_wlan*** folder.
 
-   ![Image Not Available](resources/image10.png)
+   ![open source file](resources/image10.png)
 
 
 3. In **rsi\_low\_power\_wlan.c** file, configure **SSID, SECURITY\_TYPE, PSK** parameters.
@@ -276,7 +276,7 @@ The following section describes how to set up Simplicity Studio IDE on a PC.
 
 5. Clean the project. Build the project by right-clicking on **low\_power\_wlan-brd4181b-mg21** and selecting **Build Project**. It takes a few seconds to build.
 
-    ![Image Not Available](resources/image15.png)
+    ![build project](resources/image15.png)
 
    If there are **no errors**, you can go ahead with **flashing** the code onto EFR32xG21.
 
@@ -290,13 +290,13 @@ The following section describes how to set up Simplicity Studio IDE on a PC.
 
 1. In the **Debug Adapters** tab, right-click on the detected device and choose **Launch Console.**
 
-   ![Image Not Available](resources/image16.png)
+   ![launch console](resources/image16.png)
 
 2. **J-Link Silicon Labs** console pane opens as shown below. Switch to the ***Serial 1*** tab to view the debug prints.
 
 3. Hit **Enter** in the space as shown below, to establish a serial connection between the PC and the setup.
 
-   ![Image Not Available](resources/image17.png)
+   ![serial connection](resources/image17.png)
 
 ## **Low Power WLAN Execution**
 
@@ -304,57 +304,57 @@ The following section describes how to set up Simplicity Studio IDE on a PC.
 
    The flowchart below describes the application flow.
 
-![Image Not Available](resources/image18.png)
+![flow chart](resources/image18.png)
 
 ### **Executing the project**
 
 1. Right-click on the project name and select ***Run As → Silicon Labs ARM Program***
 
-   ![Image Not Available](resources/image19.png)
+   ![run the project](resources/image19.png)
 
    **Note:** Ensure that the switch on the EFR32 Wireless Pro Kit is set to AEM mode.
 
 
    Once the code is flashed, application debug prints can be seen in the serial terminal.
 
-   ![Image Not Available](resources/image41.png)
+   ![debug prints](resources/image41.png)
 
 ### **Measuring current consumption using Energy Profiler**
 
 1. From the toolbar, navigate to ***Window → Perspective*** and select ***Energy Profiler***.
 
-   ![Image Not Available](resources/image22.png)
+   ![open energy profiler](resources/image22.png)
 
-   **Note:** A quick guide on user interface of Energy Profiler is at the [link](https://docs.silabs.com/simplicity-studio-5-users-guide/1.1.0/ss-5-users-guide-tools-energy-profiler/energy-profiler-user-interface).
+   **Note:** A quick start guide on the user interface of Energy Profiler is at the [link](https://docs.silabs.com/simplicity-studio-5-users-guide/1.1.0/ss-5-users-guide-tools-energy-profiler/energy-profiler-user-interface).
 
 
 2. Select ***Quick Access → Start Energy Capture***, or ***Profiler →Start Energy Capture*** to start energy monitoring.
 
-   ![Image Not Available](resources/image24.png)
+   ![start energy capture](resources/image24.png)
 
 3. The current consumption can be seen as below
-4. To analyze the live capture, click on Running icon to stop the Energy Profiler display.
+4. To analyze the live capture, click on ***Running*** icon to stop the Energy Profiler display.
 
-   ![Image Not Available](resources/image34.png)
+   ![UI explanation](resources/image34.png)
 
    **Note:** Ensure the plot for current is in linear mode, as shown above.
 5. The current consumption average for the whole duration can be seen in the statistics.
 6. The average statistics for a selected region can also be obtained as below.
 Statistics
 
-   ![Image Not Available](resources/image35.png)
+   ![statistics of EP](resources/image35.png)
 
 7. To stop monitoring, click on ***Quick Access***, and select ***Stop Energy Capture***, or ***Profiler → Stop Energy Capture***
 
-   ![Image Not Available](resources/image26.png)
+   ![stop energy capture](resources/image26.png)
 
    To save the energy capture, select ***Yes***, and save the session, which will be saved as a .ISD file.
 
-   ![Image Not Available](resources/image27.png)
+   ![save energy capture](resources/image27.png)
 
 8. You can open and view the saved session by choosing ***Profiler*** → ***Open ISD File***, or ***Quick Access → Open ISD File***.
 
-   ![Image Not Available](resources/image28.png)
+   ![open energy capture](resources/image28.png)
 
 ## **Optional features**
 
