@@ -18,8 +18,6 @@
 #ifndef RSI_CONFIG_H
 #define RSI_CONFIG_H
 
-#include "rsi_wlan_defines.h"
-
 // Enable feature
 #define RSI_ENABLE 1
 // Disable feature
@@ -28,7 +26,7 @@
 // To enable concurrent mode
 #define CONCURRENT_MODE RSI_DISABLE
 
-// opermode command parameters
+//! opermode command parameters
 /*=======================================================================*/
 // To set wlan feature select bit map
 #define RSI_FEATURE_BIT_MAP (FEAT_SECURITY_OPEN | FEAT_AGGREGATION | FEAT_ULP_GPIO_BASED_HANDSHAKE)
@@ -50,6 +48,83 @@
 // config feature bit map
 #define RSI_CONFIG_FEATURE_BITMAP (RSI_FEAT_SLEEP_GPIO_SEL_BITMAP | ENABLE_ENHANCED_MAX_PSP)
 
+//! Join command parameters
+/*=======================================================================*/
+
+// Tx power level
+#define RSI_POWER_LEVEL RSI_POWER_LEVEL_HIGH
+
+// RSI_JOIN_FEAT_STA_BG_ONLY_MODE_ENABLE or RSI_JOIN_FEAT_LISTEN_INTERVAL_VALID
+#define RSI_JOIN_FEAT_BIT_MAP RSI_JOIN_FEAT_LISTEN_INTERVAL_VALID
+
+// listen interval
+#define RSI_LISTEN_INTERVAL 1000
+
+// Transmission data rate. Physical rate at which data has to be transmitted.
+#define RSI_DATA_RATE RSI_DATA_RATE_AUTO
+
+/*=======================================================================*/
+
+//! Band command parameters
+/*=======================================================================*/
+
+// RSI_BAND_2P4GHZ(2.4GHz) or RSI_BAND_5GHZ(5GHz) or RSI_DUAL_BAND
+#define RSI_BAND RSI_BAND_2P4GHZ
+
+/*=======================================================================*/
+
+//! set region command parameters
+/*=======================================================================*/
+
+// RSI_ENABLE or RSI_DISABLE Set region support
+#define RSI_SET_REGION_SUPPORT RSI_ENABLE //@ RSI_ENABLE or RSI_DISABLE set region
+
+// If 1:region configurations taken from user ;0:region configurations taken from beacon
+#define RSI_SET_REGION_FROM_USER_OR_BEACON 1
+
+// 0-Default Region domain ,1-US, 2-EUROPE, 3-JAPAN
+#define RSI_REGION_CODE 2
+
+// 0- Without On Board Antenna , 1- With On Board Antenna
+#define RSI_MODULE_TYPE 1
+
+/*=======================================================================*/
+
+//! Power save command parameters
+/*=======================================================================*/
+// set handshake type of power mode
+#define RSI_HAND_SHAKE_TYPE GPIO_BASED
+//#define RSI_HAND_SHAKE_TYPE MSG_BASED
+
+// 0 - LP, 1- ULP mode with RAM retention and 2 - ULP with Non RAM retention
+#define RSI_SELECT_LP_OR_ULP_MODE RSI_ULP_WITH_RAM_RET
+// set DTIM aligment required
+// 0 - module wakes up at beacon which is just before or equal to listen_interval
+// 1 - module wakes up at DTIM beacon which is just before or equal to listen_interval
+#define RSI_DTIM_ALIGNED_TYPE 0
+
+// Monitor interval for the FAST PSP mode
+// default is 50 ms, and this parameter is valid for FAST PSP only
+#define RSI_MONITOR_INTERVAL 50
+
+// Number of DTIMs to skip during powersave
+#define RSI_NUM_OF_DTIM_SKIP 0
+
+//WMM PS parameters
+// set WMM enable or disable
+#define RSI_WMM_PS_ENABLE RSI_DISABLE
+
+// set WMM enable or disable
+// 0- TX BASED 1 - PERIODIC
+#define RSI_WMM_PS_TYPE 0
+
+// set WMM wake up interval
+#define RSI_WMM_PS_WAKE_INTERVAL 20
+
+// set WMM UAPSD bitmap
+#define RSI_WMM_PS_UAPSD_BITMAP 15
+
+
 /*=======================================================================*/
 
 // Feature frame parameters
@@ -61,45 +136,6 @@
 #define AFE_TYPE      1
 #define FEATURE_ENABLES \
   (RSI_FEAT_FRAME_PREAMBLE_DUTY_CYCLE | RSI_FEAT_FRAME_LP_CHAIN | RSI_FEAT_FRAME_IN_PACKET_DUTY_CYCLE)
-/*=======================================================================*/
-
-// Band command parameters
-/*=======================================================================*/
-
-// RSI_BAND_2P4GHZ(2.4GHz) or RSI_BAND_5GHZ(5GHz) or RSI_DUAL_BAND
-#define RSI_BAND RSI_BAND_2P4GHZ
-
-/*=======================================================================*/
-
-// set region command parameters
-/*=======================================================================*/
-
-// RSI_ENABLE or RSI_DISABLE Set region support
-#define RSI_SET_REGION_SUPPORT RSI_DISABLE //@ RSI_ENABLE or RSI_DISABLE set region
-
-// If 1:region configurations taken from user ;0:region configurations taken from beacon
-#define RSI_SET_REGION_FROM_USER_OR_BEACON 1
-
-// 0-Default Region domain ,1-US, 2-EUROPE, 3-JAPAN
-#define RSI_REGION_CODE 3
-
-// 0- Without On Board Antenna , 1- With On Board Antenna
-#define RSI_MODULE_TYPE 1
-
-/*=======================================================================*/
-
-// set region AP command parameters
-/*=======================================================================*/
-
-// RSI_ENABLE or RSI_DISABLE Set region AP support
-#define RSI_SET_REGION_AP_SUPPORT RSI_DISABLE
-
-// If 1:region configurations taken from user ;0:region configurations taken from firmware
-#define RSI_SET_REGION_AP_FROM_USER RSI_DISABLE
-
-// "US" or "EU" or "JP" or other region codes
-#define RSI_COUNTRY_CODE "US "
-
 /*=======================================================================*/
 
 // Rejoin parameters
@@ -175,20 +211,6 @@
 
 /*=======================================================================*/
 
-// Join command parameters
-/*=======================================================================*/
-
-// Tx power level
-#define RSI_POWER_LEVEL RSI_POWER_LEVEL_HIGH
-
-// RSI_JOIN_FEAT_STA_BG_ONLY_MODE_ENABLE or RSI_JOIN_FEAT_LISTEN_INTERVAL_VALID
-#define RSI_JOIN_FEAT_BIT_MAP RSI_JOIN_FEAT_LISTEN_INTERVAL_VALID
-
-// listen interval
-#define RSI_LISTEN_INTERVAL 1000
-
-// Transmission data rate. Physical rate at which data has to be transmitted.
-#define RSI_DATA_RATE RSI_DATA_RATE_AUTO
 
 /*=======================================================================*/
 
@@ -199,40 +221,6 @@
 #define RSI_DHCP_HOST_NAME "dhcp_client"
 
 
-
-// Power save command parameters
-/*=======================================================================*/
-// set handshake type of power mode
-#define RSI_HAND_SHAKE_TYPE GPIO_BASED
-//#define RSI_HAND_SHAKE_TYPE MSG_BASED
-
-// 0 - LP, 1- ULP mode with RAM retention and 2 - ULP with Non RAM retention
-#define RSI_SELECT_LP_OR_ULP_MODE RSI_ULP_WITH_RAM_RET
-// set DTIM aligment required
-// 0 - module wakes up at beacon which is just before or equal to listen_interval
-// 1 - module wakes up at DTIM beacon which is just before or equal to listen_interval
-#define RSI_DTIM_ALIGNED_TYPE 0
-
-// Monitor interval for the FAST PSP mode
-// default is 50 ms, and this parameter is valid for FAST PSP only
-#define RSI_MONITOR_INTERVAL 50
-
-// Number of DTIMs to skip during powersave
-#define RSI_NUM_OF_DTIM_SKIP 0
-
-//WMM PS parameters
-// set WMM enable or disable
-#define RSI_WMM_PS_ENABLE RSI_DISABLE
-
-// set WMM enable or disable
-// 0- TX BASED 1 - PERIODIC
-#define RSI_WMM_PS_TYPE 0
-
-// set WMM wake up interval
-#define RSI_WMM_PS_WAKE_INTERVAL 20
-
-// set WMM UAPSD bitmap
-#define RSI_WMM_PS_UAPSD_BITMAP 15
 
 /*=======================================================================*/
 
@@ -308,7 +296,7 @@
 // scan channel bit map in 5GHz band ,valid if given channel to scan is 0
 #define RSI_CONFIG_CLIENT_SCAN_CHAN_BITMAP_5_0_GHZ 0
 
-// P2P Profile parameters
+// P2P Profile parameterse
 /* ================================================================================= */
 
 // To configure data rate
@@ -350,3 +338,4 @@
 #define RSI_CONFIG_P2P_GATEWAY_ADDRESS 0x010AA8C0
 
 #endif
+

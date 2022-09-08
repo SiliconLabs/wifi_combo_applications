@@ -44,16 +44,7 @@
     <properties key="template.projectFilePaths" value="examples/featured/aws_device_shadow/projects/aws_device_shadow-brd4180a-mg21.slsproj"/>
   </descriptors>
 
-  <descriptors label="Wi-Fi - AWS IoT Device Shadow" description="Creates an AWS IoT 'thing' that connects to the AWS IoT device shadow service using the MQTT protocol">
-    
-    <properties key="core.boardCompatibility" value="brd4180b"/>
-    <properties key="core.partCompatibility" value="mcu.arm.efr32.mg21.*"/>
-    <properties key="core.sdkAndProtocolTags" value="Wi-Fi"/>
-    <properties key="defaultName" value="aws_device_shadow_brd4180b-mg21"/>
-    <properties key="template.category" value="ACMP"/>
-    <properties key="template.initiallyOpenedResource" value="readme.txt"/>
-    <properties key="template.projectFilePaths" value="examples/featured/aws_device_shadow/projects/aws_device_shadow-brd4180b-mg21.slsproj"/>
-  </descriptors>
+  
   <descriptors label="Wi-Fi - AWS IoT Device Shadow" description="Creates an AWS IoT 'thing' that connects to the AWS IoT device shadow service using the MQTT protocol">
     
     <properties key="core.boardCompatibility" value="brd4181b"/>
@@ -63,6 +54,7 @@
     <properties key="template.category" value="ACMP"/>
     <properties key="template.initiallyOpenedResource" value="readme.txt"/>
     <properties key="template.projectFilePaths" value="examples/featured/aws_device_shadow/projects/aws_device_shadow-brd4180b-mg21.slsproj"/>
+    
   </descriptors>
 
   <descriptors label="Wi-Fi - AWS IoT Device Shadow" description="Creates an AWS IoT 'thing' that connects to the AWS IoT device shadow service using the MQTT protocol">
@@ -87,16 +79,7 @@
     <properties key="template.projectFilePaths" value="examples/featured/wlan_throughput/projects/wlan_throughput-brd4180a-mg21.slsproj"/>
   </descriptors>
 
-  <descriptors label="Wi-Fi - Throughput Test" description="Measures Wi-Fi transmit/receive throughput performance using a remote iPerf client/server">
-    
-    <properties key="core.boardCompatibility" value="brd4180b"/>
-    <properties key="core.partCompatibility" value="mcu.arm.efr32.mg21.*"/>
-    <properties key="core.sdkAndProtocolTags" value="Wi-Fi"/>
-    <properties key="defaultName" value="wlan_throughput_brd4180b-mg21"/>
-    <properties key="template.category" value="ACMP"/>
-    <properties key="template.initiallyOpenedResource" value="readme.txt"/>
-    <properties key="template.projectFilePaths" value="examples/featured/wlan_throughput/projects/wlan_throughput-brd4180b-mg21.slsproj"/>
-  </descriptors>
+  
   <descriptors label="Wi-Fi - Throughput Test" description="Measures Wi-Fi transmit/receive throughput performance using a remote iPerf client/server">
     
     <properties key="core.boardCompatibility" value="brd4181b"/>
@@ -106,6 +89,7 @@
     <properties key="template.category" value="ACMP"/>
     <properties key="template.initiallyOpenedResource" value="readme.txt"/>
     <properties key="template.projectFilePaths" value="examples/featured/wlan_throughput/projects/wlan_throughput-brd4180b-mg21.slsproj"/>
+    
   </descriptors>
 
   <descriptors label="Wi-Fi - Throughput Test" description="Measures Wi-Fi transmit/receive throughput performance using a remote iPerf client/server">
@@ -117,6 +101,7 @@
     <properties key="template.category" value="ACMP"/>
     <properties key="template.initiallyOpenedResource" value="readme.txt"/>
     <properties key="template.projectFilePaths" value="examples/featured/wlan_throughput/projects/wlan_throughput-brd2204a-gg11.slsproj"/>
+    <properties key="readmeFiles" value="examples/featured/wlan_throughput/readme.md"/>
   </descriptors>
 
   <descriptors label="BLE PER - Transmit and Receive Performance and Regulatory Testing" description="configure the device with necessary parameters to start transmitting or receiving BLE PER packets.">
@@ -163,16 +148,7 @@
     <properties key="template.projectFilePaths" value="examples/featured/firmware_update/projects/firmware_update-brd4180a-mg21.slsproj"/>
   </descriptors>
 
-  <descriptors label="Wi-Fi - Firmware Update via TCP Server" description="Wirelessly updates the RS911x firmware from a remote TCP server">
-    
-    <properties key="core.boardCompatibility" value="brd4180b"/>
-    <properties key="core.partCompatibility" value="mcu.arm.efr32.mg21.*"/>
-    <properties key="core.sdkAndProtocolTags" value="Wi-Fi"/>
-    <properties key="defaultName" value="firmware_update_brd4180b-mg21"/>
-    <properties key="template.category" value="ACMP"/>
-    <properties key="template.initiallyOpenedResource" value="readme.txt"/>
-    <properties key="template.projectFilePaths" value="examples/featured/firmware_update/projects/firmware_update-brd4180b-mg21.slsproj"/>
-  </descriptors>
+  
   <descriptors label="Wi-Fi - Firmware Update via TCP Server" description="Wirelessly updates the RS911x firmware from a remote TCP server">
     
     <properties key="core.boardCompatibility" value="brd4181b"/>
@@ -182,6 +158,7 @@
     <properties key="template.category" value="ACMP"/>
     <properties key="template.initiallyOpenedResource" value="readme.txt"/>
     <properties key="template.projectFilePaths" value="examples/featured/firmware_update/projects/firmware_update-brd4180b-mg21.slsproj"/>
+    
   </descriptors>
 
   <descriptors label="Wi-Fi - Firmware Update via TCP Server" description="Wirelessly updates the RS911x firmware from a remote TCP server">
@@ -206,16 +183,7 @@
     <properties key="template.projectFilePaths" value="examples/featured/wlan_rf_test/projects/wlan_rf_test-brd4180a-mg21.slsproj"/>
   </descriptors>
 
-  <descriptors label="Wi-Fi - Transmit Performance and Regulatory Testing" description="Configures the device in a transmit mode that is used for transmit performance and regulatory certification testing (FCC, ETSI, CE, etc.)">
-    
-    <properties key="core.boardCompatibility" value="brd4180b"/>
-    <properties key="core.partCompatibility" value="mcu.arm.efr32.mg21.*"/>
-    <properties key="core.sdkAndProtocolTags" value="Wi-Fi"/>
-    <properties key="defaultName" value="wlan_rf_test_brd4180b-mg21"/>
-    <properties key="template.category" value="ACMP"/>
-    <properties key="template.initiallyOpenedResource" value="readme.txt"/>
-    <properties key="template.projectFilePaths" value="examples/featured/wlan_rf_test/projects/wlan_rf_test-brd4180b-mg21.slsproj"/>
-  </descriptors>
+  
   <descriptors label="Wi-Fi - Transmit Performance and Regulatory Testing" description="Configures the device in a transmit mode that is used for transmit performance and regulatory certification testing (FCC, ETSI, CE, etc.)">
     
     <properties key="core.boardCompatibility" value="brd4181b"/>
@@ -225,11 +193,12 @@
     <properties key="template.category" value="ACMP"/>
     <properties key="template.initiallyOpenedResource" value="readme.txt"/>
     <properties key="template.projectFilePaths" value="examples/featured/wlan_rf_test/projects/wlan_rf_test-brd4180b-mg21.slsproj"/>
+    
   </descriptors>
 
   <descriptors label="Wi-Fi - Transmit Performance and Regulatory Testing" description="Configures the device in a transmit mode that is used for transmit performance and regulatory certification testing (FCC, ETSI, CE, etc.)">
     
-    <properties key="core.boardCompatibility" value="brd2204a"/>
+mplate.e    <properties key="core.boardCompatibility" value="brd2204a"/>
     <properties key="core.partCompatibility" value="mcu.arm.efm32.gg11.*"/>
     <properties key="core.sdkAndProtocolTags" value="Wi-Fi"/>
     <properties key="defaultName" value="wlan_rf_test_brd2204a-gg11"/>
@@ -249,16 +218,7 @@
     <properties key="template.projectFilePaths" value="examples/featured/powersave_standby_associated/projects/powersave_standby_associated-brd4180a-mg21.slsproj"/>
   </descriptors>
 
-  <descriptors label="Wi-Fi - Deep-Sleep UDP Client" description="Connects to a Wi-Fi Access Point in deep-sleep mode and intermittently wakes to send UDP packets">
-    
-    <properties key="core.boardCompatibility" value="brd4180b"/>
-    <properties key="core.partCompatibility" value="mcu.arm.efr32.mg21.*"/>
-    <properties key="core.sdkAndProtocolTags" value="Wi-Fi"/>
-    <properties key="defaultName" value="powersave_standby_associated_brd4180b-mg21"/>
-    <properties key="template.category" value="ACMP"/>
-    <properties key="template.initiallyOpenedResource" value="readme.txt"/>
-    <properties key="template.projectFilePaths" value="examples/featured/powersave_standby_associated/projects/powersave_standby_associated-brd4180b-mg21.slsproj"/>
-  </descriptors>
+  
   <descriptors label="Wi-Fi - Deep-Sleep UDP Client" description="Connects to a Wi-Fi Access Point in deep-sleep mode and intermittently wakes to send UDP packets">
     
     <properties key="core.boardCompatibility" value="brd4181b"/>
@@ -268,6 +228,7 @@
     <properties key="template.category" value="ACMP"/>
     <properties key="template.initiallyOpenedResource" value="readme.txt"/>
     <properties key="template.projectFilePaths" value="examples/featured/powersave_standby_associated/projects/powersave_standby_associated-brd4180b-mg21.slsproj"/>
+    
   </descriptors>
 
   <descriptors label="Wi-Fi - Deep-Sleep UDP Client" description="Connects to a Wi-Fi Access Point in deep-sleep mode and intermittently wakes to send UDP packets">
@@ -279,9 +240,10 @@
     <properties key="template.category" value="ACMP"/>
     <properties key="template.initiallyOpenedResource" value="readme.txt"/>
     <properties key="template.projectFilePaths" value="examples/featured/powersave_standby_associated/projects/powersave_standby_associated-brd2204a-gg11.slsproj"/>
+    
   </descriptors>
 
-  <descriptors label="Wi-Fi - Low Power Measurement" description="An out-of-the-box software demo where the device acts as a WLAN station, connects to an Access Point. Upon successful connection, the device goes into the standby associated powersave mode. This application is optimized for low current consumption where both MCU and the WLAN station are in low power mode. Also showcasing periodic data transfer using ping, to depict real world use case for battery operated low throughput applications.">
+  <descriptors label="Wi-Fi - Low Power Measurement" description="An out-of-the-box software demo where the RS9116 NCP module acts as a WLAN station, connects to an Access Point. Upon successful connection, the device goes into the standby associated powersave mode. This application is optimized for low current consumption where both EFR32MG21 acting as MCU and the RS9116 are in low power mode. Also showcasing periodic data transfer using ping, to depict real world use case for battery operated low throughput applications.">
     
     <properties key="core.boardCompatibility" value="brd4181b"/>
     <properties key="core.partCompatibility" value="mcu.arm.efr32.mg21.*"/>
@@ -290,6 +252,7 @@
     <properties key="template.category" value="ACMP"/>
     <properties key="template.initiallyOpenedResource" value="readme.txt"/>
     <properties key="template.projectFilePaths" value="examples/featured/low_power_wlan/projects/low_power_wlan-brd4181b-mg21.slsproj"/>
+    
   </descriptors>
   
 </model:MDescriptors>

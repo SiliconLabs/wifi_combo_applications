@@ -1,6 +1,6 @@
 /***************************************************************************//**
- * @file
- * @brief Power Manager examples functions
+ * @file rsi_power_manager_app.c
+ * @brief 
  *******************************************************************************
  * # License
  * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -15,56 +15,20 @@
  *
  ******************************************************************************/
 
+/*================================================================================
+ * @brief : This file contains functions to configure EFR32 into various power modes 
+ * @section Description :
+ * This application will demonstrate the low power functionality, for both the
+ * EFR32 and the RS9116W.
+ =================================================================================*/
 
-#include <rsi_common_apis.h>
-#include <stdio.h>
-//#include "power_manager_app.h"
+
 #include "sl_power_manager.h"
 #include "sl_power_manager_debug.h"
 #include "sl_sleeptimer.h"
 #include "em_emu.h"
 
-#include "em_device.h"
-#include "em_gpio.h"
 
-#include "rsi_driver.h"
-#include "em_device.h"
-#include "em_chip.h"
-#include "em_cmu.h"
-#include "em_gpio.h"
-#include "em_usart.h"
-#include "em_ldma.h"
-#include "em_core.h"
-#include "sl_status.h"
-#include "sl_device_init_clocks.h"
-#include "sl_device_init_hfrco_config.h"
-#include "sl_device_init_lfxo_config.h"
-#include "sl_device_init_emu_config.h"
-#include "rsi_board_configuration.h"
-
-//FROM SL_POWER_MANAGER.C
-#include "sl_power_manager.h"
-#include "sl_power_manager_config.h"
-//#include "sli_power_manager_private.h"
-#include "sli_power_manager.h"
-#include "sli_sleeptimer.h"
-#include "em_assert.h"
-#include "sl_atomic.h"
-
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
-
-#include <limits.h>
-
-//from em_emu.c
-#include "em_emu.h"
-#include "em_assert.h"
-#include "em_cmu.h"
-#include "em_common.h"
-#include "em_core.h"
-#include "em_system.h"
-#include "em_ramfunc.h"
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
@@ -84,14 +48,14 @@
  *******************  LOCAL FUNCTION DECLARATIONS   ****************************
  ******************************************************************************/
 
-// sleeptimer callback
+//! sleeptimer callback
 static void timer_callback(sl_sleeptimer_timer_handle_t *handle,
                            void *data);
 
 /*******************************************************************************
  ***************************  LOCAL VARIABLES   ********************************
  ******************************************************************************/
-// Energy mode enumerations
+//! Energy mode enumerations
 typedef enum {
   EMODE_0,
   EMODE_1,
@@ -168,8 +132,8 @@ sl_power_manager_on_isr_exit_t app_sleep_on_isr_exit(void)
   return 4;
 }
 
-//Function to select power save mode for Host MCU
-//Initializes sleep timer for timer based wake up.
+//! Function to select power save mode for Host MCU
+//! Initializes sleep timer for timer based wake up.
 int rsi_host_pwmode_timer_init()
 {
   int status=0;
@@ -200,7 +164,7 @@ int rsi_host_pwmode_timer_init()
 
 }
 
-//Function to select power save mode for Host MCU
+//! Function to select power save mode for Host MCU
 int rsi_host_pwmode_init()
 {
   if(start_test){
@@ -218,5 +182,6 @@ int rsi_host_pwmode_init()
   }
   return 0;
 }
+
 
 
