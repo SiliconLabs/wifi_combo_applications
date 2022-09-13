@@ -2,9 +2,9 @@
 
 ## Description 
 
-This application demonstrates the procedure to measure the throughput of the data transmitted by RS9116 NCP module to the OpenSSL server running on the Amazon EC2 (Elastic Compute Cloud) instance. In this application, the RS9116 NCP module connects to a Wi-Fi access point as a station, obtains an IP address, connects to the OpenSSL server running on the remote Amazon EC2 instance and sends data to the OpenSSL server using SSL.
+This application demonstrates the procedure to measure the throughput of the data transmitted by RS9116 NCP module to an OpenSSL server running on the Amazon EC2 (Elastic Compute Cloud) instance. In this application, the RS9116 NCP module connects to a Wi-Fi access point as a station, obtains an IP address, connects to the OpenSSL server running on the remote Amazon EC2 instance and sends data to the OpenSSL server using SSL.
 
-![Figure: Block diagram for Amazon EC2 instance SSL throughput application](./resources/readme/block_diagram.png)
+![Figure: Block diagram for Amazon EC2 instance SSL throughput application](./resources/readme/block_diagram.PNG)
 
 ## Prerequisites
 
@@ -98,13 +98,13 @@ This section describes the hardware setup and the connections.
 An AMI (Amazon Machine Image) is a template that contains the software configuration (operating system, application server, and applications) required to launch your instance.  
  - Choose an Amazon Machine Image (AMI) under the *Application and OS Images* section. You can even select your own AMI. For this example, *Ubuntu Server 22.04 LTS (HVM), SSD Volume Type* is selected, which is free tier eligible.
 
-   ![Figure: Choosing an Amazon Machine Image](./resources/readme/AmazonMachineImage.png)
+   ![Figure: Choosing an Amazon Machine Image](./resources/readme/AmazonMachineImage.PNG)
 
 6. Choose an Instance Type.  
 The instance type determines the hardware of the host computer used for your instance. Instance have varying combinations of CPU, memory, storage, networking capacity and give you the flexibility to choose the appropriate mix of resources for your applications. 
  - Choose an instance type from the *Instance type* section. For this example, *t2.micro* is chosen, which is free tier eligible.
 
-   ![Figure: Choosing Instance type](./resources/readme/InstanceType.png)
+   ![Figure: Choosing Instance type](./resources/readme/InstanceType.PNG)
 
 7. Create a key pair to securely connect to your Amazon EC2 instance. Ensure that you have access to the selected key pair before you launch the instance.  
    - Under the *Key pair (login)* section, click on *Create a new key pair* .
@@ -112,13 +112,13 @@ The instance type determines the hardware of the host computer used for your ins
    - Select *.ppk* as the private key file format for this application to be used with PuTTY. Then click on *Create key pair*.
    - Store the private key pair generated at any location on your drive.
 
-     ![Figure: Creating a new Key Pair](./resources/readme/KeyPairCreation.png)
+     ![Figure: Creating a new Key Pair](./resources/readme/KeyPairCreation.PNG)
 
 8. Create a security group for your instance.  
  A security group is a set of firewall rules that allow specific traffic to reach your instance. For example, if you want to set up a web server and allow Internet traffic to reach your instance, add rules that allow unrestricted access to the HTTP and HTTPS ports. Configure the source as *Anywhere* with the address *0.0.0.0/0*.
   - Under *Network settings* section, click on the *Create security group* radio button.
 
-    ![Figure: Configuring a Security Group](./resources/readme/NetworkSettings.png)
+    ![Figure: Configuring a Security Group](./resources/readme/NetworkSettings.PNG)
 
 9. Add Storage to your instance. Your instance will be launched with the selected storage device settings. You can attach additional EBS volumes and instance store volumes to your instance, or edit the settings of the root volume. 
  - Keep the default configuration under *Configure storage* section unless it is necessary to change.
@@ -147,7 +147,7 @@ The instance type determines the hardware of the host computer used for your ins
    
       2. Get the user name by clicking on *Connect* in the *Instance summary* section. By default, the user name for any Ubuntu AMI instance is *ubuntu*. You can also change the user name as desired.
    
-     ![Figure: Public DNS name of the server](./resources/readme/dns-name.png)
+         ![Figure: Public DNS name of the server](./resources/readme/dns-name.PNG)
 
 ### Connect to the Amazon EC2 instance
 
@@ -251,7 +251,7 @@ The following section describes how to set up the Simplicity IDE in Windows Oper
 
 4. Click on *Launch*.
 
-   ![Figure: Directory](./resources/readme/directory.png)
+   ![Figure: Directory](./resources/readme/directory.PNG)
 
 5. When EFR32 is connected to the PC, radio board detection is indicated as below.
 
@@ -274,7 +274,7 @@ This section provides the steps for importing the project in to Simplicity Studi
 
 5. Click on *Next* → *Next*.
 
-    ![Figure: Project path](./resources/readme/project_path.PNG) 
+    ![Figure: Project path](./resources/readme/project_path.png) 
 
 6. Now click on *Finish*.
 
@@ -329,7 +329,7 @@ This section provides the steps for importing the project in to Simplicity Studi
 
 1. Build the project by right clicking on *amazon_ec2_instance_ssl_throughput* project name and select *Build Project*. It takes a few seconds to build.
 
-![Figure: Build the project](./resources/readme/build.PNG)
+   ![Figure: Build the project](./resources/readme/build.png)
 
 If there are no errors, you can go ahead with flashing the code onto EFR32xG21.
  
@@ -346,22 +346,22 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 3. Hit Enter on the Serial 1 tab to establish a serial connection between PC and setup.
 
-   ![Figure: Serial1 tab](./resources/readme/serial_com.PNG)
+   ![Figure: Serial1 tab](./resources/readme/serial_com.png)
 
 ### Debug and run the project
 
 1. To flash the code, right click on the project name and select *Debug As → Silicon Labs ARM Program*.
   - If the EFR32xG21 has an older SE firmware, the following warning may pop up. Click *Yes* to continue
 
-    ![Figure: Warning1](resources/readme/warning1.PNG)
+    ![Figure: Warning1](resources/readme/warning1.png)
 
   - If the connected EFR32 board has any other radio board other than 20dbm, Simplicity Studio will not be able to detect the device and gives the below pop-up window for Device Selection. Select the device displayed and click OK.
 
-    ![Figure: warning2](resources/readme/warning2.PNG)
+    ![Figure: warning2](resources/readme/warning2.png)
 
   - The following warning might pop-up as shown below, Click Yes and continue. 
 
-    ![Figure: warning3](resources/readme/warning3.PNG)
+    ![Figure: warning3](resources/readme/warning3.png)
 
 2. As soon as the debug process is completed, the application control branches to the main().
 
@@ -381,7 +381,7 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 You will find the prints at server once the client connected sucessfully.
 
-  ![Figure: Server end prints](./resources/readme/serverprints.PNG)
+  ![Figure: Server end prints](./resources/readme/serverprints.png)
 
 ### Appendix
 
