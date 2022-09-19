@@ -1,9 +1,35 @@
 <h1> Wi-Fi Provisioning over BLE using AT commands</h1>
 
-## About
+## Introduction
 
-This project helps the user to securely send Wi-Fi network credentials from a Provisioning Tool to RS9116 NCP module over BLE using AT commands via UART/USB-CDC interface with PC as the Host Platform.
+This project helps to securely send Wi-Fi network credentials from a Provisioning Tool to RS9116 NCP module over BLE. The communication between Provisioning Tool and RS9116 NCP module happens using AT commands via UART/USB-CDC interface with PC as the Host Platform.
 <br><br>
+
+## Prerequisites
+
+This section details on the hardware and software required for running the applciation.
+
+### **Hardware**
+
+
+1. Windows PC
+
+2. Silicon Labs [RS9116 Wi-Fi Evaluation Kit](https://www.silabs.com/development-tools/wireless/wi-fi/rs9116x-sb-evk-development-kit?tab=overview)
+
+
+3. Smartphone with [EFR Connect App](https://www.silabs.com/developers/efr-connect-mobile-app) 
+
+4. Wi-Fi Access Point
+
+### **Software**
+
+1. Programming Language: Python 3.7.9
+
+   - Python packages: Tkinter, pillow, pyserial
+<br><br>
+
+### **Setup Diagram**
+<img src="resources/image15.png" width=500 alt="" ><br>
 
 ## Terminologies
 
@@ -11,12 +37,11 @@ This project helps the user to securely send Wi-Fi network credentials from a Pr
 
    2.  BLE    : Bluetooth Low Energy
 
-   3.  EVK    : Evaluation Kit
+   3.  GUI    : Graphical User Interface
 
-   4.  GUI    : Graphical User Interface
+   4.  AP      : Access Point
+<br>
 
-   5.  AP      : Access Point
-<br><br>
 
 ## Application Design Flow
 
@@ -46,13 +71,13 @@ This section demonstrates the Services and Characteristics created in the projec
 <br><br>
 ## **Communication between RS9116 NCP module & Provisioning App**
 
-   The Provisioning tool sends the following Commands on 1AA1 characteristic while communicating with the RS9116 NCP module:
+   The Provisioning tool communicates with the RS9116 NCP module by sending the following command ids over 1AA1 characteristic: 
 
 | Command ID | Command Type | Description (Data exchange between RS9116 NCP & Provisioning App) |
 |------------|--------------|---------------------------------------------------------------|
-| 8 | Firmware query | This Command is used to get the firmware version. |
+| 8 | Firmware query | This Command requests the firmware version. |
 | 7 | WLAN Status | This Command is used to know whether RS9116 NCP module is already connected to an AP or not. |
-| 3 | WLAN Scan | This Command request is used to get the list of APs available nearby. |
+| 3 | WLAN Scan | This Command requests the list of APs available nearby. |
 | 5 | Security Type | This Command is used to get the security type of the AP. Below are the supported security types:<br>1. Open →0 <br>2. WPA → 1<br>3. WPA2 →2<br>4. WPA/WPA2 Mixed →6<br>**Note**:  If “security type” is “0”, the Provisioning Tool directly issues join command instead of requesting the password. |
 | 6 | PSK | This Command requests to enter the password of the network (AP) to connect to. |
 | 2 | Join | This Command is used for joining the RS9116 NCP module to a network (AP). |
@@ -60,36 +85,10 @@ This section demonstrates the Services and Characteristics created in the projec
 
 ### **Message Sequence Chart**
 
-Below figure explains about the data communication between RS9116 NCP module and Provisioning App:<br>
+The figure below, explains about the data communication between RS9116 NCP module and Provisioning Tool:<br>
 <img src="resources/image1.png" alt="" width=600><br>
 
-## Prerequisites
 
-This section details on the hardware and software required.
-
-### **Hardware**
-
-You should have the below mentioned hardware to run the GUI application.
-
-1. Windows PC
-    <img src="resources/image2.png" alt="" width=600>
-
-2. RS9116 NCP EVK along with a Micro USB cable
-
-   <img src="resources/image3.png" alt="" width=600>
-
-3. Android Mobile
-
-4. Access Point
-
-### **Software**
-
-The below mentioned software is required for the GUI application.
-
-1. Programming Language: Python 3.7.9
-
-- Python packages: Tkinter, pillow, pyserial
-<br><br>
 
 ## Python Installation
 
@@ -107,93 +106,91 @@ To execute the AT command application, python and its packages need to be instal
 <img src="resources/image5.png" alt=""><br>
 <img src="resources/image42.png" alt=""><br>
 
-2. While **Python 3.7.9** is being installed, a pop-up will appear. Click on **Add Python 3.7 to PATH** checkbox, followed by **Install Now** button.<br><br>
-<img src="resources/image10.png" alt="" width=30%><br><br>
- Following image can be referred after clicking **Install Now** button:<br>
-   <img src="resources/image31.png" alt="" width=30%><br>
+2. While **Python 3.7.9** is being installed, a pop-up will appear. Click on **Add Python 3.7 to PATH** checkbox, followed by **Install Now** button.<br>
+<img src="resources/image10.png" alt="" width=300><br>
 
-   **Note**: The **Installation.bat** file will automatically install the **pyserial** and **pillow** packages.
-
-<br><br>
+3. Following image can be referred after clicking **Install Now** button:<br>
+   <img src="resources/image31.png" alt="" width=300><br>
+   **Note**: The **Installation.bat** file will install the **pyserial** and **pillow** packages.
+<br>
 
 ## Project Execution
 
-To run EFR Connect Application as the Provisioning Tool, follow the below steps:
+This section lists the steps to execute the project and use EFR Connect Application as the Provisioning Tool:
 
-1. Install **EFR Connect** Application from Play Store / App Store.
+1. Install **EFR Connect** Application from Play Store/App Store.<br>
 
-2. Run the **EFR Connect** Application. The following interface will appear:<br><br>
-<img src="resources/image14.jpeg"  alt=""><br>
+2. Run the **EFR Connect** Application. The following interface will appear:<br>
+<img src="resources/image14.jpeg"  width=250 alt=""><br>
 
-3. If BLE is not enabled, enable using the following option:<br><br>
-<img src="resources/image144.jpg"  alt="" ><br>
+3. If BLE is not enabled, enable using the following option:<br>
+<img src="resources/image144.jpg"   width=250 alt="" ><br>
 
+4. Switch to Demo Section as shown below:<br>
+<img src="resources/3.jpg" alt="" width=250><br>
 
-4. Switch to Demo Section as shown below:<br><br>
-<img src="resources/3.jpg" alt="" width=30% height=30%><br>
+5. Connect RS9116 NCP module with PC using a micro-USB cable either in **USB-CDC** or **UART** interface.<br>
 
-5. Connect RS9116 NCP module with the PC using a micro-USB cable either in **USB-CDC** or **UART** interface.<br><br>
-<img src="resources/image15.png" alt="" ><br>
+6. Execute the Wi-Fi Provisioning application using any one of the following ways:<br>
 
+   - Run **WiFi\_Provisioning\_over\_BLE\_AT\_app.exe** file.<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OR <br>
+   - Run the batch file (**Application.bat**).<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OR <br>
+   - Open command prompt at the location where the python script is stored. Run the command:<br>
+      <pre>python WiFi_Provisioning_over_BLE_AT_app.py</pre>
 
-6. Execute the application in any one of the following ways:
+   **Note:** For second and third method, keep all the associated images in the same folder.<br>
 
-  - Run **WiFi\_Provisioning\_over\_BLE\_AT\_app.exe** file
+7. Select the desired **Interface** and **Port** (if multiple available). Click **OK**.<br>
+<img src="resources/image17.png" width =500 alt="" ><br>
 
-                        OR 
+8. The Desktop GUI will appear as shown below:<br>
+<img src="resources/image18.png" width =500 alt=""><br>
 
-  - Run the batch file (**Application.bat**).
+9. Select **Wi-Fi Commissioning** from the list of available options in the **EFR Connect** mobile Application as shown below:<br>
+<img src="resources/image32.png" width =250 alt="" ><br>
 
-                        OR 
+10. Select **BLE_CONFIGURATOR** from the list of available Bluetooth Device options:<br>
+<img src="resources/image20.jpeg" width =250 alt=""><br>
 
-  - Open command prompt at the location where the python script is stored. Run the command: `python WiFi_Provisioning_over_BLE_AT_app.py`
+11. The Desktop GUI will be updated with the device MAC address once the Provisioning Tool is connected to the RS9116 NCP module. <br>
+<img src="resources/image21.png"  width =500 alt="" ><br>
 
-  **Note:** For second and third method, keep all the associated images in the same folder.<br>
+12. The WLAN scan results will be fetched to the EFR Connect App as shown below:<br>
+<img src="resources/image22.jpeg"  width =250 alt="" ><br>
 
-7. Select the desired **Interface** and **Port** (if multiple available). Click OK.<br>
-<img src="resources/image17.png" alt="" ><br><br>
-The Desktop GUI will appear as shown below:<br>
-   <img src="resources/image18.png" alt="">
+    **Note:** Wait until the entire list of AP is updated on the EFR Connect App to prevent any lengthy hold-ups.
 
-8. Select **Wi-Fi Commissioning** from the list of available options in the **EFR Connect** mobile Application as shown below:<br><br>
-<img src="resources/image32.png" alt="" ><br><br>
+13. Select the desired AP and enter the password (if any). Click on **Connect**.<br>
+<img src="resources/image23.jpeg"  width =250 alt="" ><br>
 
-9. Select **BLE_CONFIGURATOR** from the list of available options:<br>
-<img src="resources/image20.jpeg" alt=""><br><br>
-Once the provisioning tool is connected to the RS9116 NCP module, the Desktop GUI will be updated with the device MAC address.<br><br>
-<img src="resources/image21.png" alt="" ><br><br>
+14. The password will be sent to the RS9116 NCP module. If correct credentials are provided, the module will be connected to the selected AP. The WLAN MAC address and the IP address will then be sent to the **EFR Connect** Application. The Desktop GUI will appear as shown below:<br>
+<img src="resources/image24.png"  width =500 alt=""><br>
 
-10. The WLAN scan results will be fetched to the EFR Connect App as shown below. Wait unit all the SSIDs are updated on the EFR Connect App else some delay might be observed.<br><br>
-<img src="resources/image22.jpeg" alt="" ><br><br>
+15. The **EFR Connect** Application will be updated with a green symbol highlighted across the selected AP.<br>
+<img src="resources/image25.jpeg"  width =250 alt="" ><br>
 
-11. Select the desired AP and enter the password (if any). Click on **Connect**.<br>
-<img src="resources/image23.jpeg" alt="" ><br><br>
-
-12. The password will be sent to the RS9116 NCP module. If correct credentials are provided, the module will be connected to the AP and WLAN MAC address and the IP address will be sent to the **EFR Connect** Application. The Desktop GUI will appear as shown below:<br><br>
-<img src="resources/image24.png" alt=""><br><br>
-
-13. The **EFR Connect** Application will be updated with a green symbol highlighted across the selected AP.<br><br>
-<img src="resources/image25.jpeg" alt="" ><br><br>
-
-14. For WLAN disconnection from the AP, select the connected AP in the **EFR Connect** Application and click **Yes**.
-<br><br><img src="resources/image26.jpeg" alt=""><br><br>
+16. For WLAN disconnection from the AP, select the connected AP in the **EFR Connect** Application and click  on **Yes**.<br>
+<img src="resources/image26.jpeg"  width =250 alt=""><br>
 
 
 ## Troubleshooting
 
-1. Make sure Bluetooth is enabled on the Windows PC / Laptop.
+1. Make sure default python version should be **3.7.9**. Please enter the below command to verify the python version in command prompt: 
+    <pre>python --version</pre>
 
-2. If using python script, make sure default python version should be **3.7.9**. Please enter the below command to verify the python version in command prompt: **python - -version**
+2. Choose the correct interface (UART/USB-CDC) in the GUI as RS9116 NCP is connected to the PC.
 
-3. Choose the correct interface (UART/USB-CDC) in the GUI as RS9116 NCP is connected to.
+3. If any error occurs, terminate the application, reset the RS9116 NCP module, and re-run the application. **ERROR 4D09** typically occurs when RS9116 NCP module is not reset.
 
-4. If any error occurs, terminate the application, reset the RS9116 NCP module, and re-run the application. **ERROR 4D09** typically occurs when RS9116 NCP module is not reset.
+4. If any error comes saying **serial.tools.list\_ports.comports()**, follow the below steps:
+   - Uninstall serial using the following command in the command prompt:
+      <pre>pip uninstall serial</pre>
+   - Upgrade pyserial using the following command in the command prompt:
+      <pre>pip install –upgrade –force-reinstall pyserial</pre>
 
-5. If any error comes saying **serial.tools.list\_ports.comports()** not found or anything related to **Serial** package (occurs when python script is run manually instead of using exe file), then follow the steps:
-   - Uninstall serial (if it is installed), type: **pip uninstall serial** in the command prompt.
-   - Upgrade pyserial, type: **pip install –upgrade –force-reinstall pyserial** in the command prompt.
-
-6. If "Module not Responding" message pops up again and again, flash the the latest firmware in the RS9116 NCP module.
+5. If "Module not Responding" message pops up again and again, flash the the latest firmware in the RS9116 NCP module.
 
 <br><br>
 
@@ -206,5 +203,5 @@ Once the provisioning tool is connected to the RS9116 NCP module, the Desktop GU
 
    4. The RS9116 NCP radio is configured only for 2.4 GHz band.
 
-   5. The RS9116 NCP module works as a normal client that can connect to an Access Point with different security modes other than enterprise security.
+   5. The RS9116 NCP module works as a normal client that can connect to an Access Point with security modes: Open, WPA and WPA2.
 
