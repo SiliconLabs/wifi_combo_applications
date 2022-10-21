@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project helps to securely send Wi-Fi network credentials from a Provisioning Tool to RS9116 NCP module over BLE. The communication between Provisioning Tool and RS9116 NCP module happens using AT commands via UART/USB-CDC interface with PC as the Host Platform. Wi-Fi Provisioning over BLE offers numerous advantages, notably interoperability and ease of implementation. It eliminates the need to connect to a shared network and has many practical use cases such as Wi-Fi enabled Garage Door opener, smart led bulb, Wi-Fi Speakers and other smart home appliances.      
+This project helps to securely send Wi-Fi network credentials from a Provisioning Tool to RS9116 NCP module over BLE. The communication between Provisioning Tool and RS9116 NCP module happens using AT commands via UART/USB-CDC interface with PC as the Host Platform. Wi-Fi Provisioning over BLE offers numerous advantages, notably interoperability and ease of implementation. It provides a wide range of useful applications, such as Wi-Fi enabled Garage Door opener, smart led bulb, Wi-Fi Speakers and other smart home appliances.      
 <br>
 
 ## Prerequisites
