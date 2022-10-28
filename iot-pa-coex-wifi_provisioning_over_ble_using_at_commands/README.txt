@@ -8,7 +8,7 @@ Note:
 1. Please refer the readme.md for execution of the application.
 2. Executable applications are available for Windows and macOS.
 3. The executable applications require no installation of python and its packages.
-	4. The python script can be executed on Windows, macOS and Linux after installing python and its packages.
+4. The python script can be executed on Windows, macOS and Linux after installing python and its packages.
 
 ----------------------------------------------------------------------------------------------------------------------------------
 
