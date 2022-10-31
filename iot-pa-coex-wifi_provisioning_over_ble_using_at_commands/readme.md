@@ -12,7 +12,7 @@ This section details on the hardware and software required for running the appli
 ### **Hardware**
 
 
-1. Windows PC
+1. PC/Laptop
 
 2. Silicon Labs [RS9116 Wi-Fi Evaluation Kit](https://www.silabs.com/development-tools/wireless/wi-fi/rs9116x-sb-evk-development-kit?tab=overview)
 
