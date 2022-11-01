@@ -496,22 +496,38 @@ class PageTwo(ttk.Frame):
                         rate_string=263
                     wlan_tx_start= True
                     if not(x==0):
-                        per_string='at+rsi_per=1,'+ max_power_menu.get()+','+str(rate_string)+','+self.my_spinbox.get()+',0,'+chnl_list_menu.get()+',0,0,0,0\r\n'
+                        per_string='at+rsi_per=1,'+ max_power_menu.get()+','+str(rate_string)+','+self.my_spinbox.get()+',1,'+chnl_list_menu.get()+',0,0,0,0\r\n'
                     else:
-                        per_string='at+rsi_per=1,'+ max_power_menu.get()+','+str(rate_string)+','+self.my_spinbox.get()+',0,'+chnl_list_menu.get()+',0,0,0,0\r\n'
-                    if(x==0):
+                        per_string='at+rsi_per=1,'+ max_power_menu.get()+','+str(rate_string)+','+self.my_spinbox.get()+',0,'+chnl_list_menu.get()+',0,0,' + noOfPackets_menu.get() +',0\r\n'
+                    
+                    if(x==0 or x==1):
                         print(per_string)
-                    string+=per_string+'\n'
-                    response=sendcmd(per_string)
-                    for resp in response:
-                        if not(resp[0:2].decode()=='OK'):
-                            print("Error"+str(resp.decode()))
-                            string+="Error-per: "
-                            string+=str(resp.decode())
-                            break
-                        else:
-                            string+="Burst Mode Started\n"
-                            if(x==2 or x==1):
+                        string+=per_string+'\n'
+                        response=sendcmd(per_string)
+                        for resp in response:
+                            if not(resp[0:2].decode()=='OK'):
+                                print("Error"+str(resp.decode()))
+                                string+="Error-per: "
+                                string+=str(resp.decode())
+                                break
+                            else:
+                                if(x==0): 
+                                    string+="Burst Mode Started\n"
+                                else: 
+                                    string+="Continuous Mode Started\n"
+                    
+                    if(x==2):
+                        per_string='at+rsi_per=1,'+ max_power_menu.get()+','+str(rate_string)+','+self.my_spinbox.get()+',1,'+chnl_list_menu.get()+','+'0,0,0,0\r\n'
+                        string+=per_string+'\n'
+                        response=sendcmd(per_string)
+                        for resp in response:
+                            if not(resp[0:2].decode()=='OK'):
+                                print("Error"+str(resp.decode()))
+                                string+="Error-per: "
+                                string+=str(resp.decode())
+                                break
+                            else:
+                                string+="Continuous Mode Started\n"
                                 response=sendcmd('at+rsi_per=0\r\n')
                                 string+="at+rsi_per=0 \n"
                                 for resp in response:
@@ -521,9 +537,8 @@ class PageTwo(ttk.Frame):
                                         string+=str(resp.decode())
                                         break
                                     else:
-                                        per_string='at+rsi_per=1,'+ max_power_menu.get()+','+str(rate_string)+','+self.my_spinbox.get()+',1,'+chnl_list_menu.get()+','+'0,0,0,0\r\n'
-                                        if(x==1):
-                                            print(per_string)
+                                        per_string='at+rsi_per=1,'+ max_power_menu.get()+','+str(rate_string)+','+self.my_spinbox.get()+',2,'+chnl_list_menu.get()+','+'0,0,0,0\r\n'
+                                        print(per_string)
                                         string+=per_string+'\n'
                                         response=sendcmd(per_string)
                                         for resp in response:
@@ -533,29 +548,9 @@ class PageTwo(ttk.Frame):
                                                 string+=str(resp.decode())
                                                 break
                                             else:
-                                                string+="Continuous Mode Started\n"
-                                                if(x==2):
-                                                    response=sendcmd('at+rsi_per=0\r\n')
-                                                    string+="at+rsi_per=0 \n"
-                                                    for resp in response:
-                                                        if not(resp[0:2].decode()=='OK'):
-                                                            print("Error"+str(resp.decode()))
-                                                            string+="Error-stop: "
-                                                            string+=str(resp.decode())
-                                                            break
-                                                        else:
-                                                            per_string='at+rsi_per=1,'+ max_power_menu.get()+','+str(rate_string)+','+self.my_spinbox.get()+',2,'+chnl_list_menu.get()+','+'0,0,0,0\r\n'
-                                                            print(per_string)
-                                                            string+=per_string+'\n'
-                                                            response=sendcmd(per_string)
-                                                            for resp in response:
-                                                                if not(resp[0:2].decode()=='OK'):
-                                                                    print("Error"+str(resp.decode()))
-                                                                    string+="Error-per: "
-                                                                    string+=str(resp.decode())
-                                                                    break
-                                                                else:
-                                                                    string+="CW Mode Started\n"
+                                                string+="CW Mode Started\n"
+
+                    
                 except Exception as e:
                     pass
                     
@@ -614,10 +609,14 @@ class PageTwo(ttk.Frame):
                 self.packet.set("1000") # default value
                 label=ttk.Label(self.cvs, text = "(Min bytes: 24  Max bytes: 1500)",font = ("Times New Roman", 10)).grid(column = 1,row = 23)
                 
+                noOfPackets_label.grid(column = 0,row = 19, padx = 50, pady = 15,sticky='W')
+                noOfPackets_menu.grid(column = 1, row = 19,padx = 10)
             else:
                 self.packet.set("260") # default value
                 label=ttk.Label(self.cvs, text = "(Min bytes: 24  Max bytes: 260)",font = ("Times New Roman", 10)).grid(column = 1,row = 23)
                 
+                noOfPackets_menu.grid_forget()
+                noOfPackets_label.grid_forget()
             
         def rate_band():
             if(band_menu.get() =='2.4GHz'):
@@ -643,7 +642,13 @@ class PageTwo(ttk.Frame):
         tx_mode_menu.bind("<<ComboboxSelected>>", mode_length)
         tx_mode_menu.grid(column = 1, row = 17,padx = 10)
         
-        
+        noOfPackets_label = ttk.Label(self.cvs, text="No Of Packets",font = ("Times New Roman", 12))
+        noOfPackets_label.grid(column = 0,row = 19, padx = 50, pady = 15,sticky='W')
+        noOfPackets_menu = ttk.Entry(self.cvs, textvariable=self.noOfPackets,width=29)
+        noOfPackets_menu.grid(column = 1, row = 19,padx = 10)
+        noOfPackets_menu.grid_forget()
+        noOfPackets_label.grid_forget()
+
         packet_label = ttk.Label(self.cvs, text="Packet Length",font = ("Times New Roman", 12))
         packet_label.grid(column = 0,row = 22, padx = 50, pady = 15,sticky='W')
         self.my_spinbox = tk.Entry(self.cvs, textvariable=self.packet, width=29)
@@ -2603,7 +2608,7 @@ class PageSeven(ttk.Frame):
                                     break
                                 if resp.decode()=='':
                                     continue
-                                string+=str(resp)
+                                string+=str(resp.decode())
                                 if(resp.decode()=="Loading Done\r\n"):
                                     print("ABRD done\n")
                                     string+="ABRD done\n"
