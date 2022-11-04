@@ -31,24 +31,24 @@ As described in the picture, connect the RS9116 NCP module to PC/Laptop using a 
 
 **NOTE:** If you don't have Spectrum Analyzer, graphs can be observed in the GUI after Rx Stop. 
 
-2. Download and open iot-pa-wifi-phy_performance_test_gui from [GitHub](https://github.com/SiliconLabs/wifi_combo_applications). 
+2. Download and extract the **phy_performance_test_gui.zip**. 
 
 3. To open GUI, follow one of the methods mentioned below:
 
 **METHOD 1:**
-- Navigate to the **applications** folder
-- If you are using Windows OS, navigate to **Windows** folder 
-- If you are using mac OS, navigate to **macOS** folder
-- Double-click on the file to open GUI
+- Navigate to the **applications** folder.
+- If you are using Windows OS, navigate to **Windows** folder. 
+- If you are using mac OS, navigate to **macOS** folder.
+- Double-click on the file to open GUI.
 
 (OR)
 
 **METHOD 2:**
-- Navigate to the **python_installation** folder
-- If you are using Windows OS, navigate to **Windows** folder 
-- If you are using mac OS, navigate to **macOS** folder
-- Double-click the file to install python and the supporting modules needed for running the python script
-- Then, navigate to **code_base** and execute phy_performance_test_gui.py
+- Navigate to the **python_installation** folder.
+- If you are using Windows OS, navigate to **Windows** folder. 
+- If you are using mac OS, navigate to **macOS** folder.
+- Double-click the file to install python and the supporting modules needed for running the python script.
+- Then, navigate to **code_base** and execute **phy_performance_test_gui.py**.
 
 **Note:** The installation provided will install python version **3.7.9** for Windows OS and version **3.10.8** for macOS. For Python version 3.4 or later, **PIP** package is included by default.
 
@@ -67,13 +67,12 @@ On the home page, follow the below sequence of selecting appropriate options giv
 3. Select the Protocol depending on the choice. We have added support for Wi-Fi, BT Classic, and  BLE. 
 4. Choose the antenna that you would like to transmit the signals on, either INTERNAL_ANTENNA, RF_PORT1/U.FL, and RF_PORT2/INTERNAL_ANTENNA.
 5. Choose the type of mode either transmit or receive. 
-6. Click on **Next** button to move to the next page depending on the options selected by the user.
+6. Click **Next** button to move to the next page depending on the options selected by the user.
 
 **NOTE:**
 
 - Default parameters are set on the GUI. Click **Next** button to use them as testing values. 
 - Click on the hyperlink below module type to know more information on the module type.
-
 
 ### 3.2 Wi-Fi Transmit PHY Performance Test Page
 
@@ -84,7 +83,7 @@ On the home page, follow the below sequence of selecting appropriate options giv
 On Wi-Fi Transmit PHY Performance Test Page choose the following options:
 
 1. Transmit Power: Valid values are from 2dBm to 18dBm and 127dBm.
-2. Rate: Select transmit data rate from the dropdown. Date rates of 1, 2, 5.5, and 11 Mbps are not supported when operating in a 5 GHz channel.
+2. Rate: Select transmit data rate from the dropdown. Date rates of 1, 2, 5.5, and, 11 Mbps are not supported when operating in a 5 GHz channel.
 3. Mode: Select the transmit mode to be used among Burst, Continuous, and CW Mode.
 4. Packet Length: Configure the length of the transmit packet. Valid values are in the range:
     1. Burst Mode: 24- 1500 bytes 
@@ -109,8 +108,7 @@ On Wi-Fi Transmit PHY Performance Test Page choose the following options:
 2. Since Channel depends on the band and region, choose the band and region before selecting the channel. 
 3. Since the rate depends on the band, choose the band before selecting the rate.
 
-Finally, click on **Wi-Fi Transmit Start** button to start transmitting the data and **Wi-Fi Transmit Stop** button to stop transmitting. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage. 
-
+Finally, click the **Wi-Fi Transmit Start** button to start transmitting the data and **Wi-Fi Transmit Stop** button to stop transmitting. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage. 
 
 ### 3.3 Wi-Fi Receive PHY Performance Test Page
 
@@ -143,10 +141,9 @@ Once the appropriate parameters are selected and when the user clicks on the “
 
 - Since Channel depends on Wireless Band and Region, choose Wireless Band and Region before selecting Channel. 
 
-- Finally, click on **Wi-Fi Receive Start** button to start receiving the data and **Wi-Fi Receive Stop** button to stop receiving. The graph will be displayed once the **Wi-Fi Receive Stop** button is pressed. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage.
+- Finally, click the **Wi-Fi Receive Start** button to start receiving the data and **Wi-Fi Receive Stop** button to stop receiving. The graph will be displayed once the **Wi-Fi Receive Stop** button is pressed. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage.
 
-- The **Save Graph** button will be displayed once the **Wi-Fi Receive Stop** button is pressed, along with Graph. Click on the button to download the generated graph. It saves the graph into the same folder of the application that is running.
-
+- The **Save Graph** button will be displayed once the **Wi-Fi Receive Stop** button is pressed, along with Graph. Click the **Save Graph** button to download the generated graph. It saves the graph into the same folder of the application that is running.
 
 ### 3.4 BT Transmit PHY Performance Test Page
 
@@ -180,10 +177,7 @@ On BT Transmit PHY Performance Test Page choose the following options:
 **NOTE:**
 
 - Since Transmit Power depends on RF Chain, select RF chain before Transmit Power. 
-- Finally, click on **BT Transmit Start** button to start transmitting the data and **BT Transmit Stop** button to stop transmitting. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage. 
-
-
-
+- Finally, click the **BT Transmit Start** button to start transmitting the data and **BT Transmit Stop** button to stop transmitting. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage. 
 
 ### 3.5 BT Receive PHY Performance Test Page
 
@@ -216,10 +210,9 @@ On BT Receive PHY Performance Test Page choose the following options:
 
 **NOTE:**
 
-- Finally, click on **BT Receive Start** button to start receiving the data and **BT Receive Stop** button to stop receiving. The graph will be displayed once the **BT Receive Stop** button is pressed. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage.
+- Finally, click the **BT Receive Start** button to start receiving the data and **BT Receive Stop** button to stop receiving. The graph will be displayed once the **BT Receive Stop** button is pressed. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage.
 
-- The **Save Graph** button will be displayed once the **BT Receive Stop** button is pressed, along with Graph. Click on the button to download the generated graph. It saves the graph into the same folder of the application that is running.
-
+- The **Save Graph** button will be displayed once the **BT Receive Stop** button is pressed, along with Graph. Click the **Save Graph** button to download the generated graph. It saves the graph into the same folder of the application that is running.
 
 ### 3.6 BLE Transmit PHY Performance Test Page
 
@@ -249,10 +242,7 @@ On BLE Transmit PHY Performance Test Page choose the following options:
 **NOTE:**
 
 - Since Transmit Power depends on RF Chain, select RF chain before Transmit Power. 
-- Finally, click on **BLE Transmit Start** button to start transmitting the data and **BLE Transmit Stop** button to stop transmitting. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage. 
-
-
-
+- Finally, click the **BLE Transmit Start** button to start transmitting the data and **BLE Transmit Stop** button to stop transmitting. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage. 
 
 ### 3.7 BLE Receive PHY Performance Test Page
 
@@ -285,16 +275,15 @@ On BLE Receive PHY Performance Test Page choose the following options:
 
 **NOTE:**
 
-- Finally, click on **BLE Receive Start** button to start receiving the data and **BLE Receive Stop** button to stop receiving. The graph will be displayed once the **BLE Receive Stop** button is pressed. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage.
+- Finally, click the **BLE Receive Start** button to start receiving the data and **BLE Receive Stop** button to stop receiving. The graph will be displayed once the **BLE Receive Stop** button is pressed. The **Save Log** button will download the list of commands executed. The **Home** button will navigate to the PHY Performance Test homepage.
 
-- The **Save Graph** button will be displayed once the **BLE Receive Stop** button is pressed, along with Graph. Click on the button to download the generated graph. It saves the graph into the same folder of the application that is running.
-
+- The **Save Graph** button will be displayed once the **BLE Receive Stop** button is pressed, along with Graph. Click the **Save Graph** button to download the generated graph. It saves the graph into the same folder of the application that is running.
 
 ## 4 Troubleshooting
 
 -If any error occurs, terminate the application, reset the RS9116 NCP module, and re-run the application.
 
-## 4 References
+## 5 References
 
 - [Wi-Fi AT Command PRM](https://docs.silabs.com/rs9116/wiseconnect/rs9116w-wifi-at-command-prm/latest/)
 - [Bluetooth Classic AT Command PRM](https://docs.silabs.com/rs9116/wiseconnect/rs9116w-bt-classic-at-command-prm/latest/)
