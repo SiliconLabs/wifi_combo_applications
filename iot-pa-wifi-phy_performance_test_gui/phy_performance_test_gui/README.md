@@ -281,7 +281,7 @@ On BLE Receive PHY Performance Test Page choose the following options:
 
 ## 4 Troubleshooting
 
--If any error occurs, terminate the application, reset the RS9116 NCP module, and re-run the application.
+- If any error occurs, terminate the application, reset the RS9116 NCP module, and re-run the application.
 
 ## 5 References
 
