@@ -4,18 +4,18 @@
 
 This document provides the steps to evaluate PHY Performance Test using simple GUI in NCP products (UART/USB-CDC host interface) using python script for Windows and Mac users. PHY Performance GUI analyzes Packet Error Rate which helps users analyze the performance of the module. This process is widely used in regulatory certifications like FCC, IC, CE, TELEC, ETSI, etc.
 
-## 1 Pre-work 
+## 1 Prerequisites
 
-### 1.1 Hardware Needed 
+### 1.1 Hardware 
 
 1. RS9116 NCP module 
 2. Micro USB Cable 
 3. Windows/ Mac PC 
 4. Spectrum Analyzer and RF Cables (Optional)
 
-### 1.2 Software Needed 
+### 1.2 Software  
 
-1. Python Software (Optional)
+1. Python (Optional)
 
 Once you have the hardware and software, prepare a setup for executing the PHY Performance Test application.
 
@@ -35,16 +35,18 @@ As described in the picture, connect the RS9116 NCP module to PC/Laptop using a 
 
 3. To open GUI, follow one of the methods mentioned below:
 
-METHOD 1:
+**METHOD 1:**
 - Navigate to the **applications** folder
-- Select the folder with your OS name
+- If you are using Windows OS, navigate to **Windows** folder 
+- If you are using mac OS, navigate to **macOS** folder
 - Double-click on the file to open GUI
 
 (OR)
 
-METHOD 2:
+**METHOD 2:**
 - Navigate to the **python_installation** folder
-- Select the folder with your OS name
+- If you are using Windows OS, navigate to **Windows** folder 
+- If you are using mac OS, navigate to **macOS** folder
 - Double-click the file to install python and the supporting modules needed for running the python script
 - Then, navigate to **code_base** and execute phy_performance_test_gui.py
 
@@ -291,3 +293,9 @@ On BLE Receive PHY Performance Test Page choose the following options:
 ## 4 Troubleshooting
 
 -If any error occurs, terminate the application, reset the RS9116 NCP module, and re-run the application.
+
+## 4 References
+
+- [Wi-Fi AT Command PRM](https://docs.silabs.com/rs9116/wiseconnect/rs9116w-wifi-at-command-prm/latest/)
+- [Bluetooth Classic AT Command PRM](https://docs.silabs.com/rs9116/wiseconnect/rs9116w-bt-classic-at-command-prm/latest/)
+- [BLE AT Command PRM](https://docs.silabs.com/rs9116/wiseconnect/rs9116w-ble-at-command-prm/latest/)
