@@ -3,7 +3,7 @@
 
 ## About
 
-This document provides information about the AT Command Serial Terminal application, a tool that helps in creating an opermode command, decoding an opermode command and to send commands to the evaluation board (EVB) via UART/USB-CDC interface.
+This document provides information about the AT Command Serial Terminal application, a tool that helps in creating an opermode command, decoding an opermode command and to send commands to the evaluation board (EVB) via UART/USB-CDC Serial interface.
 
 ## Prerequisites
 
