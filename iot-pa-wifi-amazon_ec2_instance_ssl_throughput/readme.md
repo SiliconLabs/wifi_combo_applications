@@ -399,7 +399,10 @@ To run the application using Bare metal configuration, do the following:
 
   ![Figure: Delete RSI_WITH_OS macro](./resources/readme/delete_macro.PNG)
  
+### Troubleshooting
 
+During the data transfer if the TCP buffer size that is sent in one chunk (BUFF_SIZE) is more than 1000 bytes, during data transfer, 0x5A error code occurs.
+Make sure that the TCP buffer size is less than 1000 bytes. This is because, the maximum segment size (MSS) is restricted to a maximum of 1000 bytes when connecting to Amazon cloud.
 
 
 
