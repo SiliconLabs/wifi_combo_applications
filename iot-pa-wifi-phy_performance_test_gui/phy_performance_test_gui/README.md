@@ -24,7 +24,7 @@ Once you have the hardware and software, prepare a setup for executing the PHY P
 1. Make the connections as per the setup picture shown below.  
 
 <p align="center">
-<img src="resources/image1.png" alt="Setup Picture" width="1000"/>
+<img src="resources/setup.png" alt="Setup Picture" width="1000"/>
 </p>
 
 As described in the picture, connect the RS9116 NCP module to PC/Laptop using a USB to micro USB cable via UART/USB-CDC port on the module and then connect the antenna port on the module to Spectrum Analyzer by using an RF cable. Then power up the spectrum analyzer.
