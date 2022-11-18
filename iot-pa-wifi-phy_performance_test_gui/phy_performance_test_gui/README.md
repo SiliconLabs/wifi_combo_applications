@@ -11,7 +11,7 @@ This document provides the steps to evaluate PHY Performance Test using simple G
 1. RS9116 NCP module 
 2. Micro USB Cable 
 3. Windows/ Mac PC 
-4. Spectrum Analyzer and RF Cables (Optional)
+4. Spectrum Analyzer and RF Cables
 
 ### 1.2 Software  
 
