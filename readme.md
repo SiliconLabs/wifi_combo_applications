@@ -18,8 +18,12 @@ The Silicon Labs Wi-Fi Combo stack allows for a wide variety applications to be 
 ## Examples ##
 
 - iot-pa-wifi-web_page_with_real_time_data
-- iot-pa-wifi-per_mode_ttl_script
+- iot-pa-wifi-phy_per_test_ttl_script
 - iot-pa-coex-wifi_provisioning_over_ble_using_at_commands
+- iot-pa-wifi-phy_performance_test_gui
+- iot-pa-wifi-station_mode_with_tcp_udp_ping_protocols
+- iot-pa-wifi-amazon_ec2_instance_ssl_throughput
+- iot-pa-wifi-at_command_serial_terminal
 
 
 ## Documentation ##

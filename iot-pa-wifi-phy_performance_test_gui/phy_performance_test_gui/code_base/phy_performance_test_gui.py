@@ -1038,15 +1038,15 @@ class PageThree(ttk.Frame):
                 
                 
                 fig=Figure(figsize=(7,3), dpi=100)
-                ax=fig.add_subplot(211)
+                ax=fig.add_subplot(111)
                 ax.plot(t, p1 , c='g' ,marker=(8,2,0),ls='--',label='CRC Pass',fillstyle='none')
                 ax.plot(t, f1 ,c='r' ,marker=(8,2,0),ls='--',label='CRC Fail')
                 
                 mplcursors.cursor()
                 ax.legend(['CRC Pass%', 'CRC Fail%'])
-                ax1=fig.add_subplot(212)
-                ax1.plot(t,c,'b',marker=(8,2,0),ls='--',label='RSSI val')
-                ax1.legend(['RSSI Val'])
+                #ax1=fig.add_subplot(212)
+                #ax1.plot(t,c,'b',marker=(8,2,0),ls='--',label='RSSI val')
+                #ax1.legend(['RSSI Val'])
                 
                 cursor = Cursor(ax, horizOn=True, vertOn=True, useblit=True,color = 'r', linewidth = 1)
                 annot = ax.annotate("", xy=(0,0), xytext=(0,0),textcoords="offset points",bbox=dict(boxstyle='round4', fc='linen',ec='k',lw=1),arrowprops=dict(arrowstyle='-|>'))
@@ -1944,15 +1944,16 @@ class PageFive(ttk.Frame):
                 
                 
                 fig=Figure(figsize=(7,3), dpi=100)
-                ax=fig.add_subplot(211)
-                ax1=fig.add_subplot(212)
+                ax=fig.add_subplot(111)
                 
                 ax.plot(t, p , c='g' ,marker=(8,2,0),ls='--',label='CRC Pass',fillstyle='none')
                 ax.plot(t, f ,c='r' ,marker=(8,2,0),ls='--',label='CRC Fail')
-                ax1.plot(t, c ,c='b' ,marker=(8,2,0))
                 mplcursors.cursor()
                 ax.legend(['CRC Pass%', 'CRC Fail%'])
-                ax1.legend(['RSSI Val'])
+
+                #ax1=fig.add_subplot(212)
+                #ax1.plot(t, c ,c='b' ,marker=(8,2,0))
+                #ax1.legend(['RSSI Val'])
                 
                 cursor = Cursor(ax, horizOn=True, vertOn=True, useblit=True,color = 'r', linewidth = 1)
                 annot = ax.annotate("", xy=(0,0), xytext=(0,0),textcoords="offset points",bbox=dict(boxstyle='round4', fc='linen',ec='k',lw=1),arrowprops=dict(arrowstyle='-|>'))
@@ -2718,15 +2719,17 @@ class PageSeven(ttk.Frame):
                 
                 
                 fig=Figure(figsize=(7,3), dpi=100)
-                ax=fig.add_subplot(211)
-                ax1=fig.add_subplot(212)
+                ax=fig.add_subplot(111)
+                
                 
                 ax.plot(t, p , c='g' ,marker=(8,2,0),ls='--',label='CRC Pass',fillstyle='none')
                 ax.plot(t, f ,c='r' ,marker=(8,2,0),ls='--',label='CRC Fail')
-                ax1.plot(t, c ,c='b' ,marker=(8,2,0))
                 mplcursors.cursor()
                 ax.legend(['CRC Pass%', 'CRC Fail%'])
-                ax1.legend(['RSSI Val'])
+
+                #ax1=fig.add_subplot(212)
+                #ax1.plot(t, c ,c='b' ,marker=(8,2,0))
+                #ax1.legend(['RSSI Val'])
                 
                 cursor = Cursor(ax, horizOn=True, vertOn=True, useblit=True,color = 'r', linewidth = 1)
                 annot = ax.annotate("", xy=(0,0), xytext=(0,0),textcoords="offset points",bbox=dict(boxstyle='round4', fc='linen',ec='k',lw=1),arrowprops=dict(arrowstyle='-|>'))
