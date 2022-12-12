@@ -12,7 +12,7 @@ Ensure that both the RS9116 NCP modules are plugged into your computer/laptop an
 ## Prerequisites
 
 ### Hardware
-**1.** RS9116 Evaluation Board (RS9116W-SB-EVK1) / (RS9116W-DB-EVK1).
+**1.** Two RS9116 Evaluation Boards (RS9116W-SB-EVK1) / (RS9116W-DB-EVK1).
 
 **2.** Two USB micro cables.
 
