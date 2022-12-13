@@ -73,8 +73,8 @@ The Application is provided with the project folder containing Keil and Simplici
 * Simplicity Studio
   - The Simplicity Studio project is used to evaluate the application on EFR32MG21.
   - Project path:
-    - If the Radio Board is **BRD4180A** or **BRD4181A**, then access the path `<SDK>/examples/snippets/wlan/ssl_client/projects/ssl_client-brd4180a-mg21.slsproj`
-    - If the Radio Board is **BRD4180B** or **BRD4181B**, then access the path `<SDK>/examples/snippets/wlan/ssl_client/projects/ssl_client-brd4180b-mg21.slsproj`
+    - If the Radio Board is **BRD4180A**, then access the path `<SDK>/examples/snippets/wlan/ssl_client/projects/ssl_client-brd4180a-mg21.slsproj`
+    - If the Radio Board is **BRD4180B**, then access the path `<SDK>/examples/snippets/wlan/ssl_client/projects/ssl_client-brd4180b-mg21.slsproj`
     - User can find the Radio Board version as given below
 
   ![Figure: EFR Radio Boards](resources/readme/EFR_Radio_Boards.png)
@@ -208,7 +208,7 @@ Follow the below steps for the successful execution of the application.
 
 ### 5.1 Loading the RS9116W Firmware
 
-Refer [Updating RS9116W Firmware](https://docs.silabs.com/rs9116-wiseconnect/2.6/wifibt-wc-getting-started-with-pc/update-evk-firmware) to load the firmware into RS9116W EVK. The firmware file is located in `<SDK>/firmware/`
+Refer [Updating RS9116W Firmware](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-pc/update-evk-firmware) to load the firmware into RS9116W EVK. The firmware file is located in `<SDK>/firmware/`
 
 ### 5.2 Building the Application on the Host Platform
 
