@@ -37,7 +37,7 @@ Ensure that both the RS9116 NCP modules are plugged into your computer/laptop an
 
 ![Introduction of spp-secondary](./resources/spp-secondary-start.png)
 
-**STEP 5.** Initially, the RS9116 NCP module bootup options are executed, the firmware is loaded and the corresponding dialogue window will appear as below.  
+**STEP 5.**  Initially, the ABRD process starts and you will see a pop-up with the message saying firmware is loaded as below.  
 
 ![Bootup options execution](./resources/firmware-loding-secondary.png)
 
@@ -57,7 +57,7 @@ Ensure that both the RS9116 NCP modules are plugged into your computer/laptop an
 
 ![RS9116W device in discoverable and connectable mode](./resources/spp-secondary-command-execute.png)
 
-**STEP 8.** Connect the second RS9116 NCP module to the same PC and open the TeraTerm terminal and open the device port.
+**STEP 8.** Connect the second RS9116 NCP module to the same PC and open another TeraTerm terminal later select and open the appropriate com port.
 
 **STEP 9.**  In the Tera Term menu, select `Control->Macro`.
 
@@ -71,17 +71,17 @@ Ensure that both the RS9116 NCP modules are plugged into your computer/laptop an
 
 ![Introduction of spp-secondary](./resources/spp-main-start-4.png)
 
-**STEP 12.** Initially, the RS9116 NCP module bootup options are executed, the firmware is loaded and the corresponding dialogue window will appear as below.  
+**STEP 12.**  Initially, the ABRD process starts and you will see a pop-up with the message saying firmware is loaded as below.
 
 ![Bootup options execution](./resources/firmware-loding-main-5.png)
 
-**STEP 13.**  After these commands are successful, the remote secondary device needs to be in connectable mode. And once it will be in connectable mode, the user needs to give the bond command. For this BD address of the RS9116 NCP spp_secondary device needs to be entered here.
+**STEP 13.**  After these commands are executed successfully, the remote secondary device needs to be in a connectable mode. And once it will be in connectable mode, the user needs to give the bond command. For this BD address of the RS9116 NCP spp_secondary device needs to be entered here.
 
 Note :- Address should be in following format "XX-XX-XX-XX-XX-XX".
 
 ![remote BD Address input](./resources/spp-main-address-6.png)
 
-**STEP 14.** By entering the RS9116 NCP spp_secondary mac-address itself, RS9116 NCP spp_main will send the "bond" command. Later, respective command menu will pop up on both the "spp_secondary" side and the "spp_main" side.
+**STEP 14.** By entering the RS9116 NCP spp_secondary BD address itself, RS9116 NCP spp_main will send the "bond" command. Later, the respective command menu will pop up on both the "spp_secondary" side and the "spp_main" side.
 
 1) Here the below picture is for the "spp_secondary" one.
 
@@ -91,7 +91,7 @@ Note :- Address should be in following format "XX-XX-XX-XX-XX-XX".
 
 ![Command menu for main](./resources/spp-main-pincode-8.png)
 
-**STEP 15.** While opening the command pop-ups on both the "spp_main" & "spp_secondary" sides. Give the "Userlinkkey Response" from the "spp_main" side for the "userlinkkey event on main" and likewise same for "spp_secondary" side for the "userlinkkey event on secondary".
+**STEP 15.** While opening the command pop-ups on both the "spp_main" & "spp_secondary" sides, Give the "Userlinkkey Response" from the "spp_main" side for the "userlinkkey event" on spp_main and likewise same for "spp_secondary" side for the "userlinkkey event" on spp_secondary.
 
 1) Below picture is for spp_main.
 
@@ -120,7 +120,7 @@ from the "spp_main" side. Likewise, parallelly user should give the "userpincode
 
 ![Userpincode response from secondary](./resources/spp-secondary-picode-9.png)
 
-**STEP 17.** After all successful command exchanges between the RS9116 NCP spp_main & RS9116 NCP spp_secondary, the user should give the "spp_connect" command from the "spp_main" side, then the connection should be successful.
+**STEP 17.** After successful command exchanges between the RS9116 NCP spp_main & RS9116 NCP spp_secondary, the user should give the "spp_connect" command from the "spp_main" side, then the connection should be successful.
 
 1) Below picture is for spp_main.
 
@@ -132,7 +132,7 @@ from the "spp_main" side. Likewise, parallelly user should give the "userpincode
 
 ![spp_secondary connected](./resources/spp-secondary-spp-connected-11.png)
 
-**STEP 18.** Both the main and secondary are connected. Now, the user needs to send the data from the "spp_main" side to "spp_secondary" by giving the "send_data" from "spp_main".
+**STEP 18.** Both the spp_main and spp_secondary are connected. Now, the user needs to send the data from the "spp_main" side to "spp_secondary" by giving the "send_data" from "spp_main".
 
 ![Send_data_from_main](./resources/spp-main-send-data-13.png)
 
