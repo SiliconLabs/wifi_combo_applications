@@ -13,7 +13,7 @@ SSL stands for Secure Sockets Layer. SSL is the standard security technology for
 This Application explains to the user how to:
 
 - Connect the device to an Access point and get an IP address through DHCP
-- Open TCP Server socket over SSL at Access point using OpenSSL
+- Open TCP Server socket over SSL using OpenSSL
 - Establish TCP connection over SSL with a TCP server opened on remote peer
 - Send TCP data from the WiSeConnect device to a remote device
 
@@ -268,3 +268,5 @@ Refer [Getting started with EFX32](https://docs.silabs.com/rs9116-wiseconnect/la
 5. The RS9116W EVK which is configured as SSL client will connect to remote SSL server and sends number of packets configured in **NUMBER_OF_PACKETS**.
 
   ![SSL client results](resources/readme/ssl_client_results.png)
+
+  ![SSL client Docklight logs](resources/readme/ssl_client_docklight_logs.png)

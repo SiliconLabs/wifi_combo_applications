@@ -86,7 +86,7 @@
 #define SERVER_PORT                        5001
 
 //! Server IP address. (E.g: 192.168.10.100)
-#define SERVER_IP_ADDRESS                "192.168.10.100"
+#define SERVER_IP_ADDRESS               "192.168.10.100"
 
 //! Number of packet to send or receive
 #define NUMBER_OF_PACKETS                   1000
@@ -284,6 +284,8 @@ int32_t rsi_ssl_client()
     LOG_PRINT("\r\nConnect to Server Socket Success\r\n");
   }
 
+	LOG_PRINT("\r\nSSL Tx data start...\r\n");
+	
   while (packet_count < NUMBER_OF_PACKETS) {
     //! Send data on socket
     status = rsi_send(client_socket, (int8_t *)"Hello from SSL TCP client!!!", (sizeof("Hello from SSL TCP client!!!") - 1), 0);
@@ -295,6 +297,7 @@ int32_t rsi_ssl_client()
     }
     packet_count++;
   }
+	LOG_PRINT("\r\nSSL Tx data end...\r\n");
 
   return 0;
 }

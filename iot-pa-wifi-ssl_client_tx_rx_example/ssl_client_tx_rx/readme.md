@@ -13,7 +13,7 @@ SSL stands for Secure Sockets Layer. SSL is the standard security technology for
 This Application explains to the user how to:
 
 - Connect the device to an Access point and get an IP address through DHCP
-- Open TCP Server socket1 & socket2 with the different port over SSL at the Access point using OpenSSL
+- Open TCP Server socket1 & socket2 with the different port over SSL using OpenSSL
 - Establish TCP connection over SSL with TCP server1 & server2 opened on a remote peer
 - Send TCP data from the WiSeConnect device to the remote device (TCP Server socket1)
 - Receive TCP data from a remote device (TCP Server socket2) to Wiseconnect device
