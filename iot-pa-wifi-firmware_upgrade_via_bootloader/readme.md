@@ -238,7 +238,7 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
   - If the EFM32 has an older SE firmware, the following warning may pop up. Click **Yes** to continue.
 
-    **![Warning](resources/readme/warning1.PNG)**
+    **![Warning](resources/readme/warning1.png)**
 
 2. As soon as the debug process is completed, the application control branches to the main().
 
