@@ -68,7 +68,7 @@ This section describes the hardware setup and the connections.
 **NOTE**: 
 If you don't have an Interconnect board, make the SPI connections between EFM32 and RS9116 NCP using a SPI cable following the below references.
 
-**![Figure: connection_setup_with_SPI_cable](resources/readme/connection_setup_with_SPI_cable.PNG)**
+**![Figure: connection_setup_with_SPI_cable](resources/readme/connection_setup_with_SPI_cable.png)**
 
 1. Pin definitions of EFM32 expansion header are as shown below.
 
@@ -112,7 +112,7 @@ This section provides the steps for importing the project into Simplicity Studio
 
 1. In the Simplicity Studio IDE, go to **File** and select **Import**.
 
-   **![Import the project](resources/readme/import_project.png)**
+   **![Import the project](resources/readme/import_project.PNG)**
 
 2. A pop up window appears.Click on **Browse**.
 
@@ -220,7 +220,7 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 3. Hit Enter on the Serial 1 tab to establish a serial connection between PC and setup.
 
-   **![Serial 1](resources/readme/serial1.png)**
+   **![Serial 1](resources/readme/serial1.PNG)**
 
 ## Build the Project
 
@@ -234,11 +234,11 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 1. To flash the code, right click on the project name and select **Debug As** → **Silicon Labs ARM Program**.
 
-   **![](resources/readme/debug_project.PNG)**
+   **![Debug](resources/readme/debug_project.PNG)**
 
   - If the EFM32 has an older SE firmware, the following warning may pop up. Click **Yes** to continue.
 
-    **![](resources/readme/warning1.PNG)**
+    **![Warning](resources/readme/warning1.PNG)**
 
 2. As soon as the debug process is completed, the application control branches to the main().
 
@@ -247,7 +247,7 @@ NOTE: If you do not see any application prints, re-install Simplicity Studio IDE
 
 4. Click Resume icon in the Simplicity Studio IDE toolbar to run the project.
 
-   **![](resources/readme/run.PNG)**
+   **![Run](resources/readme/run.png)**
 
 5. For case #1, the following application prints are observed on the serial console.
 
