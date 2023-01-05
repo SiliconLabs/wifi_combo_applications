@@ -164,19 +164,19 @@ NOTE: FAT32 is a 32-bit version of the FAT file system and is a format typically
 
    **![Application file](resources/readme/application.PNG)** 
 
-4. Navigate to the following macro definition in the **rsi\_firmware\_update\_via\_bootloader.c** file and define the firmware file name same as in the microSD card.
+5. Navigate to the following macro definition in the **rsi\_firmware\_update\_via\_bootloader.c** file and define the firmware file name same as in the microSD card.
 
     ``#define FW_FILE_NAME1        "RS9116W.2.6.0.0.34.rps"``
 
     **![Include firmware file](resources/readme/include_fw_file.PNG)** 
 
-NOTE: If you want to include more firmware files, 
+   **NOTE**: If you want to include more firmware files, 
 - define them with macros FW_FILE_NAME2, FW_FILE_NAME3,....etc., in the **rsi\_firmware\_update\_via\_bootloader.c** file.
 - navigate to **openFile_sd()** function and replace the existing macro (in this example *FW_FILE_NAME1*) with the desired macro (say *FW_FILE_NAME2*).
 
    **![firmware file name](resources/readme/fw_file_name.PNG)** 
 
-5. In the project that has been imported in to the Simplicity Studio IDE, the **SD_CARD_FW** preprocessor symbol is enabled by default.
+6. In the project that has been imported in to the Simplicity Studio IDE, the **SD_CARD_FW** preprocessor symbol is enabled by default.
 
 **Note**: If you are facing any issues with multiple files on microSD card, please copy only one firmware file (.rps) file on to the microSD card.
 
@@ -276,13 +276,13 @@ NOTE: If you do not see any application prints, re-install Simplicity Studio IDE
 
    **![Run](resources/readme/run.png)**
 
-5. For case #1, the following application prints are observed on the serial console.
+5. For case 1 (using microSD card), the following application prints are observed on the serial console.
 
    **![microSD Prints](resources/readme/sdcard_prints.PNG)**
 
    **![microSD Prints](resources/readme/sdcard_prints2.PNG)**
 
-6. For case #2, the following application prints are observed on the serial console.
+6. For case 2 (using internal Host MCU's flash), the following application prints are observed on the serial console.
 
    **![Flash Prints](resources/readme/flash_prints.PNG)**
 
