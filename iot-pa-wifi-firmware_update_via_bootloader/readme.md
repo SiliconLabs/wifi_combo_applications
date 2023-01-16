@@ -270,7 +270,7 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 2. As soon as the debug process is completed, the application control branches to the main().
 
 3. Go to the J-link Silicon Labs console pane to observe the debug prints in the Serial 1 tab.
-NOTE: If you do not see any application prints, re-install Simplicity Studio IDE and follow the steps from [setting up the development environment](#Setting-up-the-development-environment) session.
+NOTE: If you do not see any application prints, re-install Simplicity Studio IDE and follow the steps from the [setting up the development environment](#Setting-up-the-development-environment) section.
 
 4. Click the **Resume** icon in the Simplicity Studio IDE toolbar to run the project.
 
