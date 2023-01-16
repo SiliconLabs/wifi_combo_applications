@@ -277,7 +277,7 @@ The Virtual COM (VCOM) port interface is used for printing out debug prints from
 
 5. For case 1 (using microSD card), the following application prints are observed on the serial console.
 
-**NOTE**: If you do not see any application prints, re-install Simplicity Studio IDE and follow the steps from the [setting up the development environment](#Setting-up-the-development-environment) section.
+   **NOTE**: If you do not see any application prints, re-install Simplicity Studio IDE and follow the steps from the [setting up the development environment](#Setting-up-the-development-environment) section.
 
    **![microSD Prints](resources/readme/sdcard_prints.PNG)**
 
