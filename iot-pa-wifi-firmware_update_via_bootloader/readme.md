@@ -146,7 +146,7 @@ This section provides the steps for importing the project into Simplicity Studio
 #### Case 1: Storing the firmware file on microSD card and burning it to RS9116's flash
 
 In this case, the firmware file is stored on a microSD card. The firmware content is flashed on to RS9116W in chunks with the length of each chunk being 4096 bytes.
-For implementing this, you need a microSD card with an available size of more than 2 MB because the RS9116 firmware file (.rps) is closer to 2 MB. In this example, the below mentioned microSD card is used.
+For implementing this, you need a microSD card with an available size of more than 2 MB because the RS9116 firmware file (.rps) is generally around 2 MB. In this example, the below mentioned microSD card is used.
 
 Part number: SDCS2/32GB
 
