@@ -1,11 +1,16 @@
 # Firmware update via bootloader
 
-## Description
-This example application demonstrates the procedure to update the firmware via bootloader.
-In this application, the firmware file is stored either in an SD card or in a buffer in the application.
+## Purpose
+
+Whenever an RS9116W module is initially powered on, bootloader is the first piece of code which gets loaded on to the system.
+
+The RS9116W's firmware can be updated over the air through remote servers or via the bootloader. Firmware update over the air requires the presence of valid firmware in the module. At times, the corrupted firmware might be loaded on to RS9116W or valid firmware might not be present in RS9116W. In such a case, the RS9116W's firmware can be updated via bootloader.
+
+This example demonstrates how the host MCU and the RS9116W's bootloader interact with each other through SPI interface to upgrade the firmware to the latest/desired version.
+As per this application, the firmware file can be stored in a microSD card or internal flash of host MCU.
 
 ## Prerequisites
-																																					   
+																																   
 For this lab, you will need the following:
 
 ### Hardware Requirements
@@ -41,11 +46,11 @@ For this lab, you will need the following:
 - [Python tool with version higher than 3.10.6](https://www.python.org/downloads/)
 
 **NOTE**:
-- This application project is designed to work with EFM32GG11.
+- This application project is designed to work with EFM32GG11 host MCU.
 - This application is tested with the 2.7.0 SDK and 2.7.0.0.39 firmware.
 - This example application supports Bare metal only.
 
-## Setup
+## Set up
 														
 This section describes the hardware setup and the connections.
 
@@ -74,14 +79,15 @@ If you don't have an Interconnect board, make the SPI connections between EFM32 
 
    **![Figure: EFM32_pin_numbers](resources/readme/EFM32_pin_numbers.png)**
 
-3. Pin Configurations for EFM32GG11 with RS9116
+3. Pin Configurations for EFM32GG11 with RS9116W.
 
    **![Figure: pin_connections](resources/readme/connections.PNG)**
+
    NOTE: For soft-reset configuration, connect the pin 11 on expansion header of EFM32 to the RST_PS pin on J9 header of RS9116 NCP.
 
 ## Setting up the development environment
 
-The following section describes how to set up Simplicity Studio IDE in Windows Operating System.
+The following section describes how to set up the Simplicity Studio IDE in Windows Operating System.
 
 1. Ensure the RS9116 NCP module is pre-loaded with 2.7.0.0.39 firmware (RS9116W.2.7.0.0.39.rps) following the steps mentioned in the [update EVK firmware](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-pc/update-evk-firmware).
 
@@ -137,16 +143,17 @@ This section provides the steps for importing the project into Simplicity Studio
 
    **![Configuration](resources/readme/wlan_config.PNG)**
 
-#### Case 1: Storing the firmware file in an SD card and burning it to RS9116's flash
+#### Case 1: Storing the firmware file on microSD card and burning it to RS9116's flash
 
-In this case, you need a microSD card with an available size of more than 2 MB because the RS9116 firmware file (.rps) is closer to 2 MB. In this example, one among the below mentioned microSD cards is used.
+In this case, the firmware file is stored on a microSD card. The firmware content is flashed on to RS9116W in chunks with the length of each chunk being 4096 bytes.
+For implementing this, you need a microSD card with an available size of more than 2 MB because the RS9116 firmware file (.rps) is closer to 2 MB. In this example, the below mentioned microSD card is used.
 
-https://www.flipkart.com/transcend-4-gb-microsd-card-class-memory/p/itmd4sbmhvbjptmq
+Part number: SDCS2/32GB
 
-https://www.amazon.in/SanDisk-Ultra-microSD-Adapter-SDSQUAR-016G-GN6MA/dp/B073K14CVB/ref=psdc_1375393031_t1_B001F7AJKI
+Reference site - https://www.kingston.com/en/memory-cards/canvas-select-plus-microsd-card
 
-1. Insert the microSD card into the SD card slot of you PC.
-2. Format the microSd card to FAT32 file system.
+1. Insert the microSD card into the SD card slot of your PC.
+2. Format the microSD card to FAT32 file system.
 NOTE: FAT32 is a 32-bit version of the FAT file system and is a format typically used for USB sticks and SD cards. This file system arranges the space on your drive so that you can store files and access them on any kind of computer. FAT32 is an extension of file systems in which the data is stored in chunks of 32 bits.
 
    a. Right click on the microSD card detected on your PC and choose **Format...**.
@@ -157,7 +164,7 @@ NOTE: FAT32 is a 32-bit version of the FAT file system and is a format typically
 
    **![FAT32 file system](resources/readme/format_start.PNG)** 
 
-3. Copy one or more firmware files in to the microSD card. In this example, only one firmware file is copied.
+3. Copy one or more firmware files to your microSD card. In this example, only one firmware file is copied.
    **![Copy firmware file to microSD card](resources/readme/firmware_file.PNG)** 
 
 4. Go back to Simplicity Studio IDE and open the **rsi\_firmware\_update\_via\_bootloader.c** and **main.c** files present in **firmware\_update\_via\_bootloader-brd2204a-gg11 → firmware\_update\_via\_bootloader** folder.
@@ -171,18 +178,20 @@ NOTE: FAT32 is a 32-bit version of the FAT file system and is a format typically
     **![Include firmware file](resources/readme/include_fw_file.PNG)** 
 
    **NOTE**: If you want to include more firmware files, 
-- define them with macros FW_FILE_NAME2, FW_FILE_NAME3,....etc., in the **rsi\_firmware\_update\_via\_bootloader.c** file.
-- navigate to **openFile_sd()** function and replace the existing macro (in this example *FW_FILE_NAME1*) with the desired macro (say *FW_FILE_NAME2*).
+
+   - define them with macros FW_FILE_NAME2, FW_FILE_NAME3,....etc., in the **rsi\_firmware\_update\_via\_bootloader.c** file.
+   - navigate to **openFile_sd()** function and replace the existing macro (in this example *FW_FILE_NAME1*) with the desired macro (say *FW_FILE_NAME2*).
 
    **![firmware file name](resources/readme/fw_file_name.PNG)** 
 
-6. In the project that has been imported in to the Simplicity Studio IDE, the **SD_CARD_FW** preprocessor symbol is enabled by default.
+6. In the project that has been imported on to the Simplicity Studio IDE, the **SD_CARD_FW** preprocessor symbol is enabled by default.
 
-**Note**: If you are facing any issues with multiple files on microSD card, please copy only one firmware file (.rps) file on to the microSD card.
+**Note**: If you are facing any issues with multiple files on microSD card, please copy only one firmware file (.rps) file to your microSD card.
 
-#### Case 2: Storing the firmware file on the internal flash of EFM32 and burning it to RS9116's flash
+#### Case 2: Storing the firmware file on to the internal flash of EFM32 and burning it to RS9116's flash
 
-In this case, a python utility script **GenerateHexArray.py** present at **\<SDK_path\> → examples → featured → rsi\_firmware\_update\_via\_bootloader → resources** is used for converting the RS9116's firmware file into a character array. The character array/buffer is stored on EFM32's internal flash.
+In this case, the firmware file is stored on internal flash of the host MCU (EFM32). The firmware content is flashed on to RS9116W in chunks with the length of each chunk being 4096 bytes.
+For implementing this, you need a python utility script **GenerateHexArray.py** present at **\<SDK_path\> → examples → featured → rsi\_firmware\_update\_via\_bootloader → resources** is used for converting the RS9116's firmware file into a character array. The character array is stored on EFM32's internal flash.
 
 1. Copy the desired firmware file (in this case, *RS9116W.2.6.0.0.34.rps*) to the path - **\<SDK_path\> → examples → featured → rsi\_firmware\_update\_via\_bootloader → resources**.
 
@@ -194,7 +203,7 @@ In this case, a python utility script **GenerateHexArray.py** present at **\<SDK
 
    **![Convert to array](resources/readme/convert_to_array.PNG)** 
 
-   **NOTE**: In some systems/PCs, the **py** command might not work/ might not be recognized. In such a case, replace **py** with **python** and give the below command.
+   **NOTE**: In some systems/PCs, the **py** command might not work/might not be recognized. In such a case, replace **py** with **python** and give the below command.
 
    ``python GenerateHexArray.py RS9116W.2.6.0.0.34.rps``
 
@@ -225,23 +234,28 @@ In this case, a python utility script **GenerateHexArray.py** present at **\<SDK
 ### Code walkthrough
 
 Below are some important APIs used in the application.
-1. uSD card driver APIs
+1. microSD card driver APIs
 
    ```
-   openFile_sd() - This API is used to open the specified firmware file (in this case, *FW_FILE_NAME1*) on microSD card.
+   openFile_sd() - This API is used to open the specified firmware file (in this case, FW_FILE_NAME1) on microSD card.
    ```
 
    ```
-   file_read() - This API is used to read the contents of specific firmware file on microSD card in chunks (512 bytes at a time) into an application buffer (in this case, *recv_buffer*).
+   file_read() - This API is used to read the contents of specific firmware file on microSD card in chunks (512 bytes at a time) into an application buffer (in this case, recv_buffer).
    ```
+
 2. Internal flash APIs
+
    ```
-   file_read_flash() - This API is used to copy the contents of firmware array file (in this case, *fw_file.h*) into an application buffer (in this case, *recv_buffer*) in chunks (each chunk size is 4096 bytes).
+   file_read_flash() - This API is used to copy the contents of firmware array file (in this case, fw_file.h) into an application buffer (in this case, recv_buffer) in chunks (each chunk size is 4096 bytes).
    ```
-3. The following API is used to burn the firmware image to the RS9116W in chunks via bootloader. The **recv_buffer** mentioned above is passed as **fw_image_size** parameter in the below API.
-   ```
+
+3. The following API is used to burn the firmware image to the RS9116W's flash in chunks via bootloader. The **recv_buffer** mentioned above is passed as **fw_image_size** parameter in the below API.
+
+   ```c
    int16_t rsi_bl_upgrade_firmware(uint8_t *firmware_image, uint32_t fw_image_size, uint8_t flags)
    ```
+
 For more info about the API, refer to [bootloader upgrade](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-sapi-reference/common#rsi-bl-upgrade-firmware).
 
 ### Set up the Virtual COM port on Simplicity Studio IDE
