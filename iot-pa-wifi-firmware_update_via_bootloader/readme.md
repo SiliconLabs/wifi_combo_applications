@@ -10,9 +10,9 @@ The below diagram depicts the firmware loading process when RS9116W's flash is e
 
 **![Empty flash](resources/readme/fw_load_empty_flash.PNG)**
 
-The below diagram depicts the firmware update process.
+The below diagram depicts the RS9116W's firmware update process.
 
-**![Empty flash](resources/readme/fw_update_process.PNG)**
+**![Firmware update process](resources/readme/fw_update_process.PNG)**
 
 This example demonstrates how the host MCU and the RS9116W's bootloader interact with each other through SPI interface to upgrade the firmware to the latest/desired version.
 As per this application, the firmware file can be stored in a microSD card or internal flash of host MCU.
