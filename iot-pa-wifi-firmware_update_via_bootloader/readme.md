@@ -8,11 +8,11 @@ The RS9116W's firmware can be updated over the air through remote servers or via
 
 The below diagram depicts the firmware loading process when RS9116W's flash is empty.
 
-**![Empty flash](resources/readme/fw_load_empty_flash.PNG)**
+**![Empty flash](resources/readme/load_fw_empty_flash.png)**
 
 The below diagram depicts the RS9116W's firmware update process.
 
-**![Firmware update process](resources/readme/fw_update_process.PNG)**
+**![Firmware update process](resources/readme/fw_update_process.png)**
 
 This example demonstrates how the host MCU and the RS9116W's bootloader interact with each other through SPI interface to upgrade the firmware to the latest/desired version.
 As per this application, the firmware file can be stored in a microSD card or internal flash of host MCU.
