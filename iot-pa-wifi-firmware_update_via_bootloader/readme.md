@@ -4,7 +4,7 @@
 
 Whenever an RS9116W module is initially powered on, bootloader is the first piece of code which gets loaded on to the system.
 
-The RS9116W's firmware can be updated over the air through remote servers or via the bootloader. Firmware update over the air requires the presence of valid firmware on the module. Bootloader is always available after module powers up/boot up. Whenever the RS9116W's flash is empty or RS9116W's firmware update is to be done at factory, it is done via bootloader. 
+The RS9116W's firmware can be updated over the air through remote servers or via the bootloader. Firmware update over the air requires the presence of valid firmware on the module. Bootloader is always available after module powers up/boots up. Whenever the RS9116W's flash is empty or RS9116W's firmware update is to be done at factory, it is done via bootloader. 
 
 The below diagram depicts the firmware loading process when RS9116W's flash is empty.
 
