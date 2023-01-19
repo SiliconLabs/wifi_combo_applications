@@ -3,7 +3,7 @@
 * @brief
 *******************************************************************************
 * # License
-* <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+* <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
 *******************************************************************************
 *
 * The licensor of this software is Silicon Laboratories Inc. Your use of this
@@ -19,10 +19,10 @@
  */
 
 /*================================================================================
- * @brief : This file contains example application for Throughput Measurement
+ * @brief : This file contains example application for Throughput Measurement using Azure RTOS ThreadX 
  * @section Description :
  * This application will demonstrate the throughput measurement, measuring the
- * throughput from Client to Server and vice versa.
+ * throughput from Client to Server and vice versa
  =================================================================================*/
 
 /*=======================================================================*/
@@ -62,7 +62,7 @@
 #endif
 
 // Access point SSID to connect
-#define SSID "silabs_smart_mh"
+#define SSID "SILABS_AP"
 
 //Scan Channel number , 0 - to scan all channels
 #define CHANNEL_NO 0
@@ -71,7 +71,7 @@
 #define SECURITY_TYPE RSI_WPA2
 
 // Password
-#define PSK "12345678"
+#define PSK "1234567890"
 
 // DHCP mode 1- Enable 0- Disable
 #define DHCP_MODE 1
@@ -101,7 +101,7 @@
 #define SERVER_PORT 5001
 
 // Server IP address.
-#define SERVER_IP_ADDRESS "192.168.63.113"
+#define SERVER_IP_ADDRESS "192.168.10.100"
 
 // Memory length for driver
 #define GLOBAL_BUFF_LEN 15000

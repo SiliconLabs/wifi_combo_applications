@@ -2,7 +2,7 @@
 
 ## Introduction
 This application demonstrates the procedure to measure WLAN UDP/TCP/SSL throughput by configuring the RS9116W in client/server role.
-In this application, the RS9116W connects to a Wi-Fi access point, obtains an IP address, connects to Iperf server/client running on a remote PC and measures Tx/Rx throughput transmitted/received from remote PC.
+This application serves as an example of using ThreadX RTOS with RS9116W.
 
 Azure RTOS ThreadX is a high-performance real-time kernel designed specifically for embedded
 applications. Benefits of using ThreadX RTOS include improved responsiveness, ease of use, reduced
@@ -25,20 +25,23 @@ To use this application, the following hardware, software and project setup is r
 ### Software Requirements
 - [WiSeConnect SDK](https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk/)
 - Embedded Development Environment
-  - For Silicon Labs EFx32, use the latest version of [Simplicity Studio](https://www.silabs.com/developers/simplicity-studio).
-- A working installation of [iPerf version 2.0.9](https://iperf.fr/iperf-download.php#windows).  **Note:** iPerf version 2.0.9 is the only version that has been verified to work with this example.
+  - For Silicon Labs EFR32, use the latest version of [Simplicity Studio](https://www.silabs.com/developers/simplicity-studio).
+- A working installation of [iPerf version 2.0.9](https://iperf.fr/iperf-download.php#windows).  
+**Note:** iPerf version 2.0.9 is the only version that has been verified to work with this example.
  
-### Project Setup
+## Project Setup
 
-#### Setting up the project in WiSeConnect SDK
+### Setting up the project in WiSeConnect SDK
+
+  Follow the below steps to add ThreadX RTOS related files to the RS9116W SDK. Replace the HAL files as mentioned below, to support ThreadX RTOS.
 - Download and extract wlan_throughput_threadx.zip file to the folder path < WiSeConnect Release SDK>/examples/featured/
 - Replace < WiSeConnect Release SDK>/platforms/efx32/hal/rsi_hal_mcu_platform_init.c file with wlan_throughput_threadx/HAL/rsi_hal_mcu_platform_init.c
 - Replace < WiSeConnect Release SDK>/platforms/efx32/hal/rsi_hal_mcu_timer.c file with wlan_throughput_threadx/HAL/rsi_hal_mcu_timer.c
 - Replace < WiSeConnect Release SDK>/sapi/include/rsi_os.h file with wlan_throughput_threadx/HAL/rsi_os.h file
 - Copy the wlan_throughput_threadx/threadx folder to < WiSeConnect Release SDK>/third_party/
 
-#### Setting up the project in Simplicity Studio
-- **Silicon Labs EFx32 Host**. Follow the the [Getting Started with EFx32](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-efx32/) to setup the example to work with EFx32 and Simplicity Studio.
+### Setting up the project in Simplicity Studio
+- **Silicon Labs EFR32 Host**. Follow the the [Getting Started with EFR32](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-efx32/) to setup the example to work with EFR32 and Simplicity Studio.
 
 ## Configuring the Application
 The application can be configured to suit your requirements and development environment.
@@ -152,7 +155,7 @@ The following sections describe how to run the RS9116W throughput application to
 
 
 ## Running the RS9116 Application
-After making any custom configuration changes required, build, download and run the application as described in the [EFx32 Getting Started](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-efx32/) or [STM32 Getting Started](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-efx32/). 
+After making any custom configuration changes required, build, download and run the application as described in the [EFR32 Getting Started](https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-efx32/)
 
 
 ## UDP Tx Throughput
@@ -231,9 +234,6 @@ The application has been designed to work with FreeRTOS and Bare Metal configura
 
 ![Figure: project settings in Simplicity Studio](resources/readme/image216c.png)
 
-## Bare Metal with Keil
-> - Open the project in Keil and select 'Options for Target'
-> - Go to the 'C/C++' tab and remove 'RSI_WITH_OS' macro present under Preprocessor Symbols
-> - Select 'OK' to save the settings
-      
-![Figure: project settings in Keil IDE](resources/readme/image216a.png) 
+## Note:
+> - This application is tested with RS9116W SDK version 2.5.0.5 
+> - This application is in alpha stage and is not fully verified
