@@ -2,7 +2,7 @@
 
 ## Introduction
 This application demonstrates the procedure to measure WLAN UDP/TCP/SSL throughput by configuring the RS9116W in client/server role.
-This application serves as an example of using ThreadX RTOS with RS9116W.
+This application serves as an example for using ThreadX RTOS with RS9116W.
 
 Azure RTOS ThreadX is a high-performance real-time kernel designed specifically for embedded
 applications. Benefits of using ThreadX RTOS include improved responsiveness, ease of use, reduced
@@ -20,7 +20,7 @@ To use this application, the following hardware, software and project setup is r
   - Silicon Labs [WSTK + EFR32MG21](https://www.silabs.com/development-tools/wireless/efr32xg21-bluetooth-starter-kit)
 - Wi-Fi Access Point
 
-![Figure: Setup Diagram for WLAN Throughput Example](resources/readme/image216g.png)
+![Figure: Setup Diagram for WLAN Throughput Example](resources/readme/main_setup_pic.png)
 
 ### Software Requirements
 - [WiSeConnect SDK](https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk/)
@@ -85,22 +85,22 @@ The application may be configured to measure throughput using UDP, TCP or SSL/TL
 ```
 
 **RS9116 is a TCP Client (sends TCP packets to a remote server) ...**
-![Figure: RS9116W Configured in TCP Client Mode](resources/readme/image211.png)  
+![Figure: RS9116W Configured in TCP Client Mode](resources/readme/tcp_client.png)  
 
 **RS9116W is a TCP Server (receives TCP packets from a remote client) ...**
-![Figure: RS9116W Configured in TCP Server Mode](resources/readme/image212.png)
+![Figure: RS9116W Configured in TCP Server Mode](resources/readme/tcp_server.png)
 
 **RS9116 is a UDP Client (sends UDP packets to a remote server) ...**
-![Figure: RS9116W Configured in UDP Client Mode](resources/readme/image213.png)
+![Figure: RS9116W Configured in UDP Client Mode](resources/readme/udp_client.png)
 
 **RS9116 is a UDP Server (receives UDP packets from a remote client) ...**
-![Figure: RS9116W Configured in UDP Server Mode](resources/readme/image214.png)
+![Figure: RS9116W Configured in UDP Server Mode](resources/readme/udp_server.png)
 
 **RS9116 is a SSL Client (sends SSL packets to a remote server) ...**
-![Figure: RS9116W Configured in SSL Client Mode](resources/readme/image215.png)
+![Figure: RS9116W Configured in SSL Client Mode](resources/readme/ssl_client.png)
 
 **RS9116 is a SSL Server (receives SSL packets from a remote client) ...**
-![Figure: RS9116W Configured in SSL Server Mode](resources/readme/image216.png)
+![Figure: RS9116W Configured in SSL Server Mode](resources/readme/ssl_server.png)
 
 ## Throughput Options
 Various options are available to customize throughput measurements. Some options only apply for specific throughput types as secribed in the following sections.
@@ -230,9 +230,9 @@ The application has been designed to work with FreeRTOS and Bare Metal configura
 > - Go to 'C/C++ Build' | 'Settings' | 'GNU ARM C Compiler' | 'Symbols' and remove macro 'RSI_WITH_OS=1'
 > - Select 'Apply' and 'OK' to save the settings
 
-![Figure: project settings in Simplicity Studio](resources/readme/image216b.png) 
+![Figure: project settings in Simplicity Studio](resources/readme/proj_settings.png) 
 
-![Figure: project settings in Simplicity Studio](resources/readme/image216c.png)
+![Figure: project settings in Simplicity Studio](resources/readme/baremetal_macro.png)
 
 ## Note:
 > - This application is tested with RS9116W SDK version 2.5.0.5 
