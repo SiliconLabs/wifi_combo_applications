@@ -76,7 +76,7 @@ If you don't have an Interconnect board, make the SPI connections between EFM32 
 
 3. Pin Configurations for EFM32GG11 with RS9116
 
-   **![Figure: pin_connections](resources/readme/connections.png)**
+   **![Figure: pin_connections](resources/readme/connections.PNG)**
    NOTE: For soft-reset configuration, connect the pin 11 on expansion header of EFM32 to the RST_PS pin on J9 header of RS9116 NCP.
 
 ## Setting up the development environment
