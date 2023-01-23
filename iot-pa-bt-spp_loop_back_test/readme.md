@@ -2,33 +2,28 @@
 
 ## About
 
-The BT loop back test can be used to test the application-level data integrity of the RS9116W EVK. The performance should not degrade in presence of an interference signal as per the limits set by the test specifications. 
+The BT loop back test is used to test the application-level data integrity between two RS9116 NCP modules. The performance should not degrade in presence of an interference signal as per the limits set by the test specifications. 
 <br>
 
-This example demonstrates the configuration of the two RS9116W EVKs in BT SPP_secondary and BT SPP_main mode to establish a connection between them. The BT SPP_main device will send some data to the BT SPP_secondary device using the SPP Profile, and the BT SPP_secondary device will loop the data back to the Main device. 
+This example demonstrates the configuration of the two RS9116 NCP modules in BT SPP_secondary and BT SPP_main mode to establish a connection between them. The BT SPP_main device will send data to the BT SPP_secondary device using the SPP Profile, and the BT SPP_secondary device will loop the data back to the BT SPP_main device. 
+
+Ensure that both the RS9116 NCP modules are plugged into your computer/laptop and tera-term is installed and connected as described in [Getting Started with PC using AT Commands](http://docs.silabs.com/rs9116-wiseconnect/2.4/wifibt-wc-getting-started-with-pc/).
 
 ## Prerequisites
-Refer to the Firmware Upgradation App Note to upgrade the RS9116W EVK to the latest Firmware ([Firmware Upgrade App Note](https://www.silabs.com/documents/login/application-notes/an1290-rs9116w-firmware-update-application-note.pdf)) provided in the wiseconnect-wifi-bt-sdk. ([RS9116W wiseconnect-wifi-bt-sdk](https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk))
 
-Ensure that the both the RS9116W EVK's are plugged into your computer/laptop and tera-term is installed and connected as described in [Getting Started with PC using AT Commands](http://docs.silabs.com/rs9116-wiseconnect/2.4/wifibt-wc-getting-started-with-pc/).
-
-## Hardware
-**1.** Silicon Labs RS9116X-SB-EVK1/RS9116X-DB-EVK1.
+### Hardware
+**1.** Two RS9116 Evaluation Boards (RS9116W-SB-EVK1) / (RS9116W-DB-EVK1).
 
 **2.** Two USB micro cables.
 
 **3.** Windows PC/Laptop.
 
-## Software 
+### Software 
 **1.** tera-term Software. [Click to download tera-term](https://osdn.net/projects/ttssh2/releases/) 
 
 ## Steps to run the BT SPP Loop back test
 
-This example demonstrates how to configure one RS9116W EVK in SPP secondary mode and second RS9116W EVK in SPP Main mode to establish a SPP profile connection between modules to do the data loop-back.
-
-Before continuing, ensure that both the RS9116W EVKs are plugged into your computer and TeraTerm is connected as described in [Getting Started with PC using AT Commands](http://docs.silabs.com/rs9116-wiseconnect/2.4/wifibt-wc-getting-started-with-pc/). 
-
-**STEP 1.** Reset both the RS9116W EVKs.
+**STEP 1.** Reset both the RS9116 NCP modules.
 
 **STEP 2.** In the Tera Term menu, select `Control->Macro`.
 
@@ -42,7 +37,7 @@ Before continuing, ensure that both the RS9116W EVKs are plugged into your compu
 
 ![Introduction of spp-secondary](./resources/spp-secondary-start.png)
 
-**STEP 5.** Initially, the RS9116W EVK bootup options are executed, the firmware is loaded and the corresponding dialogue window will appear as below.  
+**STEP 5.**  Initially, the ABRD process starts and you will see a pop-up with the message saying firmware is loaded as below.  
 
 ![Bootup options execution](./resources/firmware-loding-secondary.png)
 
@@ -58,11 +53,11 @@ Before continuing, ensure that both the RS9116W EVKs are plugged into your compu
 
 5. Set local name
 
-**STEP 7.** After these commands are executed, the RS9116W EVK becomes discoverable in the vicinity.
+**STEP 7.** After these commands are executed, the RS9116 NCP module becomes discoverable in the vicinity.
 
 ![RS9116W device in discoverable and connectable mode](./resources/spp-secondary-command-execute.png)
 
-**STEP 8.** Connect the second RS9116W EVK to the same PC and open the TeraTerm terminal and open the device port.
+**STEP 8.** Connect the second RS9116 NCP module to the same PC and open another TeraTerm terminal later select and open the appropriate com port.
 
 **STEP 9.**  In the Tera Term menu, select `Control->Macro`.
 
@@ -76,17 +71,17 @@ Before continuing, ensure that both the RS9116W EVKs are plugged into your compu
 
 ![Introduction of spp-secondary](./resources/spp-main-start-4.png)
 
-**STEP 12.** Initially, the RS9116W EVK bootup options are executed, the firmware is loaded and the corresponding dialogue window will appear as below.  
+**STEP 12.**  Initially, the ABRD process starts and you will see a pop-up with the message saying firmware is loaded as below.
 
 ![Bootup options execution](./resources/firmware-loding-main-5.png)
 
-**STEP 13.**  After these commands are successful, the remote secondary device needs to be in connectable mode. And once it will be in connectable mode, the user needs to give the bond command. For this BD address of the RS9116W spp_secondary device needs to be entered here.
+**STEP 13.**  After these commands are executed successfully, the remote secondary device needs to be in a connectable mode. And once it will be in connectable mode, the user needs to give the bond command. For this BD address of the RS9116 NCP spp_secondary device needs to be entered here.
 
-Note :- Address should be in following format "AA-BB-CC-DD-EE-FF".
+Note :- Address should be in following format "XX-XX-XX-XX-XX-XX".
 
 ![remote BD Address input](./resources/spp-main-address-6.png)
 
-**STEP 14.** By entering the RS9116W spp_secondary mac-address itself, RS9116W spp_main will send the "bond" command. Later, respective command menu will pop up on both the "spp_secondary" side and the "spp_main" side.
+**STEP 14.** By entering the RS9116 NCP spp_secondary BD address itself, RS9116 NCP spp_main will send the "bond" command. Later, the respective command menu will pop up on both the "spp_secondary" side and the "spp_main" side.
 
 1) Here the below picture is for the "spp_secondary" one.
 
@@ -96,7 +91,7 @@ Note :- Address should be in following format "AA-BB-CC-DD-EE-FF".
 
 ![Command menu for main](./resources/spp-main-pincode-8.png)
 
-**STEP 15.** While opening the command pop-ups on both the "spp_main" & "spp_secondary" sides. Give the "Userlinkkey Response" from the "spp_main" side for the "userlinkkey event on main" and likewise same for "spp_secondary" side for the "userlinkkey event on secondary".
+**STEP 15.** While opening the command pop-ups on both the "spp_main" & "spp_secondary" sides, Give the "Userlinkkey Response" from the "spp_main" side for the "userlinkkey event" on spp_main and likewise same for "spp_secondary" side for the "userlinkkey event" on spp_secondary.
 
 1) Below picture is for spp_main.
 
@@ -125,7 +120,7 @@ from the "spp_main" side. Likewise, parallelly user should give the "userpincode
 
 ![Userpincode response from secondary](./resources/spp-secondary-picode-9.png)
 
-**STEP 17.** After all successful command exchanges between the RS9116W spp_main & RS9116W spp_secondary, the user should give the "spp_connect" command from the "spp_main" side, then the connection should be successful.
+**STEP 17.** After successful command exchanges between the RS9116 NCP spp_main & RS9116 NCP spp_secondary, the user should give the "spp_connect" command from the "spp_main" side, then the connection should be successful.
 
 1) Below picture is for spp_main.
 
@@ -137,7 +132,7 @@ from the "spp_main" side. Likewise, parallelly user should give the "userpincode
 
 ![spp_secondary connected](./resources/spp-secondary-spp-connected-11.png)
 
-**STEP 18.** Both the main and secondary are connected. Now, the user needs to send the data from the "spp_main" side to "spp_secondary" by giving the "send_data" from "spp_main".
+**STEP 18.** Both the spp_main and spp_secondary are connected. Now, the user needs to send the data from the "spp_main" side to "spp_secondary" by giving the "send_data" from "spp_main".
 
 ![Send_data_from_main](./resources/spp-main-send-data-13.png)
 
