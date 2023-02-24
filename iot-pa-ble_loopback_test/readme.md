@@ -27,7 +27,7 @@ Ensure that both the RS9116 NCP modules are plugged into your computer/laptop an
 
 **STEP 1.** Reset both the RS9116W NCP Module's. <br>
 
-**STEP 2.** Open up the tera-term-term application and from the menu, select `Control->Macro`.
+**STEP 2.** Open up the term-term application and from the menu, select `Control->Macro`.
 <br>
 ![tera-term Macro](./resources/tera-term-macro.png)
 
