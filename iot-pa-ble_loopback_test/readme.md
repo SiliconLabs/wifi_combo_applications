@@ -27,7 +27,7 @@ Ensure that both the RS9116 NCP modules are plugged into your computer/laptop an
 
 **STEP 1.** Reset both the RS9116W NCP Module's. <br>
 
-**STEP 2.** Open up the tera-term-term application and from the menu, select `Control->Macro`.
+**STEP 2.** Open up the tera-term application and from the menu, select `Control->Macro`.
 <br>
 ![tera-term Macro](./resources/tera-term-macro.png)
 
@@ -35,9 +35,9 @@ Ensure that both the RS9116 NCP modules are plugged into your computer/laptop an
 
 ![tera-term Script to be selected](./resources/ble_peripherial_script.png)
 
-**STEP 4.**  After the ble_peripheral.ttl script is selected, a dialogue box window will appear as shown below and as a response, the user needs to click on "OK".
+**STEP 4.**  After the ble_peripheral_loopback.ttl script is selected, a dialogue box window will appear as shown below and as a response, the user needs to click on "OK".
 
-![BLE Central initial ](./resources/ble_central_start.png)
+![BLE Central initial ](./resources/ble_peripherial_start.png)
 
 **STEP 5.** The RS9116W NCP Module bootloader options are executed by the script, the firmware is loaded into the module, and the corresponding dialogue window will be shown below.
 
