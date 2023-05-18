@@ -26,8 +26,7 @@
 //! Memory length for the driver
 #define BT_GLOBAL_BUFF_LEN 15000
 
-//! Address type of the device to connect
-#define RSI_BLE_DEV_ADDR_TYPE LE_RANDOM_ADDRESS
+#define RSI_BLE_SET_RAND_ADDR "00:23:A7:12:34:56"
 
 #define MAX_MTU_SIZE 230
 
