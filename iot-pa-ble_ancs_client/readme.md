@@ -1,32 +1,4 @@
 # BLE ANCS Client Application
-<!-- TOC -->
-
-- [Introduction](#introduction)
-- [Prerequisites](#prerequisites)
-    - [Hardware Requirements](#hardware-requirements)
-    - [Software Requirements](#software-requirements)
-- [Block Diagram](#block-diagram)
-- [Setup](#setup)
-   - [EFR32](#efr32)
-   - [EFM32](#efm32)
-   - [STM32](#stm32)
-- [Application flow](#application-flow)
-- [Project Configurations](#project-configurations)
-- [Import the project in Keil](#import-the-project-in-keil)
-- [Setting up the development environment in Simplicity Studio](#setting-up-the-development-environment-in-simplicity-studio) 
-   - [Import the Project into Simplicity Studio](#import-the-project-in-simplicity-studio)
-- [Application Configurations](#application-configurations)
-- [Project Execution](#project-execution)
-- [Serial console setup](#serial-console-setup)
-- [Testing the Application](#testing-the-application)
-    - [Loading the RS9116 NCP Firmware](#loading-the-rs9116-ncp-firmware)
-    - [ Building the Application on the Host Platform](#building-the-application-on-the-host-platform)
-    - [Project Configuration](#project-configuration)
-- [Troubleshoot](#troubleshoot)
-- [Limitations](#limitations)
-- [References](#references)
-
-<!-- /TOC -->
 
 ## **Introduction**
 
