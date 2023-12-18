@@ -1,1 +1,0 @@
-Refer to https://docs.silabs.com/rs9116-wiseconnect/latest/wifibt-wc-getting-started-with-stm32/
