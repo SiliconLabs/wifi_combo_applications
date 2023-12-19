@@ -13,17 +13,7 @@
 
 # Silicon Labs Wi-Fi Combo Applications #
 
-The Silicon Labs Wi-Fi Combo stack allows for a wide variety applications to be built on its foundation. This repo showcases some example applications built using the Silicon Labs Wi-Fi Combo stack.
-
-## Examples ##
-
-- iot-pa-wifi-web_page_with_real_time_data
-- iot-pa-wifi-phy_per_test_ttl_script
-- iot-pa-coex-wifi_provisioning_over_ble_using_at_commands
-- iot-pa-wifi-phy_performance_test_gui
-- iot-pa-wifi-station_mode_with_tcp_udp_ping_protocols
-- iot-pa-wifi-amazon_ec2_instance_ssl_throughput
-- iot-pa-wifi-at_command_serial_terminal
+The Silicon Labs Wi-Fi Combo Applications repo contains applications developed for RS9116 and SiWx917 devices. All the examples contains the source files and instructions needed to import and execute the example in Simplcity Studio or any other supported IDE. Unless otherwise specified in the directory, all examples are considered to be EXPERIMENTAL QUALITY which implies that the code provided in the repos has not been formally tested and is provided as-is.
 
 
 ## Documentation ##
