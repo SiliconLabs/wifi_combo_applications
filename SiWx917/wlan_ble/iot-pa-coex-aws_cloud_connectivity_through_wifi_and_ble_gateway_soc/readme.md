@@ -41,17 +41,19 @@ The user must configure the following items before launching the application.
 
 ### 2.1 Hardware Requirements
 
-- Silicon Labs SiWx917 PK6030A SoC Kit which includes:
-  - BRD4001A/BRD4002A Wireless Starter Kit Mainboard
+- Silicon Labs SiWx917 PK6031A SoC Kit which includes:
+  - BRD4002A Wireless Starter Kit Mainboard
   - BRD4338A Radio Board
-- Silicon Labs EFR32xG21/EFR32xG22 radio board BRD4181B/BRD4182A with a BRD4001A/BRD4002A Wireless Starter Kit Mainboard
+- SLWSTK6006A EFR32xG21 Wireless Gecko Starter Kit which includes:
+  - BRD4002A Wireless pro kit mainboard
+  - BRD4180B/BRD4181B Radio Board
 - Wi-Fi Access point with internet access
 - A smart phone with Silicon labs **EFR Connect** app
 - Windows/Mac PC
 
 ### 2.2 Software Requirements
 
-- SiWx917_WiSeConnect_SDK.x.x.x.x
+- SiWx917_WiSeConnect_SDK [link](https://github.com/SiliconLabs/wiseconnect)
 - Simplicity Studio IDE
   - To download and install the Simplicity Studio IDE, refer to the [Simplicity Studio IDE Set up](https://docs.silabs.com/) section in ***Getting started with SiWx91x*** guides.
 - EFR Connect application for [Android](https://play.google.com/store/apps/details?id=com.siliconlabs.bledemo&hl=en&gl=US) or [iOS](https://apps.apple.com/us/app/efr-connect-ble-mobile-app/id1030932759)
@@ -85,10 +87,10 @@ The user must configure the following items before launching the application.
 - Open **templates.xml** file located at `SDK/templates.xml` and add the code snippet at the end, before `</model:MDescriptors>`:
 
    ```sh
-  <descriptors name="aws_cloud_connectivity_through_wifi_and_ble_gateway_soc" label="AWS Cloud Connectivity through Wi-Fi and BLE Gateway (SoC)" description="The application demonstrates SiWx917 functionality in a multiprotocol environment where it successfully maintains multiple BLE and Wi-Fi connections in addition to communicating with AWS Cloud. It also showcases SiWx917's Power Save capabilities in addition to its Co-existence effectiveness.">
+  <descriptors name="iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc" label="AWS Cloud Connectivity through Wi-Fi and BLE Gateway (SoC)" description="The application demonstrates SiWx917 functionality in a multiprotocol environment where it successfully maintains multiple BLE and Wi-Fi connections in addition to communicating with AWS Cloud. It also showcases SiWx917's Power Save capabilities in addition to its Co-existence effectiveness.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
-    <properties key="projectFilePaths" value="examples/snippets/wlan_ble/aws_cloud_connectivity_through_wifi_and_ble_gateway_soc/aws_cloud_connectivity_through_wifi_and_ble_gateway_soc.slcp"/>
+    <properties key="projectFilePaths" value="examples/snippets/wlan_ble/iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc/aws_cloud_connectivity_through_wifi_and_ble_gateway_soc.slcp"/>
     <properties key="boardCompatibility" value="com.silabs.board.none brd4325a brd4325b brd4325c brd4325e brd4325f brd4325g brd4338a brd4339a brd4339b brd4340a brd4340b brd4341a brd4342a"/>
     <properties key="partCompatibility" value="mcu.arm.efr32.mg21.* mcu.arm.efr32.mg21.*  mcu.arm.efr32.mg24.* .*si917.* .*si917.* .*siwg917m111mgtba.* .*siwg917m111mgtba.* .*siwg917m141xgtba.* .*siwg917m111mgtba.* .*siwg917m111mgtba.* .*siwg917m111mgtba.* .*siwg917y111mgab.* .*siwg917y111mgnb.*"/>
     <properties key="ideCompatibility" value="makefile-ide simplicity-ide visual-studio-code generic-template"/>
@@ -97,7 +99,7 @@ The user must configure the following items before launching the application.
     <properties key="category" value="Example|Wi-Fi"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
     <properties key="sdkAndProtocolTags" value=""/>
-    <properties key="readmeFiles" value="examples/snippets/wlan_ble/aws_cloud_connectivity_through_wifi_and_ble_gateway_soc/readme.md"/>
+    <properties key="readmeFiles" value="examples/snippets/wlan_ble/iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc/readme.md"/>
 	<properties key="filters" value="Device\ Type|SoC Wireless\ Technology|Wi-Fi Wireless\ Technology|Bluetooth Project\ Difficulty|Intermediate"/>
   </descriptors>
    ```
