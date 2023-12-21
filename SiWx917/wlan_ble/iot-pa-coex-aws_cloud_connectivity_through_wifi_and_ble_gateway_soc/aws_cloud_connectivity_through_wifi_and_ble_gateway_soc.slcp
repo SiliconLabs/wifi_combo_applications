@@ -1,0 +1,117 @@
+project_name: iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway
+package: wifi_ble
+quality: production
+label: iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway
+category: Example|Wi-Fi_BLE
+description: >
+  The application demonstrates SiWx917 functionality in a multiprotocol environment where it successfully maintains multiple BLE and Wi-Fi connections in addition to communicating with AWS Cloud. It also showcases SiWx917's Power Save capabilities in addition to its Co-existence effectiveness.
+filter:
+  - name: Wireless Technology
+    value:
+      - WiFi BLE
+  - name: Project Difficulty
+    value:
+      - Intermediate
+sdk:
+  id: gecko_sdk
+  version: 4.4.0
+sdk_extension:
+  - id: wiseconnect3_sdk
+    version: 3.1.1
+source:
+  - path: app.c
+  - path: main.c
+  - path: ble_app.c
+  - path: wifi_app.c
+  - path: i2c_leader_example.c
+include:
+  - path: .
+    file_list:
+      - path: app.h
+      - path: ble_config.h
+      - path: wifi_config.h
+      - path: i2c_leader_example.h
+define:
+  - name: SL_SI91X_PRINT_DBG_LOG
+  - name: SLI_SI91X_SOCKETS
+  - name: SL_SI91X_MCU_WIRELESS_BASED_WAKEUP
+  - name: SL_SI91X_MCU_BUTTON_BASED_WAKEUP
+  - name: SL_SI91X_MCU_ALARM_BASED_WAKEUP
+component:
+  - id: sl_system
+  - id: freertos
+  - id: syscalls
+    from: wiseconnect3_sdk
+  - id: si917_memory_default_config
+    from: wiseconnect3_sdk
+  - id: wiseconnect3_common
+    from: wiseconnect3_sdk
+  - id: sl_i2c_peripheral
+    from: wiseconnect3_sdk
+  - id: ble
+    from: wiseconnect3_sdk
+  - id: wifi
+    from: wiseconnect3_sdk
+  - id: sl_si91x_internal_stack
+    from: wiseconnect3_sdk
+  - id: wifi_resources
+    from: wiseconnect3_sdk
+  - id: network_manager
+    from: wiseconnect3_sdk
+  - id: basic_network_config_manager
+    from: wiseconnect3_sdk
+  - id: sl_si91x_asynchronous_socket
+    from: wiseconnect3_sdk
+  - id: aws_sdk
+    from: wiseconnect3_sdk
+  - id: sllib_m4_power_save
+    from: wiseconnect3_sdk
+requires:
+  - name: device_needs_ram_execution
+    condition:
+      - si91x_common_flash
+toolchain_settings: []
+configuration:
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+readme:
+  - path: readme.md
+other_file:
+  - path: resources/readme/setup.png
+  - path: resources/readme/project_import.png
+  - path: resources/readme/efrimport.png
+  - path: resources/readme/aws_iot_mqtt_host_url_1.png
+  - path: resources/readme/aws_iot_mqtt_host_url_2.png
+  - path: resources/readme/build_example.png
+  - path: resources/readme/load_image1.png
+  - path: resources/readme/load_image2.png
+  - path: resources/readme/bleadv.png
+  - path: resources/readme/EC2.png
+  - path: resources/readme/EC3.png
+  - path: resources/readme/EC4.png
+  - path: resources/readme/EC5.png
+  - path: resources/readme/EC6.png
+  - path: resources/readme/efr_project.png
+  - path: resources/readme/blescan.png
+  - path: resources/readme/awsinitiate.png
+  - path: resources/readme/awsconsole.png
+  - path: resources/readme/ps1.png
+  - path: resources/readme/aws_create_thing_step1.png
+  - path: resources/readme/aws_create_thing_step2.png
+  - path: resources/readme/aws_create_thing_step3.png
+  - path: resources/readme/aws_create_thing_step4.png
+  - path: resources/readme/aws_create_thing_step5.png
+  - path: resources/readme/policy_optional.png
+  - path: resources/readme/aws_thing_certificates_download.png
+  - path: resources/readme/aws_choosing_policy.png
+  - path: resources/readme/aws_create_thing_attach_policy.png
+  - path: resources/readme/aws_create_thing_policy_create.png
+  - path: resources/readme/image422.png
+  - path: resources/readme/aws_create_policy.png
+  - path: resources/readme/aws_create_thing_policy_create.png
+ui_hints:
+  highlight:
+    - path: readme.md
+      focus: true
+post_build:
+  path: ../../../../utilities/postbuild_profile/wiseconnect_soc.slpb
