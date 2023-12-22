@@ -58,7 +58,7 @@ The user must configure the following items before launching the application.
   - To download and install the Simplicity Studio IDE, refer to the [Simplicity Studio IDE Set up](https://docs.silabs.com/) section in ***Getting started with SiWx91x*** guides.
 - EFR Connect application for [Android](https://play.google.com/store/apps/details?id=com.siliconlabs.bledemo&hl=en&gl=US) or [iOS](https://apps.apple.com/us/app/efr-connect-ble-mobile-app/id1030932759)
 - Docklight or Tera Term or a similar tool for reading serial prints
-- AWS account
+- AWS account (MQTT Client)
 
 ## **3. Setup Diagram**
 
@@ -82,7 +82,7 @@ The user must configure the following items before launching the application.
   - Connect your device to the computer
   - Upgrade your connectivity firmware
   - Create a Studio project
-- Download the project **aws_cloud_connectivity_through_wifi_and_ble_gateway_soc** from this [link](https://github.com/SiliconLabs/wiseconnect-wifi-bt-sdk/SiWx917/coex/)
+- Download the project **iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc** from this [link](https://github.com/SiliconLabs/wifi_combo_applications/tree/master/SiWx917/wlan_ble/iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc)
 - Keep the project in the Release folder at location: `SDK/examples/snippets/wlan_ble/`
 - Open **templates.xml** file located at `SDK/templates.xml` and add the code snippet at the end, before `</model:MDescriptors>`:
 
@@ -302,6 +302,7 @@ This section outlines the application's step-by-step execution process.
 
 - Avoid having multiple wiseconnects in the same workspace. This may cause issue even after clean builds.
 - It is important to add the required policy while creating the thing. If your policy does not allow updating any data periodically, you may see AWS connection error in the logs.
+- Ensure the SiWx917 module has 1.8 MB MBR flashed in it.
 
 ## **8. Appendix**
 
