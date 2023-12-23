@@ -82,7 +82,23 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 - Install Studio and WiSeConnect 3 extension
 - Connect your device to the computer
 - Upgrade your connectivity firmware
-- Create a Studio project
+- Import the project following the below steps:
+  - Download the project (.sls file) from the link provided in the pre-work guide
+  - Go to Files -> Import
+
+  ![](resources/readme/import1.png)
+
+  - Browse the path of the project -> Click on .sls project -> Click Next
+
+  ![](resources/readme/import2.png)
+
+  - Click next in Build Configurations of the project
+
+  ![](resources/readme/import3.png)
+
+  - Check the project name and click on finish
+
+  ![](resources/readme/import4.png)
 
 ## Application Configuration Parameters
 
