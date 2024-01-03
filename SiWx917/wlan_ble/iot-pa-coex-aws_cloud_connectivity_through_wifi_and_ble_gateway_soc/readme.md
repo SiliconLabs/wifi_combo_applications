@@ -70,7 +70,7 @@ The user must configure the following items before launching the application.
 
 - This example requires the SiWx91x device to be provisioned on AWS for which you will need the device certificate and the private key. For brief provisioning instructions, see [AWS IoT Setup](#create-an-aws-thing) section.
 
-- Ensure the SiWx91x module is loaded with the latest firmware following the [SiWx91x Firmware Update](https://docs.silabs.com/rs9116/latest/wiseconnect-getting-started) section in the respective Getting started with SiWx91x*** guides. Please note that the current project was tested on SiWx917_WiSeConnect_SDK.1.0.1.0.
+- Ensure the SiWx91x module is loaded with the latest firmware following the [SiWx91x Firmware Update](https://docs.silabs.com/wiseconnect/3.0.9/wiseconnect-getting-started/getting-started-with-soc-mode) section in the respective Getting started with SiWx91x*** guides.
 
 ## **4. Project Creation**
 
