@@ -70,7 +70,7 @@ The user must configure the following items before launching the application.
 
 - This example requires the SiWx91x device to be provisioned on AWS for which you will need the device certificate and the private key. For brief provisioning instructions, see [AWS IoT Setup](#create-an-aws-thing) section.
 
-- Ensure the SiWx91x module is loaded with the latest firmware following the [SiWx91x Firmware Update](https://docs.silabs.com/wiseconnect/3.0.9/wiseconnect-getting-started/getting-started-with-soc-mode) section in the respective Getting started with SiWx91x*** guides.
+- Ensure the SiWx91x module is loaded with the latest firmware following the [SiWx91x Firmware Update](https://docs.silabs.com/wiseconnect/3.0.9/wiseconnect-getting-started/getting-started-with-soc-mode) section.
 
 ## **4. Project Creation**
 
@@ -82,9 +82,10 @@ The user must configure the following items before launching the application.
   - Connect your device to the computer
   - Upgrade your connectivity firmware
   - Create a Studio project
-- Download the project **iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc** from this [link](https://github.com/SiliconLabs/wifi_combo_applications/tree/master/SiWx917/wlan_ble/iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc)
+- Download the project **iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc** from this [link](https://github.com/SiliconLabs/wifi_combo_applications/tree/master/SiWx917/wlan_ble/iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc). 
+   - Any external software like [download-directory • github • io](https://download-directory.github.io/) can be used to download the project. However, keep the project name as "**iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc**".
 - Keep the project in the Release folder at location: `SDK/examples/snippets/wlan_ble/`
-- Open **templates.xml** file located at `SDK/templates.xml` and add the code snippet at the end, before `</model:MDescriptors>`:
+- Open **templates.xml** file located at `SDK/wifi_templates.xml` and add the code snippet at the end, before `</model:MDescriptors>`:
 
    ```sh
   <descriptors name="iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc" label="AWS Cloud Connectivity through Wi-Fi and BLE Gateway (SoC)" description="The application demonstrates SiWx917 functionality in a multiprotocol environment where it successfully maintains multiple BLE and Wi-Fi connections in addition to communicating with AWS Cloud. It also showcases SiWx917's Power Save capabilities in addition to its Co-existence effectiveness.">
@@ -125,7 +126,7 @@ The following parameters are to be configured as per the requirements.
 ### **5.1 Setting up the Security Certificates**
 
 - To authenticate and securely connect with AWS, Wi-Fi device requires a unique x.509 security certificate/device certificate and private key, as well as a CA certificate which is used to verify the AWS server. Security credentials need to be converted into a C-array rather than [PEM format](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) provided by the AWS. The certificates should also be loaded on to the SiWx91x module.
-- The SiWx91x SDK provides a conversion script (written in Python 3) to make the conversion straightforward. The script is provided in the SDK 'resources' directory and is called `certificate_to_array.py`.
+- The SiWx91x SDK provides a conversion script (written in Python 3) to make the conversion straightforward. The script is present at: `wiseconnect/resources/scripts/certificate_to_array.py`
 - The certificates downloaded as mentioned in [AWS IoT Setup](#create-an-aws-thing) section must be converted to C arrays which can be done as followa:
   - Open a system command prompt and use the script as indicated in the following examples.
 
@@ -175,12 +176,6 @@ For reference, Amazon uses [Starfield Technologies](https://www.starfieldtech.co
 ```
 
 **NOTE:** AWS_IOT_MQTT_CLIENT_ID and AWS_IOT_MY_THING_NAME have to be updated as per the name of the **Thing** created.
-
-- Open the **rsi_wlan_app.c** file. Configure the following parameters to the same Device shadow URL as used above. The Room temperature is published to MQTT Topic EFRtemp. This can be changed if required.
-
-   ```c
-   #define AWS_DOMAIN_NAME "a2m21kovu9tcsh-ats.iot.us-east-2.amazonaws.com"
-   ```
 
 - The Room temperature is published to MQTT Topic EFRtemp. The topic name for this can be changed in the same file if required.
 
@@ -303,6 +298,7 @@ This section outlines the application's step-by-step execution process.
 - Avoid having multiple wiseconnects in the same workspace. This may cause issue even after clean builds.
 - It is important to add the required policy while creating the thing. If your policy does not allow updating any data periodically, you may see AWS connection error in the logs.
 - Ensure the SiWx917 module has 1.8 MB MBR flashed in it.
+- If build errors are received because of i2c or drivers, reduce the workspace path (e.g. keeping the workspace directly at C:/ location).
 
 ## **8. Appendix**
 
