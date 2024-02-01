@@ -79,7 +79,7 @@ The application can be evaluated from the 3.1.1 SAPIS & Firmware. But it is reco
 
 ## **3. Setup Diagram**
 - This section describes the setup diagram of the BLE OTA application with EFR Connect mobile App.
-   <br><img src="resources/readme/setup.png" width=500 alt=""><br>
+   <br><img src="resources/readme/setup.png" alt=""><br>
 
 - Follow the "Hardware connections and Simplicity Studio IDE Set up" section in the respective [Getting Started with SiWx91x](https://docs.silabs.com/wiseconnect/3.0.9/wiseconnect-getting-started/getting-started-with-soc-mode) guides to make the hardware connections and add the Gecko and SiWx91x COMBO SDKs to the Simplicity Studio IDE.
 
