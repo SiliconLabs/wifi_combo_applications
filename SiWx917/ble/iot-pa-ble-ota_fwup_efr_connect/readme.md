@@ -16,7 +16,7 @@
 - [Testing the Application](#6-testing-the-application)
   - [Build the Application](#61-build-the-application)
   - [Application execution](#62-application-execution)
-  - [Firmware Upgrade Formate change](#63-firmware-upgrade-formate-change)
+  - [Firmware Upgrade format change](#63-firmware-upgrade-format-change)
   - [Firmware Upgrade with EFR Connect Mobile App](#64-firmware-upgrade-with-efr-connect-mobile-app)
   - [TA Firmware Upgrade](#641-ta-firmware-upgrade)
   - [M4 Firmware Upgrade](#642-m4-firmware-upgrade)
@@ -49,18 +49,18 @@ The user must configure the following items before launching the application.
 
 ### 2.1 Hardware Requirements
 - A smart phone with Silicon labs **EFR Connect** app
-- Windows/Mac PC
+- Windows PC
 #### **2.1.1 SoC** 
 
    - Silicon Labs SiWx917 PK6031A SoC Kit which includes
-      - BRD4001A/BRD4002A Wireless Starter Kit Mainboard
+      - BRD4002A Wireless Starter Kit Mainboard
       - BRD4338A Radio Board
    
 #### **2.1.2 NCP**
 
    - Silicon Labs BRD4346A radio board 
    - [Silicon Labs SLWSTK6006A EFR32xG21 Wireless Starter Kit](https://www.silabs.com/development-tools/wireless/efr32xg21-wireless-starter-kit) which includes
-      - BRD4001A/BRD4002A Wireless Starter Kit Mainboard
+      - BRD4002A Wireless Starter Kit Mainboard
       - BRD4180A/BRD4180B Radio Board
 
 
@@ -75,13 +75,13 @@ The user must configure the following items before launching the application.
 - Python version 3.7.9 or above
 
 **Note:**
-The application can be evaluated from the 3.1.1 SAPIS & Firmware. But it is recommended to use the latest SAPIS & Firmware available on the website.
+The application can be evaluated from the 3.1.1 SDK & Firmware. But it is recommended to use the latest SDK & Firmware available on the website.
 
 ## **3. Setup Diagram**
 - This section describes the setup diagram of the BLE OTA application with EFR Connect mobile App.
    <br><img src="resources/readme/setup.png" alt=""><br>
 
-- Follow the "Hardware connections and Simplicity Studio IDE Set up" section in the respective [Getting Started with SiWx91x](https://docs.silabs.com/wiseconnect/3.0.9/wiseconnect-getting-started/getting-started-with-soc-mode) guides to make the hardware connections and add the Gecko and SiWx91x COMBO SDKs to the Simplicity Studio IDE.
+- Follow the "Hardware connections and Simplicity Studio IDE Set up" section in the respective [Getting Started with SiWx91x](https://docs.silabs.com/wiseconnect/3.0.9/wiseconnect-getting-started/getting-started-with-soc-mode) guides to make the hardware connections and add the Gecko and SiWx91x WiFi SDK to the Simplicity Studio IDE.
 
 - Ensure the SiWx91x module is loaded with the latest firmware following the [SiWx91x Firmware Update](https://docs.silabs.com/rs9116/latest/wiseconnect-getting-started) section in the respective Getting started with SiWx91x*** guides. Please note that the current project was tested on SiWx917_WiSeConnect_SDK.3.1.1(SiWG917-B.2.10.0.0.4.rps).
 
@@ -96,7 +96,7 @@ The application can be evaluated from the 3.1.1 SAPIS & Firmware. But it is reco
   - Upgrade your connectivity firmware
   - Create a Studio project
 
-- Download the project **iot-pa-ble-ota_fwup_efr_connect** from this [link](https://github.com/SiliconLabs/wifi_combo_applications/tree/master/SiWx917/ble/iot-pa-ble-ota_fwup_efr_connect)
+- Download the project **iot-pa-ble-ota_fwup_efr_connect** from the GitHub [link](https://github.com/SiliconLabs/wifi_combo_applications/tree/master/SiWx917)
 - Keep the project in the Release folder at location: `SDK/examples/snippets/ble/`
 - Open **templates.xml** file located at `SDK/templates.xml` and add the code snippet at the end, before `</model:MDescriptors>`:
 
@@ -179,9 +179,9 @@ This section outlines the application's step-by-step execution process.
 3. Run the SiWx91x example. The SiWx91x device advertises as the "BLE_OTA_FWUP".
    <br><img src="resources/readme/bleadv.png" alt=""><br>   
 
-## **6.3 Firmware Upgrade Formate change**
+## **6.3 Firmware Upgrade format change**
 - Rename the firmware format from.rps to.gbl, as shown below.
-   <br><img src="resources/readme/firmwareformate.png" alt=""><br>
+   <br><img src="resources/readme/firmwareformat.png" alt=""><br>
 
 ## **6.4 Firmware Upgrade with EFR Connect Mobile App**
 
@@ -228,7 +228,7 @@ This section outlines the application's step-by-step execution process.
 
 - Click on the **Select application .gbl file** option to browse the required M4 firmware
 
-   **Note:** Considered the ble_heart_rate_profile_soc.rps file and changed the formate to ble_heart_rate_profile_soc.gbl file.
+   **Note:** Considered the ble_heart_rate_profile_soc.rps file and changed the format to ble_heart_rate_profile_soc.gbl file.
    <br><img src="resources/readme/m4fwfileselection.png" alt="" width=250 height=500><br>
 
 - Click on the **upload** option.
@@ -248,9 +248,9 @@ This section outlines the application's step-by-step execution process.
 
 ## **6.5 Firmware Upgrade with Python script**
 
-- Navigate to the "ble_ota_fwup_efr_connect" folder in the release as shown below.
+- Navigate to the "iot-pa-ble-ota_fwup_efr_connect" folder in the release as shown below.
 ```
-$\SimplicityStudio\SDKs\gecko_sdk\extension\wiseconnect\examples\snippets\ble\ble_ota_fwup_efr_connect\tools\Python_script
+$\SimplicityStudio\SDKs\gecko_sdk\extension\wiseconnect\examples\snippets\ble\iot-pa-ble-ota_fwup_efr_connect\tools\Python_script
 ```
    <br><img src="resources/readme/pythonscriptpath.png" alt=""><br>
 
