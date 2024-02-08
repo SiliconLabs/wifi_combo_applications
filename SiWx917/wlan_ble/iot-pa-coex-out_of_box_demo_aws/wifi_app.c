@@ -1,0 +1,1228 @@
+/*******************************************************************************
+ * @file  wifi_app.c
+ * @brief
+ *******************************************************************************
+ * # License
+ * <b>Copyright 2023 Silicon Laboratories Inc. www.silabs.com</b>
+ *******************************************************************************
+ *
+ * The licensor of this software is Silicon Laboratories Inc. Your use of this
+ * software is governed by the terms of Silicon Labs Master Software License
+ * Agreement (MSLA) available at
+ * www.silabs.com/about-us/legal/master-software-license-agreement. This
+ * software is distributed to you in Source Code format and is governed by the
+ * sections of the MSLA applicable to Source Code.
+ *
+ ******************************************************************************/
+/*************************************************************************
+ *
+ */
+
+/*================================================================================
+ * @brief : This file contains example application for Wlan Station BLE
+ * Provisioning
+ * @section Description :
+ * This application explains how to get the WLAN connection functionality using
+ * BLE provisioning.
+ * Silicon Labs Module starts advertising and with BLE Provisioning the Access Point
+ * details are fetched.
+ * Silicon Labs device is configured as a WiFi station and connects to an Access Point.
+ =================================================================================*/
+
+/**
+ * Include files
+ * */
+
+//! SL Wi-Fi SDK includes
+#include "sl_constants.h"
+#include "sl_wifi.h"
+#include "sl_wifi_callback_framework.h"
+#include "sl_net.h"
+#include "sl_net_si91x.h"
+#include "sl_utility.h"
+#include "sl_status.h"
+#include "sl_wifi_device.h"
+#include "sl_net_wifi_types.h"
+#include "sl_si91x_driver.h"
+#include "sl_board_configuration.h"
+#include "errno.h"
+#include "socket.h"
+#include "sl_si91x_socket.h"
+#include "sl_wifi_device.h"
+#include "sl_event_handler.h"
+#include "sl_si91x_driver.h"
+
+#include "sl_ip_types.h"
+
+//! LCD related include files
+#include "sl_sleeptimer.h"
+#include "sl_sleeptimer_config.h"
+#include "app.h"
+#include "rsi_board.h"
+#include "dmd.h"
+#include "RTE_Device_917.h"
+#include "sl_status.h"
+#include "rsi_ccp_user_config.h"
+#include "rsi_chip.h"
+#include "em_assert.h"
+#include "sl_memlcd.h"
+#include "glib.h"
+
+#ifdef SLI_SI91X_MCU_INTERFACE
+#include "sl_si91x_m4_ps.h"
+#include "rsi_rom_power_save.h"
+
+#include "rsi_rtc.h"
+#include "rsi_chip.h"
+#include "rsi_wisemcu_hardware_setup.h"
+#include "rsi_m4.h"
+#include "rsi_rom_power_save.h"
+
+//! I2C related files
+#include "i2c_leader_example.h"
+#include "rsi_ps_config.h"
+#endif
+
+#include "cmsis_os2.h"
+#include <string.h>
+#include <stdio.h>
+
+#include "wifi_config.h"
+#include "rsi_common_apis.h"
+#include "rsi_bt_common_apis.h"
+
+#include "aws_iot_config.h"
+#include "aws_iot_shadow_interface.h"
+#include "ble_config.h"
+#include "wifi_config.h"
+#include "aws_client_certificate.pem.crt.h"
+#include "aws_client_private_key.pem.key.h"
+#include "aws_starfield_ca.pem.h"
+
+//! AWS files
+#include "aws_iot_log.h"
+#include "aws_iot_error.h"
+#include "aws_iot_version.h"
+#include "aws_iot_mqtt_client_interface.h"
+#include <rsi_ble_apis.h>
+
+//! MQTT related include files
+#include "sl_utility.h"
+#include "cacert.pem.h"
+#include "string.h"
+#include "sl_net_dns.h"
+#include "sl_net_ping.h"
+
+extern rsi_ble_event_conn_status_t conn_event_to_app;
+
+/******************************************************
+ *                    Constants
+ ******************************************************/
+#define WIFI_CLIENT_PROFILE_SSID "YOUR_INITIAL_AP_SSID"
+
+// LCD related defines
+#define SL_BOARD_ENABLE_DISPLAY_PIN  0
+#define SL_BOARD_ENABLE_DISPLAY_PORT 0
+
+#define TIMER_0  0  // Timer 0
+#define ONE_MSEC 32 // Ticks required for every one millisecond
+
+#include "Driver_SPI.h"
+
+#define DHCP_HOST_NAME    NULL
+#define TIMEOUT_MS        5000
+#define WIFI_SCAN_TIMEOUT 10000
+
+#define SUBSCRIBE_TO_TOPIC               "Si917_MQTT_RECEIVE"   //! Subscribe Topic to receive the message from cloud
+#define PUBLISH_ON_TOPIC               "Si917_APP_STATUS" //! Publish Topic to send the status from application to cloud
+#define MQTT_publish_QOS0_PAYLOAD "Hi from SiWG917"
+#define PUBLISH_PERIODICITY       (30000) //! Publish periodicity in milliseconds
+#define MQTT_USERNAME             "username"
+#define MQTT_PASSWORD             "password"
+
+#define DNS_TIMEOUT            20000
+#define MAX_DNS_RETRY_COUNT    5
+#define NO_OF_PINGS            5
+#define PING_PACKET_SIZE       64
+
+#define ENABLE_POWER_SAVE      1
+#define I2C_SENSOR_PERI_ENABLE 1
+
+#ifdef SLI_SI91X_MCU_COMMON_FLASH_MODE
+#ifdef SLI_SI917B0
+#define IVT_OFFSET_ADDR 0x8202000 /*<!Application IVT location VTOR offset for B0>  */
+#else
+#define IVT_OFFSET_ADDR 0x8212000 /*<!Application IVT location VTOR offset for A0>  */
+#endif
+#else
+#define IVT_OFFSET_ADDR 0x8012000 /*<!Application IVT location VTOR offset for dual flash A0 and B0>  */
+#endif
+#ifdef SLI_SI917B0
+#define WKP_RAM_USAGE_LOCATION 0x24061EFC /*<!Bootloader RAM usage location upon wake up  for B0 */
+#else
+#define WKP_RAM_USAGE_LOCATION 0x24061000 /*<!Bootloader RAM usage location upon wake up for A0  */
+#endif
+#if SL_SI91X_MCU_ALARM_BASED_WAKEUP
+#endif
+#define WIRELESS_WAKEUP_IRQHandler_Periority 8
+
+/*
+ *********************************************************************************************************
+ *                                         LOCAL GLOBAL VARIABLES
+ *********************************************************************************************************
+ */
+
+sl_wifi_scan_result_t *scan_result          = NULL;
+static volatile bool scan_complete          = false;
+static volatile sl_status_t callback_status = SL_STATUS_OK;
+uint16_t scanbuf_size = (sizeof(sl_wifi_scan_result_t) + (SL_WIFI_MAX_SCANNED_AP * sizeof(scan_result->scan_info[0])));
+
+sl_wifi_performance_profile_t wifi_profile = { .profile = ASSOCIATED_POWER_SAVE };
+
+uint8_t connected = 0, timeout = 0;
+uint8_t disconnected = 0, disassosiated = 0;
+uint8_t a = 0;
+
+sl_wifi_client_configuration_t access_point = { 0 };
+sl_net_ip_configuration_t ip_address        = { 0 };
+
+static uint32_t wlan_app_event_map;
+#if !(defined(SLI_SI91X_MCU_INTERFACE) && ENABLE_POWER_SAVE)
+volatile uint8_t publish_msg = 0;
+#endif
+
+uint8_t retry = 1;
+
+uint8_t yield;
+AWS_IoT_Client client   = { 0 };
+uint8_t disconnect_flag = 0;
+
+//sl_net_wifi_client_profile_t client_profile = { 0 };
+
+char *hostname          = "www.silabs.com";
+
+uint32_t first_time                     = 0;
+IoT_Publish_Message_Params publish_QOS0 = { 0 };
+volatile uint8_t nvic_enable1[240];
+
+fd_set read_fds;
+volatile uint8_t check_for_recv_data = 0;
+extern volatile uint8_t select_given;
+
+int32_t status1            = RSI_SUCCESS;
+AWS_IoT_Client mqtt_client = { 0 };
+#define RSI_FD_ISSET(x, y) rsi_fd_isset(x, y)
+
+//LCD related variables
+GLIB_Context_t glibContext;
+volatile int currentLine = 0;
+
+sl_ip_address_t fetch_ip = {0};
+char *msg;
+sl_net_wifi_client_profile_t client_profile = { 0 };
+//uint32_t fetch_ip;
+
+//sl_ipv4_address_t fetch_ip = { 0 };
+
+sl_mac_address_t mac_addr = { 0 };
+char mac_id[18];
+char fw[32];
+char ip_add[32];
+sl_ip_address_t ip = { 0 };
+
+// Application level WLAN reconnection attempt counter and retry limit
+#define APP_RECONN_LOOP_CTR_LIM 3
+uint8_t app_reconn_loop_ctr = 0;
+
+typedef struct sl_wlan_app_cb_s {
+  //! wlan application state
+  volatile sl_wifi_app_state_t state;
+
+  //! length of buffer to copy
+  uint32_t length;
+
+  //! application buffer
+  uint8_t buffer[RSI_APP_BUF_SIZE];
+
+  //! to check application buffer availability
+  uint8_t buf_in_use;
+
+  //! application events bit map
+  uint32_t event_map;
+
+} sl_wlan_app_cb_t;
+sl_wlan_app_cb_t sl_wlan_app_cb; //! application control block
+
+static sl_net_wifi_client_profile_t wifi_client_profile = {
+    .config = {
+        .ssid.value = WIFI_CLIENT_PROFILE_SSID,
+        .ssid.length = sizeof(WIFI_CLIENT_PROFILE_SSID)-1,
+        .channel.channel = SL_WIFI_AUTO_CHANNEL,
+        .channel.band = SL_WIFI_AUTO_BAND,
+        .channel.bandwidth = SL_WIFI_AUTO_BANDWIDTH,
+        .bssid = {{0}},
+        .bss_type = SL_WIFI_BSS_TYPE_INFRASTRUCTURE,
+        .security = SL_WIFI_WPA2,
+        .encryption = SL_WIFI_CCMP_ENCRYPTION,
+        .client_options = 0,
+        .credential_id = SL_NET_DEFAULT_WIFI_CLIENT_CREDENTIAL_ID,
+    },
+    .ip = {
+        .mode = SL_IP_MANAGEMENT_DHCP,
+        .type = SL_IPV4,
+        .host_name = DHCP_HOST_NAME,
+        .ip = {{{0}}},
+
+    }
+};
+
+/*
+ *********************************************************************************************************
+ *                                               DATA TYPES
+ *********************************************************************************************************
+ */
+extern void sl_wifi_app_send_to_ble(uint16_t msg_type, uint8_t *data, uint16_t data_len);
+extern uint8_t coex_ssid[50], pwd[34], sec_type;
+void sl_wifi_mqtt_task(void);
+void m4_sleep_wakeup(void);
+void wakeup_source_config(void);
+static sl_status_t show_scan_results();
+void ping_silabs();
+void lcd_mac(void);
+void mac_id_fn(void);
+void memlcd_app_init(void);
+
+uint8_t conn_status;
+extern uint8_t magic_word;
+
+// WLAN include file for configuration
+osSemaphoreId_t rsi_mqtt_sem;
+extern osSemaphoreId_t wlan_thread_sem;
+/*==============================================*/
+/**
+ * @fn         sl_wifi_app_set_event
+ * @brief      sets the specific event.
+ * @param[in]  event_num, specific event number.
+ * @return     none.
+ * @section description
+ * This function is used to set/raise the specific event.
+ */
+void sl_wifi_app_set_event(uint32_t event_num)
+{
+  wlan_app_event_map |= BIT(event_num);
+
+  osSemaphoreRelease(wlan_thread_sem);
+
+  return;
+}
+
+/*==============================================*/
+/**
+ * @fn         sl_wifi_app_clear_event
+ * @brief      clears the specific event.
+ * @param[in]  event_num, specific event number.
+ * @return     none.
+ * @section description
+ * This function is used to clear the specific event.
+ */
+void sl_wifi_app_clear_event(uint32_t event_num)
+{
+  wlan_app_event_map &= ~BIT(event_num);
+  return;
+}
+
+/*==============================================*/
+/**
+ * @fn         sl_wifi_app_get_event
+ * @brief      returns the first set event based on priority
+ * @param[in]  none.
+ * @return     int32_t
+ *             > 0  = event number
+ *             -1   = not received any event
+ * @section description
+ * This function returns the highest priority event among all the set events
+ */
+int32_t sl_wifi_app_get_event(void)
+{
+  uint32_t ix;
+
+  for (ix = 0; ix < 32; ix++) {
+    if (wlan_app_event_map & (1 << ix)) {
+      return ix;
+    }
+  }
+
+  return (-1);
+}
+
+// rejoin failure call back handler in station mode
+sl_status_t join_callback_handler(sl_wifi_event_t event, char *result, uint32_t result_length, void *arg)
+{
+  UNUSED_PARAMETER(event);
+  UNUSED_PARAMETER(result);
+  UNUSED_PARAMETER(result_length);
+  UNUSED_PARAMETER(arg);
+
+  // update wlan application state
+  disconnected = 1;
+  connected    = 0;
+
+  sl_wifi_app_set_event(SL_WIFI_DISCONNECTED_STATE);
+
+  return SL_STATUS_OK;
+}
+
+void rsi_wlan_app_call_backs_init(void)
+{
+  //! Initialize join fail call back
+  sl_wifi_set_join_callback(join_callback_handler, NULL);
+}
+
+sl_status_t network_event_handler(sl_net_event_t event, sl_status_t status, void *data, uint32_t data_length)
+{
+  UNUSED_PARAMETER(data_length);
+  switch (event) {
+    case SL_NET_PING_RESPONSE_EVENT: {
+      sl_si91x_ping_response_t *response = (sl_si91x_ping_response_t *)data;
+      UNUSED_VARIABLE(response);
+      if (status != SL_STATUS_OK) {
+        printf("\r\nPing request unsuccessful\r\n");
+        return status;
+      }
+      printf("\r\nPing response from www.silabs.com \r\n");
+      break;
+    }
+    default:
+      break;
+  }
+
+  return SL_STATUS_OK;
+}
+
+void ping_silabs()
+{
+  sl_status_t status = 0;
+  uint32_t i         = 0;
+
+  sl_ip_address_t remote_ip_address = { 0 };
+
+  remote_ip_address.type = SL_IPV4;
+
+  UNUSED_VARIABLE(remote_ip_address);
+
+  sl_ip_address_t dns_query_rsp = { 0 };
+  uint32_t server_address;
+  int32_t dns_retry_count = MAX_DNS_RETRY_COUNT;
+  char server_ip[16];
+
+  do {
+    //! Getting IP address of the remote server using DNS request
+    status = sl_net_host_get_by_name((const char *)hostname, DNS_TIMEOUT, SL_NET_DNS_TYPE_IPV4, &dns_query_rsp);
+    dns_retry_count--;
+  } while ((dns_retry_count != 0) && (status != SL_STATUS_OK));
+
+  if (status != SL_STATUS_OK) {
+    printf("\r\nUnexpected error while resolving dns, Error 0x%lX\r\n", status);
+    return;
+  }
+
+  server_address = dns_query_rsp.ip.v4.value;
+  sprintf((char *)server_ip,
+          "%ld.%ld.%ld.%ld",
+          server_address & 0x000000ff,
+          (server_address & 0x0000ff00) >> 8,
+          (server_address & 0x00ff0000) >> 16,
+          (server_address & 0xff000000) >> 24);
+
+  printf("\nResolved DNS - www.silabs.com ip address = %s\n", server_ip);
+
+  while (i < NO_OF_PINGS) {
+    // Send ping
+    printf("\r\nPinging www.silabs.com");
+    status = sl_si91x_send_ping(dns_query_rsp, PING_PACKET_SIZE);
+    if (status != SL_STATUS_IN_PROGRESS) {
+      printf("\r\nPing request failed with status 0x%lX\r\n", status);
+      return;
+    }
+
+    // Sleep for 2 seconds
+    osDelay(2000);
+    i++;
+  }
+}
+
+void async_socket_select(fd_set *fd_read, fd_set *fd_write, fd_set *fd_except, int32_t status1)
+{
+  UNUSED_PARAMETER(fd_except);
+  UNUSED_PARAMETER(fd_write);
+  UNUSED_PARAMETER(status1);
+  //!Check the data pending on this particular socket descriptor
+  if (FD_ISSET(mqtt_client.networkStack.socket_id, fd_read)) {
+    check_for_recv_data = 1;
+  }
+  sl_wifi_app_set_event(RSI_AWS_SELECT_CONNECT_STATE);
+}
+
+/**
+ * @brief This parameter will avoid infinite loop of publish and exit the program after certain number of publishes
+ */
+static void iot_subscribe_callback_handler(AWS_IoT_Client *pClient,
+                                           char *topicName,
+                                           uint16_t topicNameLen,
+                                           IoT_Publish_Message_Params *params,
+                                           void *pData)
+{
+  UNUSED_PARAMETER(pClient);
+  UNUSED_PARAMETER(topicName);
+  UNUSED_PARAMETER(topicNameLen);
+  UNUSED_PARAMETER(pData);
+  char dt[1000] = { 0 };
+  uint32_t len;
+  len = params->payloadLen;
+
+  strncpy(dt, params->payload, len);
+  LOG_PRINT("\r\n Data received = %s\r\n", dt);
+
+  currentLine = 0;
+  GLIB_drawStringOnLine(&glibContext, " ", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+  GLIB_drawStringOnLine(&glibContext, "Received message", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+  GLIB_drawStringOnLine(&glibContext, "from AWS broker:", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+  GLIB_drawStringOnLine(&glibContext, dt, currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+
+  DMD_updateDisplay();
+  osDelay(2000);
+  memlcd_app_init();
+
+#if !(defined(SLI_SI91X_MCU_INTERFACE) && ENABLE_POWER_SAVE)
+  publish_msg = 1;
+#endif
+
+  sl_wifi_app_set_event(RSI_AWS_SELECT_CONNECT_STATE);
+}
+
+static void disconnectCallbackHandler(AWS_IoT_Client *pClient, void *data)
+{
+  IoT_Error_t rc = FAILURE;
+  LOG_PRINT("MQTT Disconnect\r\n");
+  if (NULL == pClient) {
+    return;
+  }
+  IOT_UNUSED(data);
+  if (aws_iot_is_autoreconnect_enabled(pClient)) {
+    LOG_PRINT("Auto Reconnect is enabled, Reconnecting attempt will start now\r\n");
+  } else {
+    LOG_PRINT("Auto Reconnect not enabled. Starting manual reconnect...\r\n");
+    rc = aws_iot_mqtt_attempt_reconnect(pClient);
+    if (NETWORK_RECONNECTED == rc) {
+      LOG_PRINT("Manual Reconnect Successful\r\n");
+    } else {
+      LOG_PRINT("Manual Reconnect \r\n");
+    }
+  }
+}
+
+sl_status_t load_certificates_in_flash(void)
+{
+  sl_status_t status;
+
+  // Load SSL CA certificate
+  status = sl_net_set_credential(SL_NET_TLS_SERVER_CREDENTIAL_ID(0),
+                                 SL_NET_SIGNING_CERTIFICATE,
+                                 aws_starfield_ca,
+                                 sizeof(aws_starfield_ca) - 1);
+  if (status != SL_STATUS_OK) {
+    LOG_PRINT("\r\nLoading TLS CA certificate in to FLASH Failed, Error Code : 0x%lX\r\n", status);
+    return status;
+  }
+  LOG_PRINT("\r\nLoading TLS CA certificate at index %d Successfull\r\n", 0);
+
+  // Load SSL Client certificate
+  status = sl_net_set_credential(SL_NET_TLS_CLIENT_CREDENTIAL_ID(0),
+                                 SL_NET_CERTIFICATE,
+                                 aws_client_certificate,
+                                 sizeof(aws_client_certificate) - 1);
+  if (status != SL_STATUS_OK) {
+    LOG_PRINT("\r\nLoading TLS Client certificate in to FLASH Failed, Error Code : 0x%lX\r\n", status);
+    return status;
+  }
+  LOG_PRINT("\r\nLoading TLS Client certificate at index %d Successfull\r\n", 0);
+
+  // Load SSL Client private key
+  status = sl_net_set_credential(SL_NET_TLS_CLIENT_CREDENTIAL_ID(0),
+                                 SL_NET_PRIVATE_KEY,
+                                 aws_client_private_key,
+                                 sizeof(aws_client_private_key) - 1);
+  if (status != SL_STATUS_OK) {
+    LOG_PRINT("\r\nLoading TLS Client private key in to FLASH Failed, Error Code : 0x%lX\r\n", status);
+    return status;
+  }
+  LOG_PRINT("\r\nLoading TLS Client private key at index %d Successfull\r\n", 0);
+
+  return SL_STATUS_OK;
+}
+
+int32_t rsi_wlan_mqtt_certs_init(void)
+{
+  sl_status_t status = RSI_SUCCESS;
+
+  status = load_certificates_in_flash();
+  if (status != SL_STATUS_OK) {
+    LOG_PRINT("\r\nUnexpected error while loading certificates: 0x%lx\r\n", status);
+    return status;
+  }
+
+  rsi_wlan_app_call_backs_init();
+
+  return status;
+}
+
+static sl_status_t show_scan_results()
+{
+  SL_WIFI_ARGS_CHECK_NULL_POINTER(scan_result);
+  uint8_t *bssid = NULL;
+  LOG_PRINT("%lu Scan results:\r\n", scan_result->scan_count);
+
+  if (scan_result->scan_count) {
+    LOG_PRINT("\r\n   %s %24s %s", "SSID", "SECURITY", "NETWORK");
+    LOG_PRINT("%12s %12s %s\r\n", "BSSID", "CHANNEL", "RSSI");
+
+    for (int a = 0; a < (int)scan_result->scan_count; ++a) {
+      bssid = (uint8_t *)&scan_result->scan_info[a].bssid;
+      LOG_PRINT("%-24s %4u,  %4u, ",
+                scan_result->scan_info[a].ssid,
+                scan_result->scan_info[a].security_mode,
+                scan_result->scan_info[a].network_type);
+      LOG_PRINT("  %02x:%02x:%02x:%02x:%02x:%02x, %4u,  -%u\r\n",
+                bssid[0],
+                bssid[1],
+                bssid[2],
+                bssid[3],
+                bssid[4],
+                bssid[5],
+                scan_result->scan_info[a].rf_channel,
+                scan_result->scan_info[a].rssi_val);
+    }
+  }
+
+  return SL_STATUS_OK;
+}
+
+sl_status_t wlan_app_scan_callback_handler(sl_wifi_event_t event,
+                                           sl_wifi_scan_result_t *result,
+                                           uint32_t result_length,
+                                           void *arg)
+{
+  UNUSED_PARAMETER(result_length);
+  UNUSED_PARAMETER(arg);
+
+  scan_complete = true;
+
+  if (SL_WIFI_CHECK_IF_EVENT_FAILED(event)) {
+    callback_status = *(sl_status_t *)result;
+    return SL_STATUS_FAIL;
+  }
+  SL_VERIFY_POINTER_OR_RETURN(scan_result, SL_STATUS_NULL_POINTER);
+  memset(scan_result, 0, scanbuf_size);
+  memcpy(scan_result, result, scanbuf_size);
+
+  callback_status = show_scan_results();
+
+  //  scan_complete = true;
+  return SL_STATUS_OK;
+}
+
+void sl_wifi_app_task(void)
+{
+  int32_t status   = RSI_SUCCESS;
+  int32_t event_id = 0;
+
+  // Allocate memory for scan buffer
+  scan_result = (sl_wifi_scan_result_t *)malloc(scanbuf_size);
+  if (scan_result == NULL) {
+    LOG_PRINT("Failed to allocate memory for scan result\r\n");
+    return;
+  }
+  memset(scan_result, 0, scanbuf_size);
+  while (1) {
+    // checking for events list
+    event_id = sl_wifi_app_get_event();
+    if (event_id == -1) {
+      osSemaphoreAcquire(wlan_thread_sem, osWaitForever);
+
+      // if events are not received loop will be continued.
+      continue;
+    }
+
+    switch (event_id) {
+      case SL_WIFI_INITIAL_STATE: {
+        sl_wifi_app_clear_event(SL_WIFI_INITIAL_STATE);
+
+        // update wlan application state
+        if (magic_word) {
+          // clear the served event
+          sl_wifi_app_set_event(SL_WIFI_FLASH_STATE);
+        } else {
+          sl_wifi_app_set_event(SL_WIFI_SCAN_STATE);
+        }
+      } break;
+
+      case SL_WIFI_UNCONNECTED_STATE: {
+        sl_wifi_app_clear_event(SL_WIFI_UNCONNECTED_STATE);
+
+        osSemaphoreRelease(wlan_thread_sem);
+      } break;
+
+      case SL_WIFI_SCAN_STATE: {
+        sl_wifi_app_clear_event(SL_WIFI_SCAN_STATE);
+
+        sl_wifi_scan_configuration_t wifi_scan_configuration = { 0 };
+        wifi_scan_configuration                              = default_wifi_scan_configuration;
+
+        sl_wifi_set_scan_callback(wlan_app_scan_callback_handler, NULL);
+
+        memlcd_app_init();
+        currentLine = 0;
+        GLIB_drawStringOnLine(&glibContext, "WLAN Scan Success", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+        DMD_updateDisplay();
+        osDelay(1000);
+
+        status = sl_wifi_start_scan(SL_WIFI_CLIENT_2_4GHZ_INTERFACE, NULL, &wifi_scan_configuration);
+        if (SL_STATUS_IN_PROGRESS == status) {
+          const uint32_t start = osKernelGetTickCount();
+
+          while (!scan_complete && (osKernelGetTickCount() - start) <= WIFI_SCAN_TIMEOUT) {
+            osThreadYield();
+          }
+          status = scan_complete ? callback_status : SL_STATUS_TIMEOUT;
+        }
+        if (status != SL_STATUS_OK) {
+          LOG_PRINT("\r\nWLAN Scan Wait Failed, Error Code : 0x%lX\r\n", status);
+          GLIB_drawStringOnLine(&glibContext, "WLAN Scan Failed", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+          DMD_updateDisplay();
+          osDelay(1000);
+          sl_wifi_app_set_event(SL_WIFI_SCAN_STATE);
+          osDelay(1000);
+        } else {
+          // update wlan application state
+          sl_wifi_app_send_to_ble(SL_WIFI_SCAN_RESP, (uint8_t *)scan_result, scanbuf_size);
+        }
+      } break;
+
+      case SL_WIFI_JOIN_STATE: {
+
+        sl_wifi_credential_t cred = { 0 };
+
+        sl_wifi_app_clear_event(SL_WIFI_JOIN_STATE);
+
+        cred.type = SL_WIFI_PSK_CREDENTIAL;
+        memcpy(cred.psk.value, pwd, strlen((char *)pwd));
+
+        wifi_client_profile.config.ssid.length = strlen((char *)coex_ssid);
+        memcpy(wifi_client_profile.config.ssid.value, coex_ssid, wifi_client_profile.config.ssid.length);
+        wifi_client_profile.config.security = sec_type;
+
+        // Set the custom Wi-Fi client profile
+        status =
+          sl_net_set_credential(wifi_client_profile.config.credential_id, SL_NET_WIFI_PSK, pwd, strlen((char *)pwd));
+        if (status != SL_STATUS_OK) {
+          printf("\r\nFailed to set client credentials: 0x%lx\r\n", status);
+          continue;
+        }
+
+        status =
+          sl_net_set_profile(SL_NET_WIFI_CLIENT_INTERFACE, SL_NET_DEFAULT_WIFI_CLIENT_PROFILE_ID, &wifi_client_profile);
+        if (SL_STATUS_OK == status) {
+          wifi_client_profile.config.ssid.length = strlen((char *)coex_ssid);
+          memcpy(wifi_client_profile.config.ssid.value, coex_ssid, wifi_client_profile.config.ssid.length);
+          wifi_client_profile.config.security = sec_type;
+
+          // Enabling required MFP bits in join feature bitmap for WPA3 Personal mode security type
+          if (wifi_client_profile.config.security == 7) {
+            status = sl_si91x_set_join_configuration(
+              SL_WIFI_CLIENT_2_4GHZ_INTERFACE,
+              SL_SI91X_JOIN_FEAT_MFP_CAPABLE_REQUIRED | SL_SI91X_JOIN_FEAT_LISTEN_INTERVAL_VALID);
+            if (status != SL_STATUS_OK) {
+              printf("\r\n join configuration settings for WPA3 failed\r\n");
+            }
+          } else if (wifi_client_profile.config.security == 8) {
+            status = sl_si91x_set_join_configuration(
+              SL_WIFI_CLIENT_2_4GHZ_INTERFACE,
+              SL_SI91X_JOIN_FEAT_MFP_CAPABLE_ONLY | SL_SI91X_JOIN_FEAT_LISTEN_INTERVAL_VALID);
+            if (status != SL_STATUS_OK) {
+              printf("\r\n join configuration settings for WPA3 failed\r\n");
+            }
+          } else {
+            status = sl_si91x_set_join_configuration(SL_WIFI_CLIENT_2_4GHZ_INTERFACE,
+                                                     SL_SI91X_JOIN_FEAT_LISTEN_INTERVAL_VALID);
+            if (status != SL_STATUS_OK) {
+              printf("\r\n join configuration settings for WPA3 failed\r\n");
+            }
+          }
+
+          printf("Selected SSID:");
+          for (int i = 0; i < wifi_client_profile.config.ssid.length; i++) {
+            printf("%c", wifi_client_profile.config.ssid.value[i]);
+          }
+
+          do {
+            status = sl_net_up(SL_NET_WIFI_CLIENT_INTERFACE, SL_NET_DEFAULT_WIFI_CLIENT_PROFILE_ID);
+            app_reconn_loop_ctr++;
+          } while ((status != SL_STATUS_OK) && (app_reconn_loop_ctr < APP_RECONN_LOOP_CTR_LIM));
+          app_reconn_loop_ctr = 0;
+        }
+        if (status != RSI_SUCCESS) {
+          timeout = 1;
+          sl_wifi_app_send_to_ble(SL_WIFI_TIMEOUT_NOTIFY, (uint8_t *)&timeout, 1);
+          LOG_PRINT("\r\nWLAN Connect Failed, Error Code : 0x%lX\r\n", status);
+
+          GLIB_drawStringOnLine(&glibContext, "WLAN Connect Failed", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+          DMD_updateDisplay();
+          osDelay(1000);
+
+          // update wlan application state
+          disconnected = 1;
+          connected    = 0;
+        } else {
+
+          LOG_PRINT("\nWLAN Connection Success\n");
+
+          GLIB_drawStringOnLine(&glibContext, "WLAN Connect Success", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+          GLIB_drawStringOnLine(&glibContext, "                     ", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+          DMD_updateDisplay();
+          osDelay(1000);
+
+          // update wlan application state
+          sl_wifi_app_set_event(SL_WIFI_CONNECTED_STATE);
+        }
+
+      } break;
+
+      case SL_WIFI_FLASH_STATE: {
+        sl_wifi_app_clear_event(SL_WIFI_FLASH_STATE);
+
+        if (retry) {
+          status = sl_wifi_connect(SL_WIFI_CLIENT_2_4GHZ_INTERFACE, &access_point, TIMEOUT_MS);
+          if (status != RSI_SUCCESS) {
+            LOG_PRINT("\r\nWLAN Connect Failed, Error Code : 0x%lX\r\n", status);
+            break;
+          } else {
+            sl_wifi_app_set_event(SL_WIFI_CONNECTED_STATE);
+          }
+        }
+      } break;
+
+      case SL_WIFI_CONNECTED_STATE: {
+        sl_wifi_app_clear_event(SL_WIFI_CONNECTED_STATE);
+
+        ip_address.type      = SL_IPV4;
+        ip_address.mode      = SL_IP_MANAGEMENT_DHCP;
+        ip_address.host_name = DHCP_HOST_NAME;
+
+        // Configure IP
+        status = sl_si91x_configure_ip_address(&ip_address, SL_SI91X_WIFI_CLIENT_VAP_ID);
+        if (status != RSI_SUCCESS) {
+          a++;
+          if (a == 3) {
+            a       = 0;
+            timeout = 1;
+            status  = sl_wifi_disconnect(SL_WIFI_CLIENT_INTERFACE);
+            if (status == RSI_SUCCESS) {
+              connected     = 0;
+              disassosiated = 1;
+              sl_wifi_app_send_to_ble(SL_WIFI_TIMEOUT_NOTIFY, (uint8_t *)&timeout, 1);
+              sl_wifi_app_set_event(SL_WIFI_ERROR_STATE);
+            }
+          }
+          LOG_PRINT("\r\nIP Config Failed, Error Code : 0x%lX\r\n", status);
+          break;
+        } else {
+          a             = 0;
+          connected     = 1;
+          conn_status   = 1;
+          disconnected  = 0;
+          disassosiated = 0;
+
+          memcpy(&fetch_ip.ip.v4.bytes, &ip_address.ip.v4.ip_address.bytes, sizeof(sl_ipv4_address_t));
+//          printf("\r\nIP Address:%d:%d:%d:%d\r\n", fetch_ip.ip.v4.bytes[0], fetch_ip.ip.v4.bytes[1], fetch_ip.ip.v4.bytes[2], fetch_ip.ip.v4.bytes[3]);
+          sprintf(ip_add,
+                  "%d.%d.%d.%d",
+                  fetch_ip.ip.v4.bytes[0],
+                  fetch_ip.ip.v4.bytes[1],
+                  fetch_ip.ip.v4.bytes[2],
+                  fetch_ip.ip.v4.bytes[3]);
+
+          printf("\r\nIP Address:%s \r\n", ip_add);
+          GLIB_drawStringOnLine(&glibContext, "IP Address:", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+          GLIB_drawStringOnLine(&glibContext, ip_add, currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+          DMD_updateDisplay();
+          osDelay(1000);
+
+          // update wlan application state
+          sl_wifi_app_set_event(SL_WIFI_IPCONFIG_DONE_STATE);
+          sl_wifi_app_send_to_ble(SL_WIFI_CONNECTION_STATUS, (uint8_t *)&connected, 1);
+        }
+      } break;
+
+      case SL_WIFI_IPCONFIG_DONE_STATE: {
+        sl_wifi_app_clear_event(SL_WIFI_IPCONFIG_DONE_STATE);
+        sl_wlan_app_cb.state = SL_WIFI_MQTT_INIT_STATE;
+
+        mac_id_fn();
+        printf("\r\nMAC ID: %s \r\n", mac_id);
+
+        lcd_mac();
+
+        GLIB_drawStringOnLine(&glibContext, "Pinging", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+        GLIB_drawStringOnLine(&glibContext, "www.silabs.com", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+
+        DMD_updateDisplay();
+        osDelay(1000);
+
+        ping_silabs();
+        sl_wifi_mqtt_task();
+
+        LOG_PRINT("SL_WIFI_IPCONFIG_DONE_STATE\r\n");
+      } break;
+
+      case SL_WIFI_ERROR_STATE: {
+
+      } break;
+
+      case SL_WIFI_DISCONNECTED_STATE: {
+        sl_wifi_app_clear_event(SL_WIFI_DISCONNECTED_STATE);
+        retry = 1;
+        sl_wifi_app_send_to_ble(SL_WIFI_DISCONNECTION_STATUS, (uint8_t *)&disconnected, 1);
+        sl_wifi_app_set_event(SL_WIFI_FLASH_STATE);
+
+        LOG_PRINT("SL_WIFI_DISCONNECTED_STATE\r\n");
+      } break;
+
+      case SL_WIFI_DISCONN_NOTIFY_STATE: {
+        sl_wifi_app_clear_event(SL_WIFI_DISCONN_NOTIFY_STATE);
+
+        status = sl_wifi_disconnect(SL_WIFI_CLIENT_INTERFACE);
+        if (status == RSI_SUCCESS) {
+#if RSI_WISE_MCU_ENABLE
+          rsi_flash_erase((uint32_t)FLASH_ADDR_TO_STORE_AP_DETAILS);
+#endif
+          LOG_PRINT("\r\nWLAN Disconnected\r\n");
+          disassosiated   = 1;
+          connected       = 0;
+          yield           = 0;
+          disconnect_flag = 0; // reset flag to allow disconnecting again
+
+          sl_wifi_app_send_to_ble(SL_WIFI_DISCONNECTION_NOTIFY, (uint8_t *)&disassosiated, 1);
+          sl_wifi_app_set_event(SL_WIFI_UNCONNECTED_STATE);
+        } else {
+          LOG_PRINT("\r\nWIFI Disconnect Failed, Error Code : 0x%lX\r\n", status);
+        }
+      } break;
+      default:
+        break;
+    }
+  }
+
+  if (scan_result != NULL) {
+    free(scan_result);
+  }
+}
+
+void mac_id_fn()
+{
+  sl_wifi_get_mac_address(SL_WIFI_CLIENT_INTERFACE, &mac_addr);
+  sprintf(mac_id,
+          "%x:%x:%x:%x:%x:%x",
+          mac_addr.octet[0],
+          mac_addr.octet[1],
+          mac_addr.octet[2],
+          mac_addr.octet[3],
+          mac_addr.octet[4],
+          mac_addr.octet[5]);
+}
+
+void sl_wifi_mqtt_task(void)
+{
+  IoT_Error_t rc = FAILURE;
+
+  IoT_Client_Init_Params mqttInitParams   = iotClientInitParamsDefault;
+  IoT_Client_Connect_Params connectParams = iotClientConnectParamsDefault;
+#if !(defined(SLI_SI91X_MCU_INTERFACE) && ENABLE_POWER_SAVE)
+  uint32_t start_time         = 0;
+  uint8_t publish_timer_start = 0;
+#endif
+
+  mac_id_fn();
+
+  char client_id[25];
+
+  osDelay(200);
+  sprintf(client_id, "silabs_%s", mac_id);
+  printf("\r\nClient ID: %s\r\n", client_id);
+
+  mqttInitParams.enableAutoReconnect       = false;
+  mqttInitParams.pHostURL                  = AWS_IOT_MQTT_HOST;
+  mqttInitParams.port                      = AWS_IOT_MQTT_PORT;
+  mqttInitParams.pRootCALocation           = (char *)aws_starfield_ca;
+  mqttInitParams.pDeviceCertLocation       = (char *)aws_client_certificate;
+  mqttInitParams.pDevicePrivateKeyLocation = (char *)aws_client_private_key;
+  mqttInitParams.mqttCommandTimeout_ms     = 20000;
+  mqttInitParams.tlsHandshakeTimeout_ms    = 5000;
+  mqttInitParams.isSSLHostnameVerify       = true;
+  mqttInitParams.disconnectHandler         = disconnectCallbackHandler;
+  mqttInitParams.disconnectHandlerData     = NULL;
+
+  connectParams.keepAliveIntervalInSec = 600;
+  connectParams.isCleanSession         = true;
+  connectParams.MQTTVersion            = MQTT_3_1_1;
+  connectParams.pClientID              = client_id;
+  connectParams.clientIDLen            = (uint16_t)strlen(client_id);
+  connectParams.isWillMsgPresent       = false;
+
+  connectParams.pUsername   = MQTT_USERNAME;
+  connectParams.usernameLen = strlen(MQTT_USERNAME);
+  connectParams.pPassword   = MQTT_PASSWORD;
+  connectParams.passwordLen = strlen(MQTT_PASSWORD);
+
+  sl_wlan_app_cb.state = SL_WIFI_MQTT_INIT_STATE;
+
+  osSemaphoreRelease(rsi_mqtt_sem);
+
+  while (1) {
+    osSemaphoreAcquire(rsi_mqtt_sem, osWaitForever);
+
+    if (sl_wifi_app_get_event() == SL_WIFI_DISCONN_NOTIFY_STATE) {
+      LOG_PRINT("WLAN disconnect initiated\r\n");
+      return;
+    }
+
+    switch (sl_wlan_app_cb.state) {
+
+      case SL_WIFI_MQTT_INIT_STATE: {
+        rc = aws_iot_mqtt_init(&mqtt_client, &mqttInitParams);
+        if (SUCCESS != rc) {
+          sl_wlan_app_cb.state = SL_WIFI_MQTT_INIT_STATE;
+          LOG_PRINT("\r\nMqtt Init failed with error: 0x%x\r\n", rc);
+        } else {
+          sl_wlan_app_cb.state = SL_WIFI_MQTT_CONNECT_STATE;
+        }
+
+        osSemaphoreRelease(rsi_mqtt_sem);
+      } break;
+
+      case SL_WIFI_MQTT_CONNECT_STATE: {
+        LOG_PRINT("AWS IOT MQTT Connecting...\r\n");
+        rc = aws_iot_mqtt_connect(&mqtt_client, &connectParams);
+        if (SUCCESS != rc) {
+          if (rc == NETWORK_ALREADY_CONNECTED_ERROR) {
+            LOG_PRINT("Network is already connected\r\n");
+            //sl_wlan_app_cb.state = RSI_WLAN_MQTT_PUBLISH_STATE;
+          } else {
+            LOG_PRINT("\r\nMqtt Subscribe failed with error: 0x%x\r\n", rc);
+            sl_wlan_app_cb.state = SL_WIFI_MQTT_INIT_STATE;
+          }
+        } else {
+          sl_wlan_app_cb.state = SL_WIFI_MQTT_AUTO_RECONNECT_SET_STATE;
+        }
+        osSemaphoreRelease(rsi_mqtt_sem);
+      } break;
+
+      case SL_WIFI_MQTT_AUTO_RECONNECT_SET_STATE: {
+        rc = aws_iot_mqtt_autoreconnect_set_status(&mqtt_client, false);
+        if (SUCCESS != rc) {
+          if (NETWORK_DISCONNECTED_ERROR == rc) {
+            LOG_PRINT("MQTT auto reconnect error\r\n");
+            sl_wlan_app_cb.state = SL_WIFI_MQTT_CONNECT_STATE;
+          } else if (NETWORK_ATTEMPTING_RECONNECT == rc) {
+            // If the client is attempting to reconnect we will skip the rest of the loop.
+            continue;
+          }
+          LOG_PRINT("Unable to set Auto Reconnect to true\r\n ");
+          sl_wlan_app_cb.state = SL_WIFI_MQTT_AUTO_RECONNECT_SET_STATE;
+        } else {
+          sl_wlan_app_cb.state = SL_WIFI_MQTT_SUBSCRIBE_STATE;
+        }
+        osSemaphoreRelease(rsi_mqtt_sem);
+      } break;
+
+      case SL_WIFI_MQTT_SUBSCRIBE_STATE: {
+        GLIB_drawStringOnLine(&glibContext, "Connected to AWS MQTT", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+        DMD_updateDisplay();
+        osDelay(1000);
+        LOG_PRINT("\r\nAWS IOT MQTT Subscribe...\r\n");
+        rc = aws_iot_mqtt_subscribe(&mqtt_client,
+                                    SUBSCRIBE_TO_TOPIC,
+                                    strlen(SUBSCRIBE_TO_TOPIC),
+                                    QOS0,
+                                    iot_subscribe_callback_handler,
+                                    NULL);
+
+        if (SUCCESS != rc) {
+          if (NETWORK_DISCONNECTED_ERROR == rc) {
+            LOG_PRINT("\r\nSubscribe error\r\n");
+            sl_wlan_app_cb.state = SL_WIFI_MQTT_CONNECT_STATE;
+          } else if (NETWORK_ATTEMPTING_RECONNECT == rc) {
+            // If the client is attempting to reconnect we will skip the rest of the loop.
+            continue;
+          }
+          sl_wlan_app_cb.state = SL_WIFI_MQTT_SUBSCRIBE_STATE;
+        }
+        sl_wlan_app_cb.state = RSI_AWS_SELECT_CONNECT_STATE;
+#if ENABLE_POWER_SAVE
+        //! initiating power save in BLE mode
+        if (rsi_bt_power_save_profile(PSP_MODE, PSP_TYPE) != RSI_SUCCESS) {
+          LOG_PRINT("\r\n Failed to initiate power save in BLE mode \r\n");
+        }
+
+        sl_wifi_performance_profile_t performance_profile = { .profile         = ASSOCIATED_POWER_SAVE,
+                                                              .listen_interval = 1000 };
+
+        rc = sl_wifi_set_performance_profile(&performance_profile);
+        if (rc != SL_STATUS_OK) {
+          LOG_PRINT("\r\nPower save configuration Failed, Error Code : 0x%X\r\n", rc);
+        }
+        LOG_PRINT("\r\nAssociated Power Save Enabled\r\n");
+#endif
+
+        GLIB_drawStringOnLine(&glibContext, "NWP Powersave enabled", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+        DMD_updateDisplay();
+        osDelay(1000);
+        memlcd_app_init();
+
+        osSemaphoreRelease(rsi_mqtt_sem);
+      } break;
+
+      case RSI_AWS_SELECT_CONNECT_STATE: {
+        {
+
+          if (!select_given) {
+            select_given = 1;
+            memset(&read_fds, 0, sizeof(fd_set));
+
+            FD_SET(mqtt_client.networkStack.socket_id, &read_fds);
+            //LOG_PRINT("\r\n Socket ID: %d\r\n", mqtt_client.networkStack.socket_id);
+
+            status1 =
+              sl_si91x_select(mqtt_client.networkStack.socket_id + 1, &read_fds, NULL, NULL, NULL, async_socket_select);
+          }
+
+          if (check_for_recv_data) {
+            check_for_recv_data = 0;
+            select_given        = 0;
+            status1             = aws_iot_shadow_yield(&mqtt_client, 1);
+
+            sl_wlan_app_cb.state = RSI_AWS_SELECT_CONNECT_STATE;
+          } else {
+            sl_wlan_app_cb.state = SL_WIFI_MQTT_PUBLISH_STATE;
+          }
+        }
+        osSemaphoreRelease(rsi_mqtt_sem);
+      } break;
+
+      case SL_WIFI_MQTT_PUBLISH_STATE: {
+        if (NETWORK_ATTEMPTING_RECONNECT == rc) {
+          // If the client is attempting to reconnect we will skip the rest of the loop.
+          continue;
+        }
+#if !(defined(SLI_SI91X_MCU_INTERFACE) && ENABLE_POWER_SAVE)
+        if ((!publish_timer_start) || publish_msg) {
+#endif
+
+          publish_QOS0.qos        = QOS0;
+          publish_QOS0.payload    = MQTT_publish_QOS0_PAYLOAD;
+          publish_QOS0.isRetained = 0;
+          publish_QOS0.payloadLen = strlen(MQTT_publish_QOS0_PAYLOAD);
+
+        char temp_data[11];
+        // Initialize I2C
+        si70xx_example_init();
+        si70xx_example_process_action();
+        sl_i2c_driver_deinit(I2C);
+        snprintf(temp_data, 9, "%f", sensor_data);
+        char temp_string[] = "Current Temperature in Celsius: ";
+        strcat(temp_string, temp_data);
+
+          publish_QOS0.qos        = QOS0;
+          publish_QOS0.payload    = temp_string;
+          publish_QOS0.isRetained = 0;
+          publish_QOS0.payloadLen = strlen(temp_string);
+
+          // mqtt publish with QOS0
+          rc = aws_iot_mqtt_publish(&mqtt_client, PUBLISH_ON_TOPIC, strlen(PUBLISH_ON_TOPIC), &publish_QOS0);
+
+          if (rc != SUCCESS) {
+            LOG_PRINT("\r\nMqtt Publish for QOS0 failed with error: 0x%x\r\n", rc);
+            sl_wlan_app_cb.state = SL_WLAN_MQTT_DISCONNECT;
+          }
+
+          if (rc == MQTT_REQUEST_TIMEOUT_ERROR) {
+            LOG_PRINT("QOS0 publish ack not received.\r\n");
+          }
+          LOG_PRINT("\r\nMQTT Publish Successful\r\n");
+          currentLine = 0;
+          GLIB_drawStringOnLine(&glibContext, " ", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+          GLIB_drawStringOnLine(&glibContext, "Published message", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+          GLIB_drawStringOnLine(&glibContext, "to AWS broker", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+
+          DMD_updateDisplay();
+
+        sl_wlan_app_cb.state = RSI_AWS_SELECT_CONNECT_STATE;
+        osDelay(2000);
+
+        osSemaphoreRelease(rsi_mqtt_sem);
+      } break;
+
+      case SL_WLAN_MQTT_DISCONNECT: {
+        rc = aws_iot_mqtt_disconnect(&mqtt_client);
+        if (SUCCESS != rc) {
+          LOG_PRINT("MQTT Disconnection error\r\n");
+          sl_wlan_app_cb.state = SL_WIFI_MQTT_INIT_STATE;
+        } else {
+          LOG_PRINT("MQTT Disconnection Successful\r\n");
+          sl_wlan_app_cb.state = SL_WIFI_MQTT_INIT_STATE;
+        }
+        osSemaphoreRelease(rsi_mqtt_sem);
+      } break;
+      case SL_WIFI_DISCONN_NOTIFY_STATE: {
+        return;
+      }
+      default:
+        break;
+    }
+  }
+}
+
+void memlcd_app_init(void)
+{
+  sl_status_t status;
+
+  // Enabling LCD display
+  RSI_NPSSGPIO_InputBufferEn(SL_BOARD_ENABLE_DISPLAY_PIN, 1U);
+  RSI_NPSSGPIO_SetPinMux(SL_BOARD_ENABLE_DISPLAY_PIN, 0);
+  RSI_NPSSGPIO_SetDir(SL_BOARD_ENABLE_DISPLAY_PIN, 0);
+  RSI_NPSSGPIO_SetPin(SL_BOARD_ENABLE_DISPLAY_PIN, 1U);
+
+  /* Initialize the DMD support for memory lcd display */
+  status = DMD_init(0);
+  EFM_ASSERT(status == DMD_OK);
+
+  /* Initialize the glib context */
+  status = GLIB_contextInit(&glibContext);
+  EFM_ASSERT(status == GLIB_OK);
+
+  glibContext.backgroundColor = White;
+  glibContext.foregroundColor = Black;
+
+  /* Fill lcd with background color */
+  GLIB_clear(&glibContext);
+
+  /* Use Narrow font */
+  GLIB_setFont(&glibContext, (GLIB_Font_t *)&GLIB_FontNarrow6x8);
+}
+
+void lcd_mac(void)
+{
+  GLIB_drawStringOnLine(&glibContext, "MAC ID:", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+  GLIB_drawStringOnLine(&glibContext, mac_id, currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+  GLIB_drawStringOnLine(&glibContext, "                   ", currentLine++, GLIB_ALIGN_LEFT, 5, 5, true);
+  DMD_updateDisplay();
+}
