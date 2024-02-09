@@ -133,8 +133,8 @@ extern rsi_ble_event_conn_status_t conn_event_to_app;
 #define TIMEOUT_MS        5000
 #define WIFI_SCAN_TIMEOUT 10000
 
-#define SUBSCRIBE_TO_TOPIC               "Si917_MQTT_RECEIVE"   //! Subscribe Topic to receive the message from cloud
-#define PUBLISH_ON_TOPIC               "Si917_APP_STATUS" //! Publish Topic to send the status from application to cloud
+#define SUBSCRIBE_TO_TOPIC        "Si917_MQTT_RECEIVE"   //! Subscribe Topic to receive the message from cloud
+#define PUBLISH_ON_TOPIC          "Si917_APP_STATUS" //! Publish Topic to send the status from application to cloud
 #define MQTT_publish_QOS0_PAYLOAD "Hi from SiWG917"
 #define PUBLISH_PERIODICITY       (30000) //! Publish periodicity in milliseconds
 #define MQTT_USERNAME             "username"
@@ -146,7 +146,6 @@ extern rsi_ble_event_conn_status_t conn_event_to_app;
 #define PING_PACKET_SIZE       64
 
 #define ENABLE_POWER_SAVE      1
-#define I2C_SENSOR_PERI_ENABLE 1
 
 #ifdef SLI_SI91X_MCU_COMMON_FLASH_MODE
 #ifdef SLI_SI917B0
@@ -192,6 +191,7 @@ volatile uint8_t publish_msg = 0;
 #endif
 
 uint8_t retry = 1;
+uint8_t temp_data_len = 9;
 
 uint8_t yield;
 AWS_IoT_Client client   = { 0 };
@@ -1137,7 +1137,7 @@ void sl_wifi_mqtt_task(void)
         si70xx_example_init();
         si70xx_example_process_action();
         sl_i2c_driver_deinit(I2C);
-        snprintf(temp_data, 9, "%f", sensor_data);
+        snprintf(temp_data, temp_data_len, "%f", sensor_data);
         char temp_string[] = "Current Temperature in Celsius: ";
         strcat(temp_string, temp_data);
 

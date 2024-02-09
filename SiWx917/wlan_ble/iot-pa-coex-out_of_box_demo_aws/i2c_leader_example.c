@@ -71,15 +71,11 @@ void si70xx_example_init(void)
     if (status != SL_I2C_SUCCESS) {
       DEBUGOUT("sl_i2c_driver_init : Invalid Parameters, Error Code: 0x%ld \n", status);
       break;
-    } else {
-      //DEBUGOUT("Successfully initialized and configured i2c leader\n");
     }
     status = sl_i2c_driver_configure_fifo_threshold(I2C, TX_THRESHOLD, RX_THRESHOLD);
     if (status != SL_I2C_SUCCESS) {
       DEBUGOUT("sl_i2c_driver_configure_fifo_threshold : Invalid Parameters, Error Code: 0x%ld \n", status);
       break;
-    } else {
-      //DEBUGOUT("Successfully configured i2c TX & RX FIFO thresholds\n");
     }
     // reset the sensor
     status = sl_si91x_si70xx_reset(I2C, SI7021_ADDR);
@@ -87,7 +83,6 @@ void si70xx_example_init(void)
       DEBUGOUT("Sensor reset un-successful, Error Code: 0x%ld \n", status);
       break;
     } else {
-      //DEBUGOUT("Successfully reset sensor\n");
         osDelay(100);
     }
     // Initializes sensor and reads electronic ID 1st byte
@@ -95,71 +90,49 @@ void si70xx_example_init(void)
     if (status != SL_STATUS_OK) {
       DEBUGOUT("Sensor initialization un-successful, Error Code: 0x%ld \n", status);
       break;
-    } else {
-      //DEBUGOUT("Successfully initialized sensor\n");
     }
     // Initializes sensor and reads electronic ID 2nd byte
     status = sl_si91x_si70xx_init(I2C, SI7021_ADDR, SL_EID_SECOND_BYTE);
     if (status != SL_STATUS_OK) {
       DEBUGOUT("Sensor initialization un-successful, Error Code: 0x%ld \n", status);
       break;
-    } else {
-      //DEBUGOUT("Successfully reset sensor\n");
     }
     // Get sensor internal firmware version of sensor
     status = sl_si91x_si70xx_get_firmware_revision(I2C, SI7021_ADDR, &firm_rev);
     if (status != SL_STATUS_OK) {
       DEBUGOUT("Sensor firmware version un-successful, Error Code: 0x%ld \n", status);
       break;
-    } else {
-      //DEBUGOUT("Successfully firmware version of sensor is read\n");
     }
-    //DEBUGOUT("firmware version:%x\n", firm_rev);
     // write register data into sensor
     status = sl_si91x_si70xx_write_control_register(I2C, SI7021_ADDR, SL_RH_T_USER_REG, USER_REG_1);
     if (status != SL_STATUS_OK) {
       DEBUGOUT("Sensor user register 1 write data failed, Error Code: 0x%ld \n", status);
       break;
-    } else {
-      //DEBUGOUT("Sensor user register 1 write data is successful\n");
     }
     // Reads register data from sensor
     status = sl_si91x_si70xx_read_control_register(I2C, SI7021_ADDR, SL_RH_T_USER_REG, &value);
     if (status != SL_STATUS_OK) {
       DEBUGOUT("Sensor user register 1 read failed, Error Code: 0x%ld \n", status);
       break;
-    } else {
-      //DEBUGOUT("Sensor user register 1 read is successful\n");
     }
-    //DEBUGOUT("user register data:%x\n", value);
     // Reads temperature from humidity from sensor
     status = sl_si91x_si70xx_read_temp_from_rh(I2C, SI7021_ADDR, &humidity, &temperature);
     if (status != SL_STATUS_OK) {
       DEBUGOUT("Sensor temperature read failed, Error Code: 0x%ld \n", status);
       break;
-    } else {
-      //DEBUGOUT("Sensor temperature read is successful\n");
     }
-    //DEBUGOUT("sensor humdity :%ld\n", humidity);
-    //DEBUGOUT("sensor temperature :%ld\n", temperature);
     // measure humidity data from sensor
     status = sl_si91x_si70xx_measure_humidity(I2C, SI7021_ADDR, &humidity);
     if (status != SL_STATUS_OK) {
       DEBUGOUT("Sensor humidity read failed, Error Code: 0x%ld \n", status);
       break;
-    } else {
-      //DEBUGOUT("Sensor humidity read is successful\n");
     }
-    //DEBUGOUT("sensor humdity :%ld\n", humidity);
     // measure temperature data from sensor
     status = sl_si91x_si70xx_measure_temperature(I2C, SI7021_ADDR, &temperature);
     if (status != SL_STATUS_OK) {
       DEBUGOUT("Sensor temperature read failed, Error Code: 0x%ld \n", status);
       break;
-    } else {
-      //DEBUGOUT("\r\nSensor temperature read is successful\r\n");
     }
-    //DEBUGOUT("\r\nSensor temperature :%ld\r\n", temperature);
   } while (false);
 }
 
@@ -181,7 +154,6 @@ void si70xx_example_process_action(void)
       DEBUGOUT("\r\nSensor temperature read is successful\r\n");
     }
     sensor_data = temperature;
-    // DEBUGOUT("sensor humdity :%ld\n", humidity);
     DEBUGOUT("\r\nSensor temperature  in celsius: %ld\r\n", temperature);
 }
 

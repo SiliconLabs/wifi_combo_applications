@@ -65,25 +65,6 @@ typedef enum sl_wifi_app_state_e {
   RSI_SLEEP_STATE              = 14
 } sl_wifi_app_state_t;
 
-/*typedef struct sl_wlan_app_cb_s {
-  //! wlan application state
-  volatile sl_wifi_app_state_t state;
-
-  //! length of buffer to copy
-  uint32_t length;
-
-  //! application buffer
-  uint8_t buffer[RSI_APP_BUF_SIZE];
-
-  //! to check application buffer availability
-  uint8_t buf_in_use;
-
-  //! application events bit map
-  uint32_t event_map;
-
-} sl_wlan_app_cb_t;*/
-//sl_wlan_app_cb_t sl_wlan_app_cb; //! application control block
-
 typedef enum rsi_app_cmd_e {
   SL_DATA                      = 0,
   SL_WIFI_SCAN_RESP            = 1,

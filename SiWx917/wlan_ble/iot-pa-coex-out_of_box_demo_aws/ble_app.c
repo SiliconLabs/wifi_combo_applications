@@ -910,7 +910,7 @@ adv:
         rsi_ble_set_local_att_value(rsi_ble_att2_val_hndl,
                                     RSI_BLE_MAX_DATA_LEN,
                                     data); // set the local attribute value.
-        LOG_PRINT("AP joined successfully\r\n\n");
+        LOG_PRINT("\r\nAP joined successfully\r\n");
         status = rsi_ble_conn_params_update(conn_event_to_app.dev_addr,
                                             CONN_INTERVAL_MIN,
                                             CONN_INTERVAL_MAX,

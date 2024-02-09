@@ -13,6 +13,7 @@ This application demonstrates the WLAN, BLE, MCU peripheral features and NWP (ne
 - [Getting Started](#getting-started)
   - [Application Configuration Parameters](#application-configuration-paraters)
   - [Run the Application](#run-the-application)
+- [Appendix](#appendix)
   - [Measuring the current consumption using Simplicity Studio Energy Profiler](#measuring-the-current-consumption-using-simplicity-studio-energy-profiler)
   - [Create an AWS Thing](#create-an-aws-thing)
 
@@ -20,7 +21,7 @@ This application demonstrates the WLAN, BLE, MCU peripheral features and NWP (ne
 
 SiWG917 establishes WLAN connectivity via BLE provisioning. SiWG917 then proceeds to ping [www.silabs.com](https://www.silabs.com) for 5 times, after which MQTT connectivity with AWS broker is established.
 Then Network Processor of SiWG917 enters connected sleep state.
-Si917 interacts with the on-board Si7021 sensor to fetch real-time temperature values via I2C interface, and publishes to the cloud on the topic Si917_APP_STATUS until the device is disconnected from the access point. If a message is published onto the topic from a AWS MQTT client (here AWS Console GUI) to which the module is subscribed (Si917_MQTT_RECEIVE), the NWP wakes up and displays the received data and goes back to connected sleep state. The status of application is updated on the TFT-LCD display on the WPK baseboard, the same can be observed on the serial terminal prints as well.
+Si917 interacts with the on-board Si7021 sensor to fetch real-time temperature values via I2C interface, and publishes to the cloud on the topic 'Si917_APP_STATUS'. If a message is published onto the topic from a remote MQTT client (here AWS Console GUI) to which the module is subscribed (Si917_MQTT_RECEIVE), the NWP wakes up and displays the received data and goes back to connected sleep state. The status of application is updated on the TFT-LCD display on the baseboard, the same can be observed on the serial terminal prints as well.
 
 **Overview of AWS SDK**
 
@@ -41,7 +42,6 @@ The AWS IoT Device SDK allow applications to securely connect to the AWS IoT pla
     - BRD4002A Wireless pro kit mainboard [SI-MB4002A]
     - Radio Boards
       - BRD4338A [SiWx917-RB4338A]
-      - BRD4339B [SiWx917-RB4339B]
   - Kits
     - SiWx917 Pro Kit [Si917-PK6031A](https://www.silabs.com/development-tools/wireless/wi-fi/siwx917-pro-kit?tab=overview)
 - Android Phone or iPhone with EFR Connect App, which is available in Play Store and App Store (or) Windows PC with windows Silicon labs connect application.
@@ -50,7 +50,9 @@ The AWS IoT Device SDK allow applications to securely connect to the AWS IoT pla
 
 - [Simplicity Studio](https://www.silabs.com/developers/simplicity-studio)
 - Silicon Labs [EFR Connect App](https://www.silabs.com/developers/efr-connect-mobile-app?tab=downloads), the app can be downloaded from Google Play store/Apple App store.
-- AWS Console GUI provided by Silicon Labs (Path: $GSDK\extension\WSDK\examples\snippets\wlan_ble\out_of_box_aws\resources)
+- AWS Console GUI provided by Silicon Labs in the resources folder of the application.
+
+(Note: This application is tested in wiseconnect release v3.1.3, SiWG917-B.2.10.1.2.0.3 TA firmware version)
 
 ### Setup Diagram
 
@@ -103,17 +105,21 @@ The application can be configured to suit your requirements and development envi
   Open `aws_iot_config.h` file under config folder in project explorer pane and configure the below mentioned macros if needed. Further information on these are given in the Additional information section.
 
  ```c
-   //AWS Host name 
-   #define AWS_IOT_MQTT_HOST          "a25jwtlmds8eip-ats.iot.us-east-2.amazonaws.com"  
+   //AWS Host name (refer Appendix section)
+   #define AWS_IOT_MQTT_HOST          "xxxxxxxxxxxxxx-xxx.iot.us-east-2.amazonaws.com"  
 
    //default port for MQTT
    #define AWS_IOT_MQTT_PORT          "8883"
    
-   #define AWS_IOT_MQTT_CLIENT_ID     "silicon_labs_thing"
+   #define AWS_IOT_MQTT_CLIENT_ID     "xxxxx_thing"
    
-   // Thing Name of the Shadow this device is associated with 
-   #define AWS_IOT_MY_THING_NAME      "silicon_labs_thing"    
+   // Thing Name of the Shadow this device is associated with  (refer Appendix section)
+   #define AWS_IOT_MY_THING_NAME      "xxxxx_thing"    
 ```
+The steps are provided in the [Appendix](#appendix) section to,
+  - Create a AWS IoT Thing
+  - Find the AWS Host name
+
 Project explorer in application build environment,
 
 
@@ -222,7 +228,7 @@ Place the certificate files in `<SDK>/resources/certificates/` path and include 
 
 **AWS Console GUI**
 
-**Note:** Ensure the PC is not connected to office network.
+**Note:** Ensure the firewall in PC allows Third Party software application & it is not connected to SiLabs office network.
 
 1. Click on the downloaded executable file to run the GUI.
 2. Click on connect to establish AWS conectivity.
@@ -254,6 +260,8 @@ The application prints would be as follows:
 ![Application prints](resources/readme/output_1.png)
 ![Application prints](resources/readme/output_2.png)
 
+## Appendix
+
 ### Measuring the current consumption using Simplicity Studio Energy Profiler
 
 To open the energy profiler:
@@ -275,6 +283,9 @@ To open the energy profiler:
   ![Studio tools section](resources/readme/oob_energy_profiler_start.png)
 
 - The energy profiler session begins and the current consumption plot can be observed.
+
+  ![Studio tools section](resources/readme/oob_energy_profiler_run.png)
+
 
 ### Create an AWS Thing
 
