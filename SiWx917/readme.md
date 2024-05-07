@@ -16,7 +16,14 @@
 The Silicon Labs Wi-Fi Combo stack allows for a wide variety applications to be built on its foundation. This repo showcases some example applications built using the Silicon Labs Wi-Fi Combo stack.
 
 ## Examples ##
-
+- sl_si91x_i2s_low_power
+- sl_si91x_ulp_adc
+- sl_si91x_ulp_adc_multichannel
+- sl_si91x_ulp_dac
+- sl_si91x_ulp_dma
+- sl_si91x_ulp_i2c_leader
+- sl_si91x_ulp_ssi_master
+- sl_si91x_ulp_uart
 
 
 ## Documentation ##
