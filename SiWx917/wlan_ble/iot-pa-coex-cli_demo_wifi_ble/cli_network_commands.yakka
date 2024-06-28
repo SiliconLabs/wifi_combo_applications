@@ -1,0 +1,77 @@
+name: CLI network commands
+
+requires:
+  components:
+    - si91x_debug
+    - sl_si91x_wireless
+    - network_manager
+#    - nvm3
+
+sources:
+  - network_commands.c
+
+console:
+  include_headers:
+    - 'sl_net_constants.h'
+    - 'sl_ip_types.h'
+  commands:
+    net_init:
+      handler: net_init_command_handler
+      description: 'Init the network interface'
+      arguments:
+        - 'net_interface'
+    net_deinit:
+      handler: net_deinit_command_handler
+      description: 'Deinit the network interface'
+      arguments:
+        - 'net_interface'
+    net_up:
+      handler: net_up_command_handler
+      description: 'Up the network interface'
+      arguments:
+        - 'net_interface'
+        - i: 'uint16'
+    net_down:
+      handler: net_down_command_handler
+      description: 'Down the network interface'
+      arguments:
+        - 'net_interface'   
+    net_join_multicast_address:
+      handler: net_join_multicast_address_command_handler
+      description: 'Join multicast address'
+      arguments:
+        - i: 'net_interface'
+        - p: 'string'
+    net_leave_multicast_address:
+      handler: net_leave_multicast_address_command_handler
+      description: 'Leave multicast address'
+      arguments:
+        - i: 'net_interface'
+        - p: 'string'
+    set_nvm_profile:
+      handler: set_nvm_profile_command_handler
+      description: 'set profile and credential in nvm'
+      arguments:
+        - 'net_interface'
+        - i: 'uint16'
+    sl_net_host_get_by_name:
+      handler: sl_dns_hostgetbyname_command_handler
+      description: 'DNS resolution'
+      arguments:
+        - 'string'
+        - t: 'uint32'
+        - i: 'sl_net_dns_resolution_ip_type_t'  
+    sl_net_ping:
+      handler: sl_net_ping_command_handler
+      description: 'Send ping request'
+      arguments:
+        - 'string'
+        - 'sl_ip_address_type_t'
+        - 'uint16'
+    start_dhcp:
+      handler: start_dhcp_command_handler
+      description: 'Start dhcp and get ip address' 
+      arguments:
+        - i: 'sl_ip_address_type_t'
+        - m: 'sl_ip_management_t'
+clang-format: true
