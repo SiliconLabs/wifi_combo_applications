@@ -20,8 +20,8 @@ The CLI Demo application is a command-line interface (CLI) application designed 
 ### Hardware Requirements
 
 - A Windows PC.
-- Spectrum Analyzer for WLAN RF measurement (PER_Tx). 
-- Signal Generator for WLAN RF measurement (PER_Rx).
+- Spectrum Analyzer for TX RF measurement(PER-TX). 
+- Signal Generator for RX RF measurement (PER_RX).
 - 802.11 ax/b/g/n Access point.
 - A Micro-coaxial connector plug to SMA-female cable (RF connector) for connecting the U.Fl port of the Si917 radio board to the Spectrum Analyzer or Signal Generator.
 - **SoC Mode**:
@@ -34,13 +34,7 @@ The CLI Demo application is a command-line interface (CLI) application designed 
   	- SiWx917 Pro Kit [Si917-PK6031A](https://www.silabs.com/development-tools/wireless/wi-fi/siwx917-pro-kit?tab=overview)
   	- SiWx917 Pro Kit [Si917-PK6032A]
   	
-- **NCP Mode**:
-  - Standalone
-    - BRD4002A Wireless pro kit mainboard [SI-MB4002A]
-    - EFR32xG24 Wireless 2.4 GHz +10 dBm Radio Board [xG24-RB4186C](https://www.silabs.com/development-tools/wireless/xg24-rb4186c-efr32xg24-wireless-gecko-radio-board?tab=overview)
-    - NCP EFR Expansion Kit with NCP Radio board (BRD4346A + BRD8045A) [SiWx917-EB4346A]
-  - Kits
-  	- EFR32xG24 Pro Kit +10 dBm [xG24-PK6009A](https://www.silabs.com/development-tools/wireless/efr32xg24-pro-kit-10-dbm?tab=overview)  
+
 
 ### Software Requirements
 
@@ -53,11 +47,15 @@ Note : The user can use the Simplicity studio’s console window for sending and
 
 - The figure below shows the setup and the connections for the WLAN RF testing.
 
-![Figure: Setup Diagram SoC Mode for cli_demo Example for WLAN RF test](resources/readme/CLI_setup.png)
+![Figure: Setup Diagram SoC Mode for cli_demo Example for WLAN RF test](resources/readme/cli_wifi_ble_setup.png)
 
 - The figure below shows the setup and the connections for SiWG917 in Station mode.
 
 ![Figure: Setup Diagram SoC Mode for cli_demo Example for Station Mode](resources/readme/CLI_station.png)
+
+- The figure below shows the setup and the connections for SiWG917 in BLE Advertising mode.
+
+![Figure: Setup Diagram SoC Mode for cli_demo Example for Advertising](resources/readme/cli_ble.png)
 
 
 ## Getting Started
@@ -68,6 +66,21 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 - Connect your device to the computer
 - Upgrade your connectivity firmware
 - Create a Studio project
+
+For details on the project folder structure, see the [WiSeConnect Examples](https://docs.silabs.com/wiseconnect/latest/wiseconnect-examples/#example-folder-structure) page.
+
+- Download the project iot-pa-wifi-mDNS from the GitHub link
+- Keep the project in the Release folder at location: SDK/examples/snippets/wlan
+- Open templates.xml file located at SDK/wifi_templates.xml and add the code snippet at the end, before </model:MDescriptors>:
+
+ ![Figure: Setup](resources/readme/xml.PNG)
+
+ - Refresh the Simplicity SDK or add the SDK again
+
+ ![Figure: Setup](resources/readme/SDK.png)
+
+ - Connect the SiWx917 SoC kit and create the project.
+
 
 ## Application Build Environment
 
