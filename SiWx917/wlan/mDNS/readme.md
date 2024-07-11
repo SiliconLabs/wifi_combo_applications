@@ -38,7 +38,7 @@ In this application, the SiWx91x connects to a Wi-Fi access point, obtains an IP
 
 ### Setup Diagram
 
-  ![Figure: Setup Diagram SoC and NCP Mode for WLAN Throughput Example](resources/readme/SoC_setup.png)
+  ![Figure: Setup Diagram SoC and NCP Mode for WLAN Throughput Example](resources/readme/SoC_setup.PNG)
 
 ## Getting Started
 
@@ -135,7 +135,7 @@ Configure the following parameters to enable your Silicon Labs Wi-Fi device to c
 
 - Configure the following parameters in app.c to add the mDNS service as per the requirements. 
 
-  ![Figure: Setup](resources/readme/mdns.png)
+  ![Figure: Setup](resources/readme/mdns.PNG)
 
 - #define MDNS_HOST_NAME for configuring the hostname. 
 
@@ -179,9 +179,9 @@ The iPerf command to start the UDP client is:
   >
   > `C:\> iperf.exe -c 192.168.0.100 -u -p 5001 -i 1 -b 50M -t 30` 
 
-  ![Figure: UDP_RX](resources/readme/UDP_rx.png) 
+  ![Figure: UDP_RX](resources/readme/UDP_Rx.PNG) 
 
-  ![Figure: Output](resources/readme/output.png)
+  ![Figure: Output](resources/readme/output.PNG)
 
 
 #### To view the mDNS service (Using Wireshark)
@@ -194,15 +194,15 @@ The iPerf command to start the UDP client is:
 
 - Please make sure the Wi-Fi is turned ON and double-click on the Wi-Fi as shown in the below snapshot.
 
-![Figure: Wireshark](resources/readme/Wireshark.png)
+![Figure: Wireshark](resources/readme/Wireshark.PNG)
 
 - After the Wi-Fi is selected a new window opens up as shown in the below snapshot.
 
-![Figure: Wireshark](resources/readme/Wireshark2.png)
+![Figure: Wireshark](resources/readme/Wireshark2.PNG)
 
 - Apply the mdns filter in the search bar of the Wireshark.
 
-![Figure: Wireshark](resources/readme/mdns_wireshark.png)
+![Figure: Wireshark](resources/readme/mdns_wireshark.PNG)
 
 - All the mdns packets will be filtered on the screen/display.
 - To filter out our device's mdns packet select the packet that has our Module's IP address. Here in this case module's IP address is 10.10.0.226.
@@ -212,7 +212,7 @@ The iPerf command to start the UDP client is:
 
 - Expand the selected packet as shown in the below snapshot and the configured hostname and message can be seen in the packet.
 
-![Figure: mdns_final](resources/readme/mdns_final.png)
+![Figure: mdns_final](resources/readme/mdns_final.PNG)
 
 
  
@@ -226,7 +226,7 @@ The iPerf command to start the UDP client is:
 
 
  - On the Linux machine run "avahi-browse _http._tcp -r"
-![Figure: linux](resources/readme/linux.png)
+![Figure: linux](resources/readme/linux.PNG)
 
 or
  
