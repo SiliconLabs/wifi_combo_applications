@@ -51,7 +51,7 @@ Note : The user can use the Simplicity studio’s console window for sending and
 
 - The figure below shows the setup and the connections for SiWG917 in Station mode.
 
-![Figure: Setup Diagram SoC Mode for cli_demo Example for Station Mode](resources/readme/CLI_station.png)
+![Figure: Setup Diagram SoC Mode for cli_demo Example for Station Mode](resources/readme/cli_station.png)
 
 - The figure below shows the setup and the connections for SiWG917 in BLE Advertising mode.
 
@@ -96,7 +96,7 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 
 - Build the application in Studio.
 - Flash, run and debug the application
-![cli_demo_Output](resources/readme/Ready.png)
+![cli_demo_Output](resources/readme/Ready.PNG)
 
 Follow the steps below for successful execution of the application:
 
@@ -106,6 +106,9 @@ Follow the steps below for successful execution of the application:
 1. set_region_configuration
 2. wifi_radio_deinit
 3. reset
+
+## **set_region_configuration:**
+Set a particular region
 
 **Syntax:**
 ```perl
@@ -128,9 +131,12 @@ wifi_radio_deinit
 ### **reset:**
 Reset the device
 
+**Syntax:**
+```perl
+reset
+```
 
-## **set_region_configuration:**
-Set a particular region
+
 
  **Here are List of those commands:**
 
@@ -173,10 +179,10 @@ Set a particular region
 ### Below are the examples of the commands on how to enter those commands in the Serial Debug Assistant
 
 - **help COMMAND:-** 
- **![Help_command](resources/readme/Ready.png)**
+ **![Help_command](resources/readme/Ready.PNG)**
 
 - After issuing the **help** command in serial Debug assistant it will display all the commands of the CLI demo on the Serial Debug screen as shown in the below image.
-**![Prints](resources/readme/CLI_help.png)**
+**![Prints](resources/readme/CLI_help.PNG)**
 
 
 
@@ -267,7 +273,7 @@ For example, for 2412 MHz the output will be seen at 2417 MHz.
 >5. **wifi_transmit_test_stop** is used for stopping the Transmit test.
 
 **Note**: The current CLI supports input parameters upto 30 parameters, if the user wants to increase the inputs parameters then it can configured in the settings of the CLI application --> preprocessor --> SL_SI91X_CLI_CONSOLE_MAX_ARG_COUNT=30
-**![Max_arg_count](resources/readme/max_arg.png)**
+**![Max_arg_count](resources/readme/max_arg.PNG)**
 
 
 
@@ -275,8 +281,8 @@ For example, for 2412 MHz the output will be seen at 2417 MHz.
 
 **NOTE**:
     Receive stats testing should be done in a controlled environment (RF shield box or chamber).
-**![Rx_commands](resources/readme/CLI_PER_Rx.png)**
-**![Rx_stats](resources/readme/PER_Rx.png)**
+**![Rx_commands](resources/readme/CLI_PER_Rx.PNG)**
+**![Rx_stats](resources/readme/PER_Rx.PNG)**
 
 **Receive Test Commands for the CLI**:
 
@@ -300,10 +306,10 @@ By default antenna type should be set to 0.
 **Below are the CLI commands for the SiWG917 for station mode in Power save:-**
 
 - Below are the commands for station mode:-
-**![Prints](resources/readme/station.png)**
+**![Prints](resources/readme/station.PNG)**
 
 - Below are the commands for the SiWG917 in power save mode:-
-**![Prints](resources/readme/powersave.png)**
+**![Prints](resources/readme/powersave.PNG)**
 **Note:** In the CLI power save mode, only TA will be in power save mode. 
 
 1. wifi_init -i **mode** for initializing the WiFi interface and for selecting the mode.
