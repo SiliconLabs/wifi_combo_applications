@@ -59,7 +59,25 @@ For details on the project folder structure, see the [WiSeConnect Examples](http
 - Keep the project in the Release folder at location: SDK/examples/snippets/wlan
 - Open templates.xml file located at SDK/wifi_templates.xml and add the code snippet at the end, before </model:MDescriptors>:
 
- ![Figure: Setup](resources/readme/xml.png)
+ ![Figure: Setup](resources/readme/xml.PNG)
+
+ ```c
+ <descriptors name="mDNS_soc" label="Wi-Fi mDNS (SoC)" description="This application demonstrates the procedure for bringing up the mDNS in SiWx91x">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="examples/snippets/wlan/mDNS/mDNS_soc.slcp"/>
+    <properties key="boardCompatibility" value="com.silabs.board.none brd2605a brd4338a brd4342a brd4340a brd4343a brd4343b brd4339b brd4340b"/>
+    <properties key="partCompatibility" value=" .*si917.* .*siwg917m111mgtba.* .*siwg917m141xgtba.* .*siwg917y111mgab.* .*siwg917y111mgnb.* .*siwg917m121xgtba.* .*siwg917m111xgtba.* .*siwg917m100mgtba.* .*siwg917m110lgtba.*"/>
+    <properties key="ideCompatibility" value="makefile-ide simplicity-ide visual-studio-code generic-template"/>
+    <properties key="toolchainCompatibility" value="gcc"/>
+    <properties key="quality" value="production"/>
+    <properties key="category" value="Example|Wi-Fi"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+    <properties key="sdkAndProtocolTags" value=""/>
+    <properties key="readmeFiles" value="examples/snippets/wlan/mDNS/readme.md"/>
+	<properties key="filters" value="Device\ Type|SoC Wireless\ Technology|Wi-Fi Project\ Difficulty|Beginner"/>
+  </descriptors>
+  ```
 
  - Refresh the Simplicity SDK or add the SDK again
 
