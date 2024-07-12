@@ -75,6 +75,23 @@ For details on the project folder structure, see the [WiSeConnect Examples](http
 
  ![Figure: Setup](resources/readme/xml.PNG)
 
+```C
+ <descriptors name="cli_demo_wifi_ble_soc" label="Cli_Wi-Fi + BLE Demo(SoC)" description="The CLI Demo application is a command-line interface (CLI) application designed to showcase various functionalities and capabilities of SiWx91x in different scenarios and configuration modes. It serves as a quick reference guide and a hands-on demonstration of SiWx91x core features for developers and users.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="examples/snippets/cli_demo_wifi_ble/cli_demo_wifi_ble_soc.slcp"/>
+    <properties key="boardCompatibility" value="com.silabs.board.none brd2605a brd4338a brd4342a brd4340a brd4343a brd4343b brd4339b brd4340b"/>
+    <properties key="partCompatibility" value=" .*si917.* .*siwg917m111mgtba.* .*siwg917m141xgtba.* .*siwg917y111mgab.* .*siwg917y111mgnb.* .*siwg917m121xgtba.* .*siwg917m111xgtba.* .*siwg917m100mgtba.* .*siwg917m110lgtba.*"/>
+    <properties key="ideCompatibility" value="makefile-ide simplicity-ide visual-studio-code generic-template"/>
+    <properties key="toolchainCompatibility" value="gcc"/>
+    <properties key="quality" value="production"/>
+    <properties key="category" value="Example|Wi-Fi"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+    <properties key="sdkAndProtocolTags" value=""/>
+    <properties key="readmeFiles" value="examples/snippets/cli_demo_wifi_ble/readme.md"/>
+	<properties key="filters" value="Device\ Type|SoC Wireless\ Technology|Wi-Fi Project\ Difficulty|Beginner"/>
+  </descriptors>
+```
  - Refresh the Simplicity SDK or add the SDK again
 
  ![Figure: Setup](resources/readme/SDK.png)
