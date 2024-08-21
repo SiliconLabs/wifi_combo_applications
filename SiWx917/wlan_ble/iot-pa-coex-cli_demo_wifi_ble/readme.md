@@ -20,16 +20,16 @@ The CLI Demo application is a command-line interface (CLI) application designed 
 ### Hardware Requirements
 
 - A Windows PC.
-- Spectrum Analyzer for TX RF measurement(PER-TX). 
-- Signal Generator for RX RF measurement (PER_RX).
-- 802.11 ax/b/g/n Access point.
+- 802.11 ax/b/g/n Access point - For Signaling mode or End to End mode testing.
+- Spectrum Analyzer for TX RF measurement(PER-TX) - For Non -signaling mode testing. 
+- Signal Generator for RX RF measurement (PER_RX) - For Non -signaling mode testing. 
 - A Micro-coaxial connector plug to SMA-female cable (RF connector) for connecting the U.Fl port of the Si917 radio board to the Spectrum Analyzer or Signal Generator.
 - **SoC Mode**:
   - Standalone
     - BRD4002A Wireless pro kit mainboard [SI-MB4002A]
     - Radio Boards 
   	  - BRD4338A [SiWx917-RB4338A]
-  	  - BRD4340A [SiWx917-RB4340A]
+  	  
   - Kits
   	- SiWx917 Pro Kit [Si917-PK6031A](https://www.silabs.com/development-tools/wireless/wi-fi/siwx917-pro-kit?tab=overview)
   	- SiWx917 Pro Kit [Si917-PK6032A]
@@ -41,7 +41,8 @@ The CLI Demo application is a command-line interface (CLI) application designed 
 - Simplicity Studio
 - A Serial terminal software such as [Serial Debug Assistant](https://apps.microsoft.com/detail/9NBLGGH43HDM?rtc=1&hl=en-in&gl=in)
 
-Note : The user can use the Simplicity studio’s console window for sending and receiving the CLI command.
+Note : The user can also use the Simplicity studio’s console window for sending and receiving the CLI command but it is recommended to use Serial Debug Assistant for ease of the command usage.
+
 
 ### Setup Diagram
 
@@ -51,7 +52,7 @@ Note : The user can use the Simplicity studio’s console window for sending and
 
 - The figure below shows the setup and the connections for SiWG917 in Station mode.
 
-![Figure: Setup Diagram SoC Mode for cli_demo Example for Station Mode](resources/readme/cli_station.png)
+![Figure: Setup Diagram SoC Mode for cli_demo Example for Station Mode](resources/readme/sta.png)
 
 - The figure below shows the setup and the connections for SiWG917 in BLE Advertising mode.
 
@@ -69,17 +70,23 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 
 For details on the project folder structure, see the [WiSeConnect Examples](https://docs.silabs.com/wiseconnect/latest/wiseconnect-examples/#example-folder-structure) page.
 
-- Download the project iot-pa-wifi-mDNS from the GitHub link
+Follow the below procedure to add the downloaded GitHub project in the existing SDK to view it in the Simplicity Studio under Examples and Project tab. 
+
+This CLI demo project provides additional CLI commands (Calibration commands (Gain offset and Frequency offset correction)) which are not added in the CLI_demo example that is availble in the SDK release. 
+
+Note: This project was created with the SDK v3.3.1 with the Simplicity Studio version SV5.9.2.1.
+
+- Download the project iot-pa-coex-cli_demo_wifi_ble from the GitHub link
 - Keep the project in the Release folder at location: SDK/examples/snippets/wlan
 - Open templates.xml file located at SDK/wifi_templates.xml and add the code snippet at the end, before </model:MDescriptors>:
 
- ![Figure: Setup](resources/readme/xml.PNG)
+ ![Figure: Setup](resources/readme/xml.png)
 
 ```C
- <descriptors name="cli_demo_wifi_ble_soc" label="Cli_Wi-Fi + BLE Demo(SoC)" description="The CLI Demo application is a command-line interface (CLI) application designed to showcase various functionalities and capabilities of SiWx91x in different scenarios and configuration modes. It serves as a quick reference guide and a hands-on demonstration of SiWx91x core features for developers and users.">
+  <descriptors name=" iot-pa-coex-cli_demo_wifi_ble_soc" label="Cli_Wi-Fi + BLE Demo(SoC)" description="The CLI Demo application is a command-line interface (CLI) application designed to showcase various functionalities and capabilities of SiWx91x in different scenarios and configuration modes. It serves as a quick reference guide and a hands-on demonstration of SiWx91x core features for developers and users.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
-    <properties key="projectFilePaths" value="examples/snippets/cli_demo_wifi_ble/cli_demo_wifi_ble_soc.slcp"/>
+    <properties key="projectFilePaths" value="examples/snippets/iot-pa-coex-cli_demo_wifi_ble/cli_demo_wifi_ble_soc.slcp"/>
     <properties key="boardCompatibility" value="com.silabs.board.none brd2605a brd4338a brd4342a brd4340a brd4343a brd4343b brd4339b brd4340b"/>
     <properties key="partCompatibility" value=" .*si917.* .*siwg917m111mgtba.* .*siwg917m141xgtba.* .*siwg917y111mgab.* .*siwg917y111mgnb.* .*siwg917m121xgtba.* .*siwg917m111xgtba.* .*siwg917m100mgtba.* .*siwg917m110lgtba.*"/>
     <properties key="ideCompatibility" value="makefile-ide simplicity-ide visual-studio-code generic-template"/>
@@ -88,7 +95,7 @@ For details on the project folder structure, see the [WiSeConnect Examples](http
     <properties key="category" value="Example|Wi-Fi"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
     <properties key="sdkAndProtocolTags" value=""/>
-    <properties key="readmeFiles" value="examples/snippets/cli_demo_wifi_ble/readme.md"/>
+    <properties key="readmeFiles" value="examples/snippets/iot-pa-coex-cli_demo_wifi_ble/readme.md"/>
 	<properties key="filters" value="Device\ Type|SoC Wireless\ Technology|Wi-Fi Project\ Difficulty|Beginner"/>
   </descriptors>
 ```
@@ -104,8 +111,7 @@ For details on the project folder structure, see the [WiSeConnect Examples](http
 The application can be configured to suit your requirements and development environment.
 
 - The application uses the default configurations as provided in the **wifi_commands.c** and user can choose to configure these parameters as needed.
-  
-  User can enable or disable powersave related optimizations by setting the ENABLE_POWERSAVE_CLI macro in the **wifi_commands.c** file to 1 or 0 respectively
+ 
 
 ## Test the application
 
@@ -115,9 +121,7 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 - Flash, run and debug the application
 ![cli_demo_Output](resources/readme/Ready.PNG)
 
-Follow the steps below for successful execution of the application:
 
-- The terminal screen displays a lot of commands which can be added manually in Extension command in Serial debug assistant.
 
 ## **Common commands**
 1. set_region_configuration
@@ -152,6 +156,8 @@ Reset the device
 ```perl
 reset
 ```
+
+- Serial Debug Assistant has a provision of saving the commands  in the terminal which can be added via Extension cmd tab.
 
 
 
@@ -195,12 +201,22 @@ reset
 
 ### Below are the examples of the commands on how to enter those commands in the Serial Debug Assistant
 
-- **help COMMAND:-** 
+- **help Command:-** 
  **![Help_command](resources/readme/Ready.PNG)**
 
 - After issuing the **help** command in serial Debug assistant it will display all the commands of the CLI demo on the Serial Debug screen as shown in the below image.
 **![Prints](resources/readme/CLI_help.PNG)**
 
+
+## Wi-Fi CLI examples:
+
+1. [Transmit & Receive Test commands for Wi-Fi (WLAN RF test - Tx & Rx)](#below-are-the-commands-to-run-the-rf-test-example)
+2. [Station mode and Power save mode example](#below-are-the-cli-commands-for-the-siwg917-for-station-mode-in-power-save)
+3. [Access point Mode](#below-are-the-cli-commands-for-the-siwg917-in-access-point-mode)
+4. [Concurrent Mode - Access point+Station mode](#below-are-the-cli-commands-for-the-siwg917-in-concurrent-mode)
+5. [Station ping](#below-are-the-cli-commands-for-connecting-to-the-access-point--router-and-pinging-the-gateway)
+6. [Calibration - Gain offset correction](#steps--commands-to-run-the-gain-offset-correction)
+7. [Calibration - Frequency offset correction](#commands-to-run-the-frequency-offset-correction)
 
 
 ### **Below are the Commands to run the RF test example.**
@@ -285,11 +301,11 @@ For example, for 2412 MHz the output will be seen at 2417 MHz.
 >
 >    **channel**: Set the Channel number.
 
-- The wifi 6 parameter descriptions are mentioned in the sl_si91x_protocol_types.h file of the SDK.
+- The wifi 6 parameter descriptions are mentioned in the [sl_si91x_protocol_types.h](https://docs.silabs.com/wiseconnect/latest/wiseconnect-api-reference-guide-si91x-driver/sl-si91x-request-tx-test-info-t) file of the SDK.
 >
 >5. **wifi_transmit_test_stop** is used for stopping the Transmit test.
 
-**Note**: The current CLI supports input parameters upto 30 parameters, if the user wants to increase the inputs parameters then it can configured in the settings of the CLI application --> preprocessor --> SL_SI91X_CLI_CONSOLE_MAX_ARG_COUNT=30
+**Note**: The current CLI supports input parameters upto 30 parameters, if the user wants to increase the inputs parameters then it can configured in the settings of the CLI application --> Properties> GNU ARM C compiler -> preprocessor -->  SL_SI91X_CLI_CONSOLE_MAX_ARG_COUNT=30
 **![Max_arg_count](resources/readme/max_arg.PNG)**
 
 
@@ -320,7 +336,7 @@ By default antenna type should be set to 0.
     e.g., wifi_start_statistic_report -i client -c 1 -n 20
 
 
-**Below are the CLI commands for the SiWG917 for station mode in Power save:-**
+### **Below are the CLI commands for the SiWG917 for station mode in Power save:-**
 
 - Below are the commands for station mode:-
 **![Prints](resources/readme/station.PNG)**
@@ -370,7 +386,7 @@ for BT/BLE.
 
 
 
-**Below are the CLI commands for the SiWG917 in Access point mode:**
+### **Below are the CLI commands for the SiWG917 in Access point mode:**
 
 - Below are the commands for the SiWG917 in Access point mode:-
 **![Prints](resources/readme/AP_mode.png)**
@@ -395,9 +411,11 @@ for BT/BLE.
 
 
 
-**Below are the CLI commands for the SiWG917 in Concurrent mode:**
+### **Below are the CLI commands for the SiWG917 in Concurrent mode:**
 
-- Below are the commands for the SiWG917 in Concurrent mode:-
+**![Prints](resources/readme/concurrent_w.PNG)**
+
+
 
 1. wifi_init -i **mode** for initializing the WiFi interface and for selecting the mode.
 
@@ -422,12 +440,14 @@ scan all the Access points available in the vicinity respectively.
 
    e.g., start_dhcp -i ipv4 -m dhcp  
 
-**Note: Please make sure that the channel number of the Acess point and the station mode are the same.** 
+**Note: Please make sure that the channel number of the Access point and the station mode are the same.** 
 
 
 
 
-**Below are the CLI commands for connecting to the Access point / Router and pinging the gateway.**
+### **Below are the CLI commands for connecting to the Access point / Router and pinging the gateway.**
+
+**![Prints](resources/readme/ping_w.PNG)**
 
 1. net_init client
 2. wifi_scan
@@ -444,17 +464,20 @@ scan all the Access points available in the vicinity respectively.
   Refer to the flow of the station ping example available in the release/SDK. 
 
   a. Initilization
+
   b. scan for the configured access point
+
   c. connect to the configured access point
+
   d. ping to the gateway address. 
 
-**Below are the CLI commands for Calibration.**
+### **Below are the CLI commands for Calibration.**
 
 **Calibration write**
  
  si91x_calibration_write **flags** **gain_offset_low** **gain_offset_mid** **gain_offset_high** -c **xo_ctune** -t **target**
 
-### Steps & Commands to run the calibration example
+### Steps & Commands to run the Gain offset correction
 1. Initialize --->  wifi_init -i transmit_test
 2. Antenna command ---> wifi_set_antenna -i client -a 0
 3. Transmit test command ---> wifi_transmit_test_start 18 0 100 0 1
@@ -519,7 +542,7 @@ The above command will increase the Transmit power to 1 dBm in channel 11.
 
 **Note:** For updating the gain table, The user can configure the gain_table_payload[] of sl_wifi_update_gain_table_command_handler in wifi_command.c file.
 
-**Note:** For changing the UART instance of the CLI_demo example refer to the VCOM section of the software reference manual. 
+**Note:** For changing the UART instance of the CLI_demo example refer to the VCOM section of the [Software Reference Manual](https://github.com/SiliconLabs/wiseconnect/blob/v3.3.1/docs/software-reference/manuals/siwx91x-software-reference-manual.md).
 The changes needs to be done in rsi_debug.c file and RTE_Device_917.h file 
 
 
