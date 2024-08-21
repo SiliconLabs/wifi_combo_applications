@@ -336,7 +336,7 @@ By default antenna type should be set to 0.
     e.g., wifi_start_statistic_report -i client -c 1 -n 20
 
 
-### **Below are the CLI commands for the SiWG917 for station mode in Power save:-**
+### **Below are the CLI commands for the SiWG917 for station mode in Power save:**
 
 - Below are the commands for station mode:-
 **![Prints](resources/readme/station.PNG)**
