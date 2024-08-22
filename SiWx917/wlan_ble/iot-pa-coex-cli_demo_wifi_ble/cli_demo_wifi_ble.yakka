@@ -1,0 +1,176 @@
+name: CLI demo
+
+sources:
+  - main.c
+  - demo.c
+
+includes:
+  global:
+    - .
+
+defines:
+  global:
+    - SL_SI91X_CLI_CONSOLE_MAX_ARG_COUNT=30
+
+    - SL_SI91X_PRINT_DBG_LOG
+    - SLI_SI91X_DBG_MIDDLEWARE_EN
+
+clang-format: true
+
+requires:
+  features:
+    - console_variables
+    - ipv6
+    - sockets
+  components:
+    - console
+    - freertos
+    - commander
+    - yamlyze
+    - segger_rtt
+    - make
+    - clang-format
+    - resources
+    - network_manager
+
+supports:
+  features:
+    http_client:
+      requires:
+        components:
+          - http_client
+    sockets:
+      requires:
+        components:
+          - bsd_socket_commands
+          - iot_socket_commands
+    sl_si91x_internal_stack:
+      requires:
+        components:
+          - iot_socket
+          - bsd_socket
+    sl_si91x_lwip_stack:
+      requires:
+        components:
+          - iot_socket
+          - lwip
+          - sl_si91x_lwip_stack
+    net:
+      requires:
+        components:
+          - cli_network_commands
+    wifi:
+      requires:
+        components:
+          - cli_wifi_commands
+    ethernet:
+      requires:
+        components:
+          - network_manager
+      sources:
+        - ethernet_commands.c
+      console:
+        commands:
+          ethernet_init:
+            handler: ethernet_init_command_handler
+            description: 'Init Ethernet interface'
+            arguments:
+              - t: 'uint8' #COMMAND_OPTIONAL_ARG('t', COMMAND_ARG_UINT8)
+              - r: 'uint8' #COMMAND_OPTIONAL_ARG('r', COMMAND_ARG_UINT8)
+    strict_flags:
+      flags:
+        c:
+          global:
+            - -Wall
+            - -Wconversion
+            - -Wshadow
+            - -Wundef
+            #- -Wcast-align  # Triggers many errors in third party code
+            - -Warray-bounds
+            - -Wformat=2
+            - -Wstrict-overflow=5
+            - -Wsign-compare
+            - -Wlogical-op
+            - -Wfloat-equal
+            - -Wempty-body
+#            - -Wdocumentation
+#            - -Wdocumentation-deprecated-sync
+            - -Wformat-nonliteral
+            - -Wincompatible-pointer-types
+            - -Wint-to-pointer-cast
+#            - -Wint-to-void-pointer-cast
+            - -Wmissing-field-initializers
+            - -Wold-style-declaration
+            - -Wold-style-definition
+            - -Wpointer-to-int-cast
+            - -Wswitch-default
+            - -Wtype-limits
+#            - -Wunreachable-code-break
+#            - -Wunreachable-code-return
+            - -Wunused-function
+            - -Wunused-parameter
+            - -Wunused-variable
+            - -Wmissing-prototypes
+            - -Wmissing-declarations
+
+console:
+  commands:
+    help:
+      handler: help_command_handler
+      description: 'Print help'
+    thread:
+      handler: thread_command_handler
+      description: 'Spawn thread'
+      arguments:
+        - 'uint32'
+        - '*'
+    rtt:
+      handler: rtt_command_handler
+      description: 'Print to RTT'
+      arguments:
+        - 'string'
+
+flags:
+  c:
+    global:
+      - -Werror
+  ld:
+    global:
+      - -u _printf_float
+
+choices:
+  board:
+    description: 'Supported boards'
+    components:
+      - brd4180a    
+      - brd4180b
+      - brd2204a
+      - brd4325a
+      - brd4325b
+      - brd4325g
+      - brd4338a
+      
+blueprints:
+  update_console_commands:
+    depends:
+      - '{{project_output}}/generated/console_argument_types.c'
+      - '{{project_output}}/generated/console_argument_types.h'
+      - '{{project_output}}/generated/console_command_database.c'
+      - '{{project_output}}/generated/console_variable_database.c'
+      - '{{project_output}}/generated/console_argument_types.c.format'
+      - '{{project_output}}/generated/console_argument_types.h.format'
+      - '{{project_output}}/generated/console_command_database.c.format'
+      - '{{project_output}}/generated/console_variable_database.c.format'
+    process:
+      - copy:
+          source:
+            - '{{project_output}}/generated/console_argument_types.c'
+            - '{{project_output}}/generated/console_command_database.c'
+            - '{{project_output}}/generated/console_variable_database.c'
+          destination: '{{curdir}}/console_commands/src'
+      - copy:
+          source:
+            - '{{project_output}}/generated/console_argument_types.h'
+          destination: '{{curdir}}/console_commands/inc'
+
+          

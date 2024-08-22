@@ -1,0 +1,134 @@
+name: IoT socket commands
+
+clang-format: true
+
+sources:
+  - iot_socket_commands.c
+
+supports:
+  features:
+    sl_si91x_internal_stack:
+      requires:
+        components:
+          - iot_socket
+
+choices:
+  network_stack:
+    description: 'To choose either internal or external network stack'
+    features:
+      - sl_si91x_internal_stack
+      - sl_si91x_lwip_stack
+    default:
+      feature: sl_si91x_internal_stack
+
+console:
+  enums:
+    ip_protocol:
+      tcp: 'IOT_SOCKET_IPPROTO_TCP'
+      udp: 'IOT_SOCKET_IPPROTO_UDP'
+    socket_type:
+      stream: 'IOT_SOCKET_SOCK_STREAM'
+      dgram: 'IOT_SOCKET_SOCK_DGRAM'
+  include_headers:
+    - 'iot_socket.h'
+  commands:
+    wifi_iot_socket_create:
+      handler: wifi_iot_socket_create_handler
+      description: 'IOT socket creation, \n parameters are \n 1 - Type, possible value: 1(stream), 2(dgram), 3(raw),  \n2 - protocol, possible value:1(tcp), 2(udp).. \n  - Domain, possible value: 1(ipv4), 2(ipv6) \n'
+      arguments:
+        - 'socket_type'
+        - 'ip_protocol' 
+        - j: 'ipv4_or_ipv6'
+    wifi_iot_socket_close:
+      handler: wifi_iot_socket_close_handler
+      description: 'IOT closing socket, \n parameters is \n 1 - sock_fd \n'
+      arguments:
+        - 'int32'
+    wifi_iot_socket_bind:
+      handler: wifi_iot_socket_bind_handler
+      description: 'IOT socket bind, \n parameters is \n 1 - sock_fd, \n 2 - ip_address, \n 3 - port \n 4 - ip_address_len \n'
+      arguments:
+        - 'int32'
+        - 'ip'
+        - 'uint16'
+        - l: 'uint32'
+    wifi_iot_socket_listen:
+      handler: wifi_iot_socket_listen_handler
+      description: 'IOT socket listen, \n parameters is \n 1 - sock_fd, \n 2 - backlog \n'
+      arguments:
+        - 'int32'
+        - 'int32'    
+    wifi_iot_socket_accept:
+      handler: wifi_iot_socket_accept_handler
+      description: 'IOT socket listen, \n parameters is \n 1 - sock_fd \n'
+      arguments:
+        - 'int32'
+    wifi_iot_socket_connect:
+      handler: wifi_iot_socket_connect_handler
+      description: 'IOT socket connect, \n parameters is \n 1 - sock_fd, , \n 2 - ip_address, \n 3 - port, \n 4 - ip_address_len \n'
+      arguments:
+        - 'int32'
+        - 'ip'
+        - 'uint16'
+        - l: 'uint32'
+    wifi_iot_socket_send:
+      handler: wifi_iot_socket_send_handler
+      description: 'IOT socket receieve, \n parameters is \n 1 - sock_fd, \n 2 - data to be sent \n'
+      arguments:
+        - 'int32'
+        - 'string'
+    wifi_iot_socket_get_sock_name:
+      handler: wifi_iot_socket_get_socket_name_handler
+      description: 'IOT socket get socket name, \n parameters is \n 1 - sock_fd \n'
+      arguments:
+        - 'int32'
+    wifi_iot_socket_get_peer_name:
+      handler: wifi_iot_socket_get_peer_name_handler
+      description: 'IOT socket get peer name, \n parameters is \n 1 - sock_fd \n'
+      arguments:
+        - 'int32'
+    wifi_iot_socket_set_opt:
+      handler: wifi_iot_socket_set_opt_handler
+      description: 'IOT socket set opt parameters are \n 1 - sock_fd \n 2 - option_id \n 3 - value \n'
+      arguments:
+        - 'int32'
+        - 'set_option_id'
+        - 'int32'
+    wifi_iot_socket_get_opt:
+      handler: wifi_iot_socket_get_opt_handler
+      description: 'IOT socket get opt  parameters are \n 1 - sock_fd \n 2 - option_id \n'
+      arguments:
+        - 'int32'
+        - 'get_option_id'
+    wifi_iot_socket_receive:
+      handler: wifi_iot_socket_receive_handler
+      description: 'IOT socket receive, \n parameters is \n 1 - sock_fd \n'
+      arguments:
+        - 'int32'
+    wifi_iot_socket_receive_from:
+      handler: wifi_iot_socket_receive_from_handler
+      description: 'IOT socket receive from, \n parameters is \n 1 - sock_fd \n'
+      arguments:
+        - 'int32'  
+    wifi_iot_socket_get_host_by_name:
+      handler: wifi_iot_get_host_by_name_handler
+      description: 'IOT socket get host by name, \n parameters is \nstring - url, \nipv4_or_ipv6 - AF interface\nuint32 - length of ip in bytes'
+      arguments :
+        - 'string'
+        - 'ipv4_or_ipv6'
+        - l: 'uint32'
+    wifi_iot_socket_send_to:
+      handler: wifi_iot_socket_send_to_handler
+      description: 'IOT socket send to, \n parameters are \n 1 - sock_fd, \n 2 - data to be sent \n 3 - ip_address, \n 4 - port, \n 5 - ip_address_len (4 or 16 bytes) \n'
+      arguments:
+        - 'int32'
+        - 'string'
+        - 'ip'
+        - 'uint16'
+        - l: 'uint32'
+
+slc:
+  requires:
+  - name: 'iot_socket'
+    condition:
+      - sl_si91x_internal_stack

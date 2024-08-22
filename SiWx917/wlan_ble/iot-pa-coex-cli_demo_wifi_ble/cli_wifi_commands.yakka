@@ -1,0 +1,322 @@
+name: CLI demo wifi commands
+
+requires:
+  components:
+    - si91x_debug
+    - wifi
+    - sl_si91x_wireless
+    - network_manager
+
+sources:
+  - wifi_commands.c
+
+defines:
+  global:
+    - SLI_SI91X_CONFIG_WIFI6_PARAMS
+    - SLI_SI91X_ENABLE_TWT_FEATURE
+
+console:
+  enums:
+    ap_client_deauth:
+      unspecified: 'SL_WIFI_DEAUTH_UNSPECIFIED'
+  commands:
+    wifi_init:
+      handler: wifi_init_command_handler
+      description: 'Init Wi-Fi interface'
+      arguments:
+        - i: 'wifi_init_mode'
+    wifi_deinit:
+      handler: wifi_deinit_command_handler
+      description: 'Deinit Wi-Fi interface'
+    wifi_set_antenna:
+      handler: wifi_set_antenna_command_handler
+      description: 'Set Wi-Fi antenna'
+      arguments:
+        - i: 'wifi_interface'
+        - a: 'uint8'
+    wifi_scan:
+      handler: wifi_scan_command_handler
+      description: 'Start scanning'
+      arguments:
+        - s: 'string'
+        - i: 'wifi_interface'
+        - m: 'enable_bg_scan'
+        - c: 'uint16'
+        - a: 'uint8'
+        - t: 'uint32'
+    wifi_get_fw_version:
+      handler: wifi_get_firmware_version_command_handler
+      description: 'Fetch firmware version'  
+    wifi_connect:
+      handler: wifi_connect_command_handler
+      description: 'Start connecting to specified AP'
+      arguments:
+        - 'string'
+        - 'string'
+        - s: 'wifi_security'
+        - u: 'string'
+        - e: 'wifi_encryption'
+        - t: 'uint32'
+        - l: 'uint8'
+        - c: 'uint16'
+        - b: 'wifi_band'
+        - w: 'wifi_bandwidth'
+        - i: 'wifi_interface'
+    wifi_get_signal_strength:
+      handler: wifi_get_signal_strength_command_handler
+      description: 'Queries signal strength'
+      arguments:
+        - i: 'wifi_interface'
+    wifi_disconnect:
+      handler: wifi_disconnect_command_handler
+      description: 'Disconnect'
+      arguments:
+        - i: 'wifi_interface'
+    wifi_get_mac_address:
+      handler: wifi_get_mac_address_command_handler
+      description: 'Fetch MAC address'
+      arguments:
+        - i: 'uint8'
+    wifi_disconnect_ap_client:
+      handler: wifi_disconnect_ap_client_command_handler
+      description: 'Disconnect client connected to AP'
+      arguments:
+       - 'mac' 
+       - i: 'ap_client_deauth'
+    wifi_get_client_info:
+      handler: wifi_get_ap_client_info_command_handler
+      description: 'Fetch the client info that are currently connected to AP'
+    wifi_start_ap:
+      handler: wifi_start_ap_command_handler
+      description: 'Start in AP mode. Check sl_wifi_ap_configuration_t for parameters description'
+      arguments:
+       - a: 'string'
+       - b: 'wifi_security'
+       - c: 'wifi_encryption'
+       - d: 'uint8'
+       - e: 'wifi_band'
+       - f: 'wifi_bandwidth'
+       - g: 'rate_protocol'
+       - h: 'wifi_ap_flag' 
+       - i: 'uint32'
+       - j: 'uint32'
+       - k: 'uint16'
+       - l: 'uint8'
+       - m: 'uint8'
+       - n: 'uint16'
+    wifi_get_statistics:
+      handler: wifi_get_statistics_command_handler
+      description: "Get wifi statistics"
+    wifi_get_ext_statistics:
+      handler: wifi_get_ext_statistics_command_handler
+      description: "Get wifi external statistics"
+    wifi_start_statistic_report:
+      handler: wifi_start_statistic_report_command_handler
+      description: "Get wifi statistic report"
+      arguments:
+        - i: 'wifi_interface'
+        - c: 'uint8'
+    wifi_stop_statistic_report:
+      handler: wifi_stop_statistic_report_command_handler
+      description: "Stop wifi statistic report"
+      arguments:
+        - i: 'wifi_interface'
+    wifi_set_performance_profile:
+      handler: wifi_set_performance_profile_command_handler
+      description: 'Set the performance profile of the module'
+      arguments:
+       - 'performance_mode'
+    wifi_get_performance_profile:
+      handler: wifi_get_performance_profile_command_handler
+      description: 'Get the current performance profile of the module'
+    wifi_load_certificate:
+      handler: wifi_load_certificate_handler
+      description: 'Load/Clear Certificate from Flash, \n parameters are \n 1 - load/clear, possible value: 0(Clear), 1(Load) .., \n 2 - Type, possible value: 0(OPENSSL), 1(AWS) .. \n'
+      arguments:
+        - l: 'int8'
+        - t: 'int8'
+    wifi_is_interface_up:
+      handler: wifi_is_interface_up_command_handler
+      description: 'Check if the specified interface is up'
+      arguments:
+        - 'wifi_interface'
+    wifi_get_default_interface:
+      handler: wifi_get_default_interface_command_handler
+      description: 'Fetch default interface'
+    wifi_set_default_interface:
+      handler: wifi_set_default_interface_command_handler
+      description: 'Set default interface'
+      arguments:
+        - 'wifi_interface'
+    wifi_set_channel:
+      handler:  wifi_set_channel_command_handler
+      description: 'Set channel number in AP interface'
+      arguments:
+        - 'wifi_interface'
+        - 'uint16'
+    wifi_get_channel:
+      handler: wifi_get_channel_command_handler
+      description: 'Fetch channel info'
+      arguments:
+        - 'wifi_interface'
+    wifi_set_tx_power:
+      handler: wifi_set_tx_power_command_handler
+      description: 'Set module TX power'
+      arguments:
+        - 'uint8'
+    wifi_get_tx_power:
+      handler: wifi_get_tx_power_command_handler
+      description: "get module TX power"
+    wifi_set_transmit_rate:
+      handler: wifi_set_transmit_rate_command_handler
+      description: 'Set rate protocol and data rate'
+      arguments:
+        - 'rate_protocol'
+        - 'data_rate'
+        - i: 'wifi_interface'
+    wifi_get_transmit_rate:
+      handler: wifi_get_transmit_rate_command_handler
+      description: 'Fetch configured rate protocol and data rate'
+    wifi_get_ap_client_count:
+      handler: wifi_get_ap_client_count_command_handler
+      description: 'Client count for get ap'
+    wifi_get_ap_client_list:
+      handler: wifi_get_ap_client_list_command_handler
+      description: 'Client list for ap'     
+    wifi_generate_wps_pin:
+      handler: wifi_generate_wps_pin_command_handler
+      description: 'Generate 8 digit wps pin'
+    wifi_start_wps:
+      handler: wifi_start_wps
+      description: 'Enable WPS on access point'
+      arguments:
+       - 'wifi_interface'
+       - 'wps_mode'
+       - p: 'string'
+    wifi_set_roam_configuration:
+      handler: wifi_set_roam_configuration_command_handler
+      description: "Set roaming configuration"
+      arguments:
+        - i: 'wifi_interface'
+        - 'int32'
+        - 'int32'
+    wifi_set_advanced_scan_configuration:
+      handler: sl_wifi_set_advanced_scan_configuration_command_handler
+      description: "Set advanced scan configuration"
+      arguments:                          
+        - i: 'uint16'
+        - j: 'uint16'
+        - k: 'int32'
+        - l: 'uint32'                
+        - m: 'uint8'
+    wifi_get_advanced_scan_configuration:
+      handler: sl_wifi_get_advanced_scan_configuration_command_handler
+      description: "Get advanced scan configuration"
+    wifi_stop_scan:
+      handler: wifi_stop_scan_command_handler
+      description: "Stop scanning"
+      arguments:
+        - i: 'wifi_interface'
+    wifi_get_ap_configuration:
+      handler: wifi_get_ap_configuration_command_handler
+      description: 'Get ap configuration'
+      arguments:
+        - i: 'wifi_interface'
+    wifi_set_ap_configuration:
+      handler: wifi_set_ap_configuration_command_handler
+      description: 'set ap configuration -s ssid -c channel -o option -i credential_id -t client_timeout -d becon_count -m max_clients'
+      arguments:
+        - s: 'string'
+        - p: 'wifi_security'
+        - e: 'wifi_encryption'
+        - c: 'uint8'
+        - r: 'rate_protocol'
+        - o: 'uint8'
+        - i: 'uint8'
+        - t: 'uint32'
+        - d: 'uint32'
+        - m: 'uint32'
+    wifi_test_client_configuration:
+      handler: wifi_test_client_configuration_command_handler
+      description: 'Start connecting to specified AP'
+      arguments:
+        - 'string'
+        - 'string'
+        - s: 'wifi_security'
+        - u: 'string'
+        - e: 'wifi_encryption'
+        - t: 'uint32'
+        - l: 'uint8'
+        - c: 'uint16'
+        - b: 'wifi_band'
+        - w: 'wifi_bandwidth'
+    wifi_send_raw_data:
+      handler: sl_wifi_send_raw_data_command_handler
+      description: 'send raw data frame'
+      arguments:
+        - 'wifi_interface'
+    wifi_enable_target_wake_time:
+      handler: sl_wifi_enable_twt
+      description: 'Configures TWT parameters. Enables a TWT session. This is blocking API'
+    wifi_disable_target_wake_time:
+      handler: sl_wifi_disable_twt
+      description: 'Configures TWT parameters. Disables a TWT session. This is blocking API'
+    wifi_filter_broadcast:
+      handler: sl_wifi_filter_broadcast_command_handler
+      description: 'control the amount of broadcast and multicast data that is transmitted'
+    wifi_assert:
+      handler: sl_wifi_assert_command_handler
+      description: 'Trigger an assert' 
+    wifi_update_gain_table:
+      handler: sl_wifi_update_gain_table_command_handler
+      description: 'Assign the user configurable channel gain values in different regions to the module from user'
+      arguments:
+        - 'uint8'
+        - 'uint8'
+    wifi_11ax_config:
+      handler: sl_wifi_set_11ax_config_command_handler
+      description: 'Configure the 11ax for WiFi 6'
+      arguments:
+        - 'uint8'
+    sl_si91x_get_ram_log:
+      handler: sl_si91x_get_ram_log_command_handler
+      description: 'read the mentioned length of data from firmware RAM'
+      arguments:
+        - a: 'uint32'
+        - l: 'uint32'  
+    wifi_transmit_test_start:
+      handler: sl_wifi_transmit_test_start_command_handler
+      description: 'Start the transmit test. This is a blocking API'
+      arguments:
+        - 'uint16'
+        - 'uint32'
+        - 'uint16'
+        - 'uint16'
+        - 'uint16'
+    wifi_transmit_test_stop:
+      handler: sl_wifi_transmit_test_stop_command_handler
+      description: 'Stop the transmit test. This is a blocking API'
+    wifi_set_advanced_client_config:
+      handler: wifi_set_advanced_client_config_command_handler
+      description: 'Set advanced client config'
+      arguments:
+        - o: 'uint32'
+        - r: 'uint32'
+        - i: 'uint32'
+        - b: 'uint32'
+        - f: 'uint32'
+    wifi_get_pairwise_master_key:
+      handler: wifi_get_pairwise_master_key_command_handler
+      description: 'Generate PMK if PSK and SSID are provided This is a blocking API'
+      arguments:
+        - 'uint8'
+        - 'string'
+        - 'string'
+        - i: 'wifi_interface'
+    wifi_configure_timeout:
+      handler: wifi_configure_timeout_command_handler
+      description: 'This API is used to set timeouts'
+      arguments:
+        - 'sl_wifi_timeout_type_t'
+        - 'uint16'
+clang-format: true
