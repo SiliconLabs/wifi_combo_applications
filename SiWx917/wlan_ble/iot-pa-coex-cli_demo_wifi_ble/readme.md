@@ -616,6 +616,44 @@ Read BLE transmit & receive statistics
 ```perl
 bt_per_stats
 ```
+
+**Response Structure:**
+```perl
+  // Packet count of CRC fails (Cyclic Redundancy Check (CRC)) 
+  uint16_t crc_fail_cnt;
+
+  // Packet count of CRC fails (Cyclic Redundancy Check (CRC)) 
+  uint16_t crc_pass_cnt;
+
+  // Packet count of aborted Tx 
+  uint16_t tx_abort_cnt;
+
+  // Packet count of dropped Rx
+  uint16_t rx_drop_cnt;
+
+  // Packet count of CCA Idle (Clear Channel Assessment (CCA))
+  uint16_t rx_cca_idle_cnt;
+
+  // Packet count of Rx start 
+  uint16_t rx_start_idle_cnt;
+  
+  // Packet count of aborted Rx 
+  uint16_t rx_abrt_cnt;
+  
+  // Packet count of successful transmissions 
+  uint16_t tx_dones;
+  
+  // Received Signal Strength Indicator of the packet 
+  int8_t rssi;
+  
+  // Packet count of ID packets received 
+  uint16_t id_pkts_rcvd;
+  
+  // Dummy array of length 5
+  uint16_t dummy[5];
+
+```
+
 **Example:**
 ```perl
 bt_per_stats
