@@ -651,7 +651,6 @@ bt_per_stats
   
   // Dummy array of length 5
   uint16_t dummy[5];
-
 ```
 
 **Example:**
