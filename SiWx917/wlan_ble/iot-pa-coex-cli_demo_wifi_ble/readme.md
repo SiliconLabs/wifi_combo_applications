@@ -547,18 +547,12 @@ The changes needs to be done in rsi_debug.c file and RTE_Device_917.h file
 
 
 # **CLI Commands for BLE**
-
-**Syntax:**
-```perl
-reset
-```
-
-## **BLE commands**
 1. TEST Modes
 2. USER Gain Table
 3. Advertising Commands
 
 # **TEST MODES:**
+Used for the verification of BLE-RF performance.
 1. ble_per_transmit
 2. ble_per_receive
 3. bt_per_stats
@@ -572,7 +566,7 @@ Enable/disable BLE PER (transmit test) mode transmission
 
 **Syntax:**
 ```perl
-ble_per_transmit <enable> <pkt_len> <phy_rate> <channel> <tx_power> <transmit_mode> [-a <ant_sel>] [-d <inter_pkt_gap>] [-c <rf_chain>] [-n <num_pkts>] [-p <payload_type>]
+ble_per_transmit <enable> <pkt_len> <phy_rate> <channel> <tx_power> <transmit_mode> [-a <ant_sel>] [-d <inter_pkt_gap>] [-c <rf_chain>] [-n <num_pkts>] [-p <payload_type>] [-s scrambler_seed]
 ```
 
 |Parameter       |Description                                                                                |
@@ -587,6 +581,7 @@ ble_per_transmit <enable> <pkt_len> <phy_rate> <channel> <tx_power> <transmit_mo
 |*inter_pkt_gap* |Optional, Number of 1250 us slots to be skipped between two packets (Default 0)            |                               |
 |*rf_chain*      |Optional, RF Chain (HP/LP) to be used: 2 → BT_HP_CHAIN (Default), 3 → BT_LP_CHAIN.         |
 |*num_pkts*      |Optional, Number of packets to be transmitted, Use 0 (Default) for continuous transmission |
+|*scrambler_seed*|Optional, Initial seed to be used for whitening, Use 5 for the continuous mode|
 |payload_type    | Optional, Type of payload data sequence, Refer to the "https://docs.silabs.com/wiseconnect/latest/wiseconnect-api-reference-guide-ble/rsi-ble-per-transmit-s#payload-type" |
 
 **Example:**
@@ -632,7 +627,7 @@ Start the TX test mode in controller
 
 **Syntax:**
 ```perl
-ble_tx_test_mode <TX_channel> <TX_PHY> [-p <payload_length>] [-t <payload_type>]
+ble_tx_test_mode <TX_channel> <TX_PHY> [-a <payload_length>] [-b <payload_type>]
 ```
 
 |Parameter       |Description                                                                                |
@@ -663,7 +658,7 @@ Start the RX test mode in controller
 
 **Syntax:**
 ```perl
-ble_tx_test_mode <RX_channel> <RX_PHY> 
+ble_rx_test_mode <RX_channel> <RX_PHY> 
 ```
 
 |Parameter       |Description                                                                                |
@@ -691,6 +686,7 @@ ble_end_test_mode
 >```
 
 ## **USER Gain Table:**
+Used to configure the maxmium power with respect to region.
 1. ble_user_gain_max_power
 2. ble_user_gain_max_power_offset
 3. ble_user_gain_lp_chain_0dBm_offset
@@ -757,6 +753,7 @@ ble_user_gain_table_lp_chain_8dBm_offset
 
 
 ## **Commands**
+Used to configure the SiWx917 device as a Peripheral device.
 1. bt_set_local_name
 2. bt_get_local_device_address
 3. bt_get_local_name

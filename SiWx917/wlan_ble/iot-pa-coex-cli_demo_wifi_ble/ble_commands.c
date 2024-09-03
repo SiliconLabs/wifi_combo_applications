@@ -457,7 +457,7 @@ sl_status_t rsi_ble_per_transmit_command_handler(console_args_t *arguments)
   rsi_ble_per_tx.phy_rate                     = (uint8_t)GET_COMMAND_ARG(arguments, 2);
   rsi_ble_per_tx.rx_chnl_num                  = (uint8_t)GET_COMMAND_ARG(arguments, 3);
   rsi_ble_per_tx.tx_chnl_num                  = (uint8_t)GET_COMMAND_ARG(arguments, 3);
-  rsi_ble_per_tx.scrambler_seed               = SCRAMBLER_SEED;
+  rsi_ble_per_tx.scrambler_seed               = GET_OPTIONAL_COMMAND_ARG(arguments, 11, SCRAMBLER_SEED, const uint8_t);
   rsi_ble_per_tx.payload_type                 = GET_OPTIONAL_COMMAND_ARG(arguments, 10, DATA_PRBS9, const uint8_t);//DATA_PRBS9;
   rsi_ble_per_tx.le_chnl_type                 = LE_DATA_CHNL_TYPE;
   rsi_ble_per_tx.tx_power                     = (uint8_t)GET_COMMAND_ARG(arguments, 4);
