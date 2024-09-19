@@ -1,6 +1,6 @@
 /***************************************************************************/ /**
  * @file
- * @brief TCP Client Example Application
+ * @brief mDNS Example Application
  *******************************************************************************
  * # License
  * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
@@ -51,14 +51,14 @@
 #define SERVER_PORT 5001
 
 #define DEVICE_IP   "192.168.1.1"
-#define DEVICE_PORT 5005
+#define DEVICE_PORT 4000
 
 #define CLIENT_MESSAGE "WIFISDK"
 
 #define MDNS_HOST_NAME       "wiseconnect.local."
 #define MDNS_SERVICE_TYPE    "_http._tcp.local."
 #define MDNS_SERVICE_NAME    "wiseconnect._http._tcp.local"
-#define MDNS_SERVICE_MESSAGE "HTTP service_1234567890qwertyuioplkjhgfdsazxcvbnmmnbvcdfghjnbvcdfgh"
+#define MDNS_SERVICE_MESSAGE "HTTP service"
 #define MDNS_SERVICE_PORT    80
 #define MDNS_SERVICE_TTL     300
 /******************************************************
@@ -90,10 +90,14 @@ void receive_data_from_client();
 /******************************************************
  *               Function Definitions
  ******************************************************/
-void data_callback(uint32_t sock_no, const uint8_t *buffer, uint32_t length)
+void data_callback(uint32_t sock_no,
+                   uint8_t *buffer,
+                   uint32_t length,
+                   const sl_si91x_socket_metadata_t *firmware_socket_response)
 {
   UNUSED_PARAMETER(sock_no);
   UNUSED_PARAMETER(buffer);
+  UNUSED_PARAMETER(firmware_socket_response);
   bytes_read += length;
   is_data_received = 1;
 }
@@ -168,6 +172,14 @@ static void application_start(void *argument)
   printf("\r\nService Added to MDNS\r\n");
 
   receive_data_from_client();
+
+  // Deinitialize MDNS service
+  status = sl_mdns_deinit(&mdns);
+  if (status != SL_STATUS_OK) {
+    printf("\r\nFailed to deinitialize MDNS : 0x%lx\r\n", status);
+    return;
+  }
+  printf("\r\nDeinitialize MDNS successfully\r\n");
 }
 
 void receive_data_from_client()
