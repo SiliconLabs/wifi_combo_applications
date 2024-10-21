@@ -17,6 +17,22 @@ The Silicon Labs Wi-Fi Combo stack allows for a wide variety applications to be 
 
 ## Examples ##
 
+### SoC_Peripheral Examples
+- sl_si91x_i2s_low_power
+- sl_si91x_ulp_adc
+- sl_si91x_ulp_adc_multichannel
+- sl_si91x_ulp_dac
+- sl_si91x_ulp_dma
+- sl_si91x_ulp_i2c_leader
+- sl_si91x_ulp_ssi_master
+- sl_si91x_ulp_uart
+
+
+### WLAN-BLE Examples
+- iot-pa-coex-aws_cloud_connectivity_through_wifi_and_ble_gateway_soc
+- iot-pa-coex-aws_iot_mqtt_m4_lowpower
+- iot-pa-coex-out_of_box_demo_aws
+- iot-pa-coex-cli_demo_wifi_ble
 
 
 ## Documentation ##

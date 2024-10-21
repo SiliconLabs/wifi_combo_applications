@@ -1,0 +1,139 @@
+name: BSD socket commands
+
+sources:
+  - bsd_socket_commands.c
+
+console:
+  include_headers:
+    - 'socket.h'
+
+  enums:
+    bsd_socket_family:
+      AF_INET: 2
+      AF_INET6: 24
+
+    bsd_socket_type:
+      SOCK_STREAM: 1
+      SOCK_DGRAM : 2
+    
+    bsd_socket_protocol:
+      IPPROTO_TCP : 6
+      IPPROTO_UDP : 17
+      
+    socket_domain:
+      af_inet: 2
+      af_inet6: 0
+    socket_type:
+      stream: 'SOCK_STREAM'
+      dgram: 'SOCK_DGRAM'
+      raw: 'SOCK_RAW'
+    socket_protocol:
+      ip_proto: 'IPPROTO_IP'
+      ip_icmp: 'IPPROTO_ICMP'
+      ip_tcp: 'IPPROTO_TCP'
+      ip_udp: 'IPPROTO_UDP'
+      ip_udp_lite: 'IPPROTO_UDPLITE'
+      ip_raw: 'IPPROTO_RAW' 
+
+  commands:
+    wifi_bsd_socket_create:
+      handler: wifi_bsd_socket_create_handler
+      description: 'BSD socket creation, \n parameters are \n 1 - Domain, possible value: 1(AF_INET), 2(AF_INET6) .., \n 2 - Type, possible value: 1(SOCK_STREAM), 2(SOCK_DGRAM),  \n3 - protocol, possible value:1(IPPROTO_TCP), 2(IPPROTO_UDP).. \n'
+      arguments:
+        - 'bsd_socket_family'
+        - 'bsd_socket_type'
+        - 'bsd_socket_protocol'
+    wifi_bsd_socket_bind:
+      handler: wifi_bsd_socket_bind_handler
+      description: 'BSD socket bind, \n parameters is \n 1 - sock_fd, \n 2 - ip_address, \n 3 - ip_address_len, \n 4 - port \n'
+      arguments:
+        - 'int32'
+        - 'string'
+        - 'uint32'
+        - 'uint16'
+    wifi_bsd_socket_listen:
+      handler: wifi_bsd_socket_listen_handler
+      description: 'BSD socket listen, \n parameters is \n 1 - sock_fd, \n 2 - backlog \n'
+      arguments:
+        - 'int32'
+        - 'int32'
+    wifi_bsd_socket_accept:
+      handler: wifi_bsd_socket_accept_handler
+      description: 'BSD socket listen, \n parameters is \n 1 - sock_fd \n'
+      arguments:
+        - 'int32'
+    wifi_bsd_socket_connect:
+      handler: wifi_bsd_socket_connect_handler
+      description: 'BSD socket connect, \n parameters are \n 1 - sock_fd, \n 2 - ip_address, \n 3 - ip_address_len, \n 4 - port \n'
+      arguments:
+        - 'int32'
+        - 'string'
+        - 'uint32'
+        - 'uint16'
+    wifi_bsd_socket_close:
+      handler: wifi_bsd_socket_close_handler
+      description: 'BSD socket close, \n parameters is \n 1 - sock_fd \n'
+      arguments:
+        - 'int32'
+    wifi_bsd_socket_receive_from:
+      handler: wifi_bsd_socket_receive_from_handler
+      description: 'BSD socket receive from, \n parameters is \n 1 - sock_fd\n'
+      arguments:
+        - 'int32'
+    wifi_bsd_socket_receive:
+      handler: wifi_bsd_socket_receive_handler
+      description: 'BSD socket receive from, \n parameters is \n 1 - sock_fd \n'
+      arguments:
+        - 'int32'
+    wifi_bsd_socket_send_to:
+      handler: wifi_bsd_socket_send_to_handler
+      description: 'BSD socket send, \n parameters is \n 1 - sock_fd, \n 2 - data to be sent, \n 3 - ip_address, \n 4 - ip_address_len (4 or 16 bytes), \n 5 - port \n'
+      arguments:
+        - 'int32'
+        - 'string'
+        - 'string'
+        - 'uint32'
+        - 'uint16'
+    wifi_bsd_socket_send:
+      handler: wifi_bsd_socket_send_handler
+      description: 'BSD socket send, \n parameters is \n 1 - sock_fd, \n 2 - data to be sent \n'
+      arguments:
+        - 'int32'
+        - 'string'
+    wifi_bsd_get_host_by_name:
+      handler: wifi_bsd_get_host_by_name_handler
+      description: 'BSD socket listen, \n parameters is \n 1 - hostName \n'
+      arguments:
+        - 'string'
+    wifi_bsd_get_sock_name:
+      handler: wifi_bsd_get_sock_name
+      description: 'BSD get local address of socket \n parameter \n1 - socket_fd'
+      arguments:
+        - 'int32'
+    wifi_bsd_get_peer_name:
+      handler: wifi_bsd_get_peer_name
+      description: 'BSD get remote node address \n parameter \n1 - socket_fd'
+      arguments:
+        - 'int32'
+    wifi_bsd_socket_select:
+      handler: wifi_bsd_select_handler
+      description: ' nfd - number of file descriptors\n time - time in seconds'
+      arguments:
+        - 'int32'
+        - 'int32'
+    wifi_bsd_get_sock_opt:
+      handler: wifi_bsd_socket_get_opt_handler
+      description: 'BSD get the socket options \n parameters\n 1- socket_fd 2- option level\n'
+      arguments:
+        - 'int32'
+        - 'option_name'
+    wifi_bsd_set_sock_opt:
+      handler: wifi_bsd_socket_set_opt_handler
+      description: 'BSD get the socket options \n parameters\n 1- socket_fd 2- option name  3- option value  4- option length\n'
+      arguments:
+        - 'int32'
+        - 'option_name'
+        - 'int32'
+        - 'int32'
+
+clang-format: true
