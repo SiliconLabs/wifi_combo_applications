@@ -1,4 +1,4 @@
-# Wi-Fi - AWS IoT MQTT Client
+# Wi-Fi - SNI for AWS IoT MQTT Client
 
 ## Table of Contents
 
