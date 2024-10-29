@@ -278,7 +278,7 @@ $\SimplicityStudio\SDKs\gecko_sdk\extension\wiseconnect\examples\snippets\ble\io
    <br><img src="resources/readme/bleotafwuptafwselection.png" alt=""><br>
 
 - The selected firmware file is shown below.
-   <br><img src="resources/readme/bleotafwuptafwselected.png" alt=""><br>
+   <br><img src="resources/readme/bleotafwuptafwselectedncp.png" alt=""><br>
 
 - If the chosen firmware is incorrect and you wish to choose another firmware for the firmware upgrade, click **Select Different Firmware** to begin browsing and selecting firmware.
 
@@ -323,7 +323,6 @@ Path:($\ble_heart_rate_profile_soc\GNU ARM v12.2.1 - Default)
 - Again click on the **Start Firmware Update**, to start the firmware upgrade in the above specified pop-up window.
 
 - The Python script continuously sends the firmware in a chunk-by-chunk manner.
-   <br><img src="resources/readme/bleotam4fwupprocess.png" alt=""><br> 
 
 - When the Python script sends the entire firmware file, the module begins the safe update process.
    <br><img src="resources/readme/bleotafeuptasafeupgrade.png" alt=""><br> 
