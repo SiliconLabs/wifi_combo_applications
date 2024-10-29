@@ -124,13 +124,18 @@ Open `firmware_update/common.h` file and uncomment the following,
 - **Convert the firmware file to a constant array**
   - Open the python script `array_conversion.py` attached.
   - Update the .rps format firmware file name.
-  - In command line, enter the command `python array_conversion.py <outputfile_name.h>`
+  - In command line, enter the command `python array_conversion.py > <outputfile_name.h>`
   - The array converted firmware file will be created in the name outputfile_name.h
 
 - Update the size of the converted firmware file in bytes rounded off to 16 bytes in the macro,
 ```c
 #define SIZE_OF_FW 0x9B840
 ```
+- The array converted firmware file should be updated in the respective .h files as said below,
+  - *For TA non-secure firmware update :* `firmware_update/ta_fw_file.h`
+  - *For M4 non-secure firmware update :* `firmware_update/m4_fw_file.h`
+  - *For TA secure firmware update :* `firmware_update/ta_sfw_file.h`
+  - *For M4 secure firmware update :* `firmware_update/m4_sfw_file.h`
 
 ## Test the Application
 
