@@ -1,5 +1,4 @@
 # Firmware Update from External Host thorugh SDIO with ISP mode in SiWx917
-git pull
 ## Table of Contents
 
 - [Wi-Fi - Firmware Flashing from Host UART](#wi-fi---firmware-flashing-from-host-uart)
@@ -40,7 +39,6 @@ This application demonstrates to flash the firmware on the SiWx917 Device from t
 
 - [Simplicity Studio IDE](https://www.silabs.com/developers/simplicity-studio)
 - [Docklight](https://docklight.de/downloads/) / Device Console in Simplicity Studio - to view console prints
-- WiseConnect SDK [v3.2.0](https://github.com/SiliconLabs/wiseconnect/tree/v3.2.0)
 - Gecko SDK [v4.4.3](https://github.com/SiliconLabs/gecko_sdk/tree/v4.4.3)
 
 ### Setup Diagram
@@ -67,7 +65,7 @@ The following SDIO lines can be used to connect EFM32 MCU to (BRD4338A + BED4002
 
 Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/) to:
 
-- Install Studio and WiSeConnect 3 extension. The supported WiseConnect SDK for this application attached is *v3.2.0*. Users can leverage this project to develop application for different MCUs.
+- Install the Simplicity Studio. Users can leverage this project to develop application for different MCUs.
 - Connect your device setup to the computer.
 - Import the project following the below steps:
   - Download the project (.sls file) from `project` folder.
