@@ -134,7 +134,7 @@ Open `firmware_update/common.h` file and uncomment the following,
   - *For TA non-secure firmware update :* `firmware_update/ta_fw_file.h`
   - *For M4 non-secure firmware update :* `firmware_update/m4_fw_file.h`
   - *For TA secure firmware update :* `firmware_update/ta_sfw_file.h`
-  - *For M4 secure firmware update :* `firmware_update/m4_sfw_file.h`
+  - *For M4 secure firmware update :* `firmware_updacd bte/m4_sfw_file.h`
 
 ## Test the Application
 
