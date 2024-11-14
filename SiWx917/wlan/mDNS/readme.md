@@ -133,7 +133,7 @@ Configure the following parameters to enable your Silicon Labs Wi-Fi device to c
 - Configure the Device port
 
   ```c
-    #define DEVICE_PORT        5001
+    #define DEVICE_PORT        5005
   ```  
 
 - Configure the following parameters in app.c to add the mDNS service as per the requirements. 
@@ -180,7 +180,7 @@ The iPerf command to start the UDP client is:
   >
   > For example ...
   >
-  > `C:\> iperf.exe -c 192.168.0.100 -u -p 5001 -i 1 -b 50M -t 30` 
+  > `C:\> iperf.exe -c 192.168.0.100 -u -p 5005 -i 1 -b 50M -t 30` 
 
   ![Figure: UDP_RX](resources/readme/UDP_Rx.PNG) 
 
