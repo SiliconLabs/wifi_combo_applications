@@ -80,6 +80,8 @@ For details on the project folder structure, see the [WiSeConnect Examples](http
   ```
 
  - Refresh the Simplicity SDK or add the SDK again
+
+   
  **Note:** The images provided below serve as a reference. Users can add the SiSDK and SDK according to their specific needs.
 
  ![Figure: Setup](resources/readme/SDK.png)
