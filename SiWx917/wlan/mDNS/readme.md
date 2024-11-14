@@ -80,6 +80,7 @@ For details on the project folder structure, see the [WiSeConnect Examples](http
   ```
 
  - Refresh the Simplicity SDK or add the SDK again
+ **Note:** The images provided below serve as a reference. Users can add the SiSDK and SDK according to their specific needs.
 
  ![Figure: Setup](resources/readme/SDK.png)
 
@@ -130,7 +131,7 @@ Configure the following parameters to enable your Silicon Labs Wi-Fi device to c
 - Configure the Device port
 
   ```c
-    #define DEVICE_PORT        5005
+    #define DEVICE_PORT        5001
   ```  
 
 - Configure the following parameters in app.c to add the mDNS service as per the requirements. 
@@ -218,19 +219,20 @@ The iPerf command to start the UDP client is:
  
  #### To view the mDNS service (Using Avahi on Linux PC/Machine)
 
- - Install the avahi on the Linux PC by passing the below command on the terminal
+#### Step 1 - Command for installing the avahi in Linux PC
+ - Install the avahi on the Linux PC by passing the below command on the terminal. 
 
   ```c
    sudo apt-get install avahi-daemon
   ```
 
-
+#### Step 2 - Command to observe the mDNS service that was added.
  - On the Linux machine run "avahi-browse _http._tcp -r"
 ![Figure: linux](resources/readme/linux.PNG)
 
-or
+   or
  
-avahi-browse -a -r
+ avahi-browse -a -r
 
 - To kill the service on the Linux PC, send the below command
   
