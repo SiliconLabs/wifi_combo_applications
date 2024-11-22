@@ -1,0 +1,63 @@
+project_name: mDNS_soc
+package: wifi
+quality: production
+label: mDNS
+category: Example|Wi-Fi
+description: >
+  mDNS example.
+filter:
+  - name: "Wireless Technology"
+    value: ["Wi-Fi"]
+  - name: "Project Difficulty"
+    value: ["Beginner"]
+sdk: {id: simplicity_sdk, version: 2024.6.0}
+sdk_extension: 
+- {id: wiseconnect3_sdk, version: 3.3.1}
+source:
+  - path: app.c
+  - path: main.c
+include:
+  - path: .
+    file_list:
+      - path: app.h
+define:
+  - name: SL_SI91X_PRINT_DBG_LOG
+  - name: SLI_SI91X_SOCKETS
+component:
+- {from: wiseconnect3_sdk, id: si917_memory_default_config}
+- {from: wiseconnect3_sdk, id: si91x_debug}
+- {from: wiseconnect3_sdk, id: syscalls}
+requires:
+- name: sl_system
+- name: bsd_socket
+- name: mdns
+- name: network_manager
+- name: basic_network_config_manager
+- name: wiseconnect3_common
+- name: wifi
+- name: sl_si91x_wireless
+- name: sl_si91x_asynchronous_socket
+- name: sl_si91x_socket
+- name: sl_si91x_internal_stack
+- name: sl_si91x_basic_buffers
+- name: wifi_resources
+- name: freertos
+- name: slist
+- name: device_init
+  condition: [device_has_devinfo]
+- name: emlib_common
+  condition: [device_has_devinfo]
+- name: emlib_ldma
+  condition: [device_has_devinfo]
+toolchain_settings: []
+configuration:
+- name: SL_BOARD_ENABLE_VCOM
+  value: '1'
+readme:
+- path: readme.md
+ui_hints:
+  highlight:
+  - path: readme.md
+    focus: true
+post_build:
+  path: ../../../../utilities/postbuild_profile/wiseconnect_soc.slpb
