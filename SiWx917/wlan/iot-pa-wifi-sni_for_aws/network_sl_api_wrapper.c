@@ -125,7 +125,7 @@ IoT_Error_t iot_tls_is_connected(Network *pNetwork)
   /* Use this to add implementation which can check for physical layer disconnect */
   return NETWORK_PHYSICAL_LAYER_CONNECTED;
 }
-#define TLS_SNI_EXTENSION "example_url.com"
+
 sl_status_t set_tls_extensions(int client_socket)
 {
 
