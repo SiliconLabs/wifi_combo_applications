@@ -26,7 +26,9 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
       - Import the AWS IoT MQTT Client example from Simplicity Studio Launcher, as mentioned in the example readme.
       - Replace the < project > /<wiseconnect3_sdk_3.x.x>/third_party/aws_sdk/platform/silabs/src/network_sl_api_wrapper.c file with the iot-pa-wifi-sni_for_aws/network_sl_api_wrapper.c
       - Add the below define in the < project >/config/aws_io_config.h file.
-          #define TLS_SNI_EXTENSION "example_url.com"
+        ```c
+        #define TLS_SNI_EXTENSION "example_url.com"
+        ```
       - Execute the example as usual using the specific example's readme.
   2. Import the iot-pa-wifi-sni_for_aws project
       - Download the project (.sls file) from the link provided in the pre-work guide
