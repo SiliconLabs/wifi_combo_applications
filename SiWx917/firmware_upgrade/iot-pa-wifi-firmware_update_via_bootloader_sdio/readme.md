@@ -22,6 +22,15 @@ This application demonstrates to flash the firmware on the SiWx917 Device from t
   - Host MCU (EFM32GG11): The firmware to be updated is added as array in the application. The application binary is flashed to the Host MCU. Host MCU then send the firmware data in chunks to the SiWx917 device.
   - SiWx917 Device: The target device that needs a firmware update. It receives firmware data from the Host MCU (EFM32GG11) and updates its firmware.
 
+**Overview of the application**
+
+Firmware in the SiWx917 device can be updated using *External Host Interface SDIO*. The MCU sends the data to the *Bootloader (BL)* of SiWx917 device via SDIO interface. The device should be kept in ISP mode. *In System Programming (ISP)* is programming or reprogramming of the flash through BL.
+
+First the MCU polls SiWx917 and checks if device is ready to receive. Once it receives confirmation, it sends the respective TA or M4 ‘BURN’ command to the TA BL. The 917 device acknowledges it with the request to send the firmware file. The host now sends the RPS file in chunks of 4096 bytes till ‘End Of File (EOF)’. Upon receiving EOF, TA BL verifies the received firmware and moves to the respective location.
+
+SiWx917 has Secure and Non-Secure Firmware updates. The above mechanism is the same for both secure and non-secure updates, except that the firmware does security-related integrity checks before loading the device with the new firmware.
+
+
 ## Prerequisites/Setup Requirements
 
 ### Hardware Requirements  
@@ -66,6 +75,13 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 
 - Install the Simplicity Studio. Users can leverage this project to develop application for different MCUs.
 - Connect your device setup to the computer.
+- In the Preferences window, add/select Gecko SDK Suite v4.4.3 to execute this application.
+
+  ![](resources/readme/add_gsdk1.png)
+
+  ![](resources/readme/add_gsdk2.png)
+
+
 - Import the project following the below steps:
   - Download the project (.sls file) from `project` folder.
   - Go to Files -> Import
@@ -83,7 +99,7 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
   - Check the project name and click on finish.
 
   ![](resources/readme/import4.png)
-- The user can download the binary file directly from `binary` folder and flash to the EFM MCU.
+- The user can also download the binary file from `binary` folder and directly flash to the EFM MCU.
 
 ## Configure the application
 
