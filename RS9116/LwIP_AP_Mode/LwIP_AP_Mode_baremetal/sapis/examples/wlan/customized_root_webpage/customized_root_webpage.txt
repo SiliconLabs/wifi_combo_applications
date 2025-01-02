@@ -1,0 +1,1 @@
+unsigned char customized_root_webpage[] =  "<html><body><h2>THIS IS REDPINE DEMONSTRATION TO LOAD THE CUSTOMIZED ROOT WEBPAGE</h2></body></html>";
