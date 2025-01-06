@@ -1,3 +1,12 @@
+Setup used:
+Software:
+WSDK 3.3.4.
+Simplicity SDK 2024.6.2
+
+Hardware:
+ BRD4338A Rev A12(SoC) with BRD4002A(WPK) 
+
+
 Import procedure:
 1. Download the latest WiSeConnect release from https://github.com/SiliconLabs/wiseconnect.
 2. Unzip and navigate to examples/snippets/wlan_ble/wifi_station_ble_provisioning_aws and replace the source and header files with the files given in Brambles_application folder.
