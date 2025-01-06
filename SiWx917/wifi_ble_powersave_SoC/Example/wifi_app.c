@@ -388,7 +388,7 @@ sl_status_t TA_Power_save(char ta_state)
           LOG_PRINT("\r\n TA Failed to initiate power save in BLE mode \r\n");
           return status_ps;
       }
-      performance_profile.profile = STANDBY_POWER_SAVE_WITH_RAM_RETENTION;
+      performance_profile.profile = STANDBY_POWER_SAVE_WITH_RAM_RETENTION; // DEEP_SLEEP_WITH_RAM_RETENTION for 3.4.0 WSDK.
       status_ps = sl_wifi_set_performance_profile(&performance_profile);
       if (status_ps != SL_STATUS_OK) {
           LOG_PRINT("\r\n TA Power save configuration Failed, Error Code : 0x%lX\r\n", status_ps);
@@ -406,7 +406,7 @@ sl_status_t TA_Power_save(char ta_state)
           return status_ps;
       }
 
-      //performance_profile.profile = STANDBY_POWER_SAVE_WITH_RAM_RETENTION;
+      
       status_ps = sl_wifi_set_performance_profile(&performance_profile);
       if (status_ps != SL_STATUS_OK) {
           LOG_PRINT("\r\n TA Power save configuration Failed, Error Code : 0x%lX\r\n", status_ps);
