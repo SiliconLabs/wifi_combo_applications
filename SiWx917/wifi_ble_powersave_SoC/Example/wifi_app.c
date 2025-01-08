@@ -616,7 +616,7 @@ void wifi_app_task(void)
               osDelay(1000);
           } else {
               // update WLAN application state
-              //wifi_app_send_to_ble(WIFI_APP_SCAN_RESP, (uint8_t *)scan_result, scanbuf_size); //vinay
+              //wifi_app_send_to_ble(WIFI_APP_SCAN_RESP, (uint8_t *)scan_result, scanbuf_size); 
               event_id =WIFI_APP_JOIN_STATE;
           }
         } break;
@@ -765,16 +765,7 @@ void wifi_app_task(void)
               M4_Power_save();
               status= TA_Power_save(ta_active);
 
-              ble_app_task();
-
-              while(1)
-                {
-                  TA_Power_save(ta_unconnected);
-                  M4_Power_save();
-                  TA_Power_save(ta_active);
-                  osDelay(2000);
-                }
-
+              ble_app_task(); 
           } else {
               LOG_PRINT("\r\nWIFI Disconnect Failed, Error Code : 0x%lX\r\n", status);
           }
@@ -1024,7 +1015,7 @@ void wifi_app_mqtt_task(void)
 
 #endif
 
-          wlan_app_cb.state = WIFI_APP_MQTT_DISCONNECT;// WIFI_APP_AWS_SELECT_CONNECT_STATE; Vinay
+          wlan_app_cb.state = WIFI_APP_MQTT_DISCONNECT;
 
 #if ENABLE_POWER_SAVE
           wlan_app_cb.state = WIFI_APP_SLEEP_STATE;
