@@ -19,14 +19,14 @@
  */
 
 /*================================================================================
- * @brief : This file contains example application for Wlan Station BLE
+ * @brief : This file contains example application for WLAN Station BLE
  * Provisioning
  * @section Description :
  * This application explains how to get the WLAN connection functionality using
  * BLE provisioning.
  * Silicon Labs Module starts advertising and with BLE Provisioning the Access Point
  * details are fetched.
- * Silicon Labs device is configured as a WiFi station and connects to an Access Point.
+ * Silicon Labs device is configured as a Wi-Fi station and connects to an Access Point.
  =================================================================================*/
 
 /**
@@ -139,7 +139,7 @@ char ta_active=1,ta_unconnected=2,ta_connected=3;
 sl_wifi_client_configuration_t access_point = { 0 };
 sl_net_ip_configuration_t ip_address        = { 0 };
 
-static uint32_t wlan_app_event_map;
+static uint32_t _app_event_map;
 #if !(defined(SLI_SI91X_MCU_INTERFACE) && ENABLE_POWER_SAVE)
 volatile uint8_t publish_msg = 0;
 #endif
@@ -162,8 +162,8 @@ int32_t status1            = RSI_SUCCESS;
 AWS_IoT_Client mqtt_client = { 0 };
 #define RSI_FD_ISSET(x, y) rsi_fd_isset(x, y)
 
-typedef struct wlan_app_cb_s {
-  //! wifi application state
+typedef struct _app_cb_s {
+  //! Wi-Fi application state
   volatile wifi_app_state_t state;
 
   //! length of buffer to copy
@@ -178,8 +178,8 @@ typedef struct wlan_app_cb_s {
   //! application events bit map
   uint32_t event_map;
 
-} wlan_app_cb_t;
-wlan_app_cb_t wlan_app_cb; //! application control block
+} _app_cb_t;
+_app_cb_t _app_cb; //! application control block
 
 
 const sl_wifi_scan_configuration_t bg_wifi_scan_configuration = { .type  = SL_WIFI_SCAN_TYPE_ADV_SCAN,
@@ -211,16 +211,16 @@ void ble_app_task(void );
 uint8_t conn_status;
 extern uint8_t magic_word;
 
-// WLAN include file for configuration
+//  include file for configuration
 osSemaphoreId_t rsi_mqtt_sem;
-extern osSemaphoreId_t wlan_thread_sem;
+extern osSemaphoreId_t _thread_sem;
 
 #ifdef SLI_SI91X_MCU_INTERFACE
 void gpio_uulp_pin_interrupt_callback(uint32_t pin_intr)
 {
   while (sl_si91x_gpio_get_uulp_npss_pin(pin_intr) == LOW)
     ; // waiting for the button release
-  wlan_app_cb.state = WIFI_APP_AWS_SELECT_CONNECT_STATE;
+  _app_cb.state = WIFI_APP_AWS_SELECT_CONNECT_STATE;
 #if (SL_SI91X_TICKLESS_MODE == ENABLE)
   osSemaphoreRelease(data_received_semaphore);
 #endif
@@ -237,9 +237,9 @@ void gpio_uulp_pin_interrupt_callback(uint32_t pin_intr)
  */
 void wifi_app_set_event(uint32_t event_num)
 {
-  wlan_app_event_map |= BIT(event_num);
+  _app_event_map |= BIT(event_num);
 
-  osSemaphoreRelease(wlan_thread_sem);
+  osSemaphoreRelease(_thread_sem);
 
   return;
 }
@@ -255,7 +255,7 @@ void wifi_app_set_event(uint32_t event_num)
  */
 void wifi_app_clear_event(uint32_t event_num)
 {
-  wlan_app_event_map &= ~BIT(event_num);
+  _app_event_map &= ~BIT(event_num);
   return;
 }
 
@@ -275,7 +275,7 @@ int32_t wifi_app_get_event(void)
   uint32_t ix;
 
   for (ix = 0; ix < 32; ix++) {
-      if (wlan_app_event_map & (1 << ix)) {
+      if (_app_event_map & (1 << ix)) {
           return ix;
       }
   }
@@ -291,7 +291,7 @@ sl_status_t join_callback_handler(sl_wifi_event_t event, char *result, uint32_t 
   UNUSED_PARAMETER(result_length);
   UNUSED_PARAMETER(arg);
 
-  // update wlan application state
+  // update  application state
   disconnected = 1;
   connected    = 0;
 
@@ -300,7 +300,7 @@ sl_status_t join_callback_handler(sl_wifi_event_t event, char *result, uint32_t 
   return SL_STATUS_OK;
 }
 
-void rsi_wlan_app_callbacks_init(void)
+void rsi__app_callbacks_init(void)
 {
   //! Initialize join fail call back
   sl_wifi_set_join_callback(join_callback_handler, NULL);
@@ -465,7 +465,7 @@ sl_status_t load_certificates_in_flash(void)
   return SL_STATUS_OK;
 }
 
-int32_t rsi_wlan_mqtt_certs_init(void)
+int32_t rsi__mqtt_certs_init(void)
 {
   sl_status_t status = RSI_SUCCESS;
 
@@ -475,7 +475,7 @@ int32_t rsi_wlan_mqtt_certs_init(void)
       return status;
   }
 
-  rsi_wlan_app_callbacks_init();
+  rsi__app_callbacks_init();
 
   return status;
 }
@@ -511,7 +511,7 @@ static sl_status_t show_scan_results()
   return SL_STATUS_OK;
 }
 
-sl_status_t wlan_app_scan_callback_handler(sl_wifi_event_t event,
+sl_status_t _app_scan_callback_handler(sl_wifi_event_t event,
                                            sl_wifi_scan_result_t *result,
                                            uint32_t result_length,
                                            void *arg)
@@ -563,7 +563,7 @@ void wifi_app_task(void)
       // checking for events list
 
       if (event_id == -1) {
-          osSemaphoreAcquire(wlan_thread_sem, osWaitForever);
+          osSemaphoreAcquire(_thread_sem, osWaitForever);
 
           // if events are not received loop will be continued.
           continue;
@@ -573,7 +573,7 @@ void wifi_app_task(void)
         case WIFI_APP_INITIAL_STATE: {
           wifi_app_clear_event(WIFI_APP_INITIAL_STATE);
 
-          // update wlan application state
+          // update  application state
           if (magic_word) {
               // clear the served event
               event_id = WIFI_APP_FLASH_STATE;
@@ -585,7 +585,7 @@ void wifi_app_task(void)
         case WIFI_APP_UNCONNECTED_STATE: {
           wifi_app_clear_event(WIFI_APP_UNCONNECTED_STATE);
 
-          osSemaphoreRelease(wlan_thread_sem);
+          osSemaphoreRelease(_thread_sem);
         } break;
 
         case WIFI_APP_SCAN_STATE: {
@@ -615,7 +615,7 @@ void wifi_app_task(void)
               event_id =WIFI_APP_SCAN_STATE;
               osDelay(1000);
           } else {
-              // update wlan application state
+              // update WLAN application state
               //wifi_app_send_to_ble(WIFI_APP_SCAN_RESP, (uint8_t *)scan_result, scanbuf_size); //vinay
               event_id =WIFI_APP_JOIN_STATE;
           }
@@ -652,15 +652,15 @@ void wifi_app_task(void)
           if (status != RSI_SUCCESS) {
               timeout = 1;
 
-              LOG_PRINT("\r\nWLAN Connect Failed, Error Code : 0x%lX\r\n", status);
+              LOG_PRINT("\r\n WLAN Connect Failed, Error Code : 0x%lX\r\n", status);
 
-              // update wlan application state
+              // update WLAN application state
               disconnected = 1;
               connected    = 0;
               event_id = WIFI_APP_SCAN_STATE;
           } else {
               LOG_PRINT("\n WLAN Connection Success\r\n");
-              // update wlan application state
+              // update WLAN application state
 
               event_id =WIFI_APP_CONNECTED_STATE;
           }
@@ -716,7 +716,7 @@ void wifi_app_task(void)
               print_sl_ip_address(&ip);
 #endif
 
-              // update wlan application state
+              // update WLAN application state
               event_id =WIFI_APP_IPCONFIG_DONE_STATE;
           }
         } break;
@@ -743,7 +743,7 @@ void wifi_app_task(void)
 
           wifi_app_set_event(WIFI_APP_FLASH_STATE);
 
-          LOG_PRINT("WIFI App Disconnected State\r\n");
+          LOG_PRINT("WI-FI App Disconnected State\r\n");
         } break;
 
         case WIFI_APP_DISCONN_NOTIFY_STATE: {
