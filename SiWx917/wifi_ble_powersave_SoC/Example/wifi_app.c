@@ -616,7 +616,6 @@ void wifi_app_task(void)
               osDelay(1000);
           } else {
               // update WLAN application state
-              //wifi_app_send_to_ble(WIFI_APP_SCAN_RESP, (uint8_t *)scan_result, scanbuf_size); 
               event_id =WIFI_APP_JOIN_STATE;
           }
         } break;
