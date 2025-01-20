@@ -1,0 +1,15 @@
+{
+    "puf_activation_code_addr": 8192,
+    "efuse_data": {
+        "disable_m4ss_kh_access": 0,
+        "m4_digital_signature_validation": 1,
+        "m4_encrypt_firmware": 1,
+        "m4_fw_encryption_mode": 1,
+        "m4_secure_boot_enable": 1,
+        "ta_digital_signature_validation": 1,
+        "ta_encrypt_firmware": 1,
+        "ta_secure_boot_enable": 1
+    },
+    "key_desc_table_addr": 768
+
+}
