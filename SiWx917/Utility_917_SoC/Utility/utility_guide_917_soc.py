@@ -12,11 +12,11 @@ def secure_device(device):
 
     # Define the commands to be executed
     commands = [
-        f"commander manufacturing provision --mbr default -d {device}",
-        f"commander manufacturing init --mbr default -d {device}",
+        f"commander mfg917 provision --mbr default -d {device}",
+        f"commander mfg917 init --mbr default -d {device}",
         f"commander util genkeyconfig --outfile commanderkeys.json -d {device}",
-        f"commander manufacturing provision --keys commanderkeys.json -d {device}",
-        f"commander manufacturing provision --mbr default --data updatedmbrfields.json -d {device}"
+        f"commander mfg917 provision --keys commanderkeys.json -d {device}",
+        f"commander mfg917 provision --mbr default --data updatedmbrfields.json -d {device}"
     ]
 
     # Execute each command and check the return code
@@ -28,7 +28,7 @@ def secure_device(device):
         print(f"Output of {command}:\n{result}")
         
         # Add sleep and wait for user input after specific commands
-        if command == f"commander manufacturing init --mbr default -d {device}":
+        if command == f"commander mfg917 init --mbr default -d {device}":
             time.sleep(10)
             print(f" ")
             print(f" --------------------- POWER CYCLE the DEVICE --------------------- ")
@@ -47,9 +47,9 @@ def secure_device(device):
                 
         if command == f"commander util genkeyconfig --outfile commanderkeys.json -d {device}":
             time.sleep(10)
-        if command == f"commander manufacturing provision --keys commanderkeys.json -d {device}":
+        if command == f"commander mfg917 provision --keys commanderkeys.json -d {device}":
             time.sleep(10)
-        if command == f"commander manufacturing provision --mbr default --data updatedmbrfields.json -d {device}":
+        if command == f"commander mfg917 provision --mbr default --data updatedmbrfields.json -d {device}":
             time.sleep(10)         
   
 def load_secured_NWP_firmware(device):
@@ -66,7 +66,7 @@ def load_secured_NWP_firmware(device):
 
     # Define the commands to be executed
     commands = [
-       # f"commander manufacturing read taipmu --out filename.bin -d {device}",
+       # f"commander mfg917 read taipmu --out filename.bin -d {device}",
         f"commander rps convert secured_nwp.rps --taapp {NWP} --mic commanderkeys.json --encrypt commanderkeys.json --sign commanderkeys.json",
         f"commander rps load secured_nwp.rps -d {device}"
     ]
@@ -98,7 +98,7 @@ def load_secured_M4_firmware(device):
     print("") 
     # Define the commands to be executed
     commands = [
-       # f"commander manufacturing read taipmu --out filename.bin -d {device}",
+       # f"commander mfg917 read taipmu --out filename.bin -d {device}",
         f"commander rps convert secured_M4.rps --app {M4} --mic commanderkeys.json --encrypt commanderkeys.json --sign commanderkeys.json",
         f"commander rps load secured_M4.rps -d {device}",
         f"commander device reset -d {device}"
@@ -123,7 +123,7 @@ def non_secure_device(device):
     print("")
     # Define the commands to be executed
     commands = [
-    f"commander manufacturing provision --mbr default -d {device}"
+    f"commander mfg917 provision --mbr default -d {device}"
     ]
     # Execute each command and check the return code
     for command in commands:
@@ -141,7 +141,7 @@ def load_non_secured_NWP_firmware(device):
     print("") 
     # Define the commands to be executed
     commands = [
-       # f"commander manufacturing read taipmu --out filename.bin -d {device}",
+       # f"commander mfg917 read taipmu --out filename.bin -d {device}",
         f"commander rps load {NWP} -d {device}",
     ]
     # Execute each command and check the return code
@@ -160,7 +160,7 @@ def load_non_secured_M4_firmware(device):
     print("") 
     # Define the commands to be executed
     commands = [
-       # f"commander manufacturing read taipmu --out filename.bin -d {device}",
+       # f"commander mfg917 read taipmu --out filename.bin -d {device}",
         f"commander rps load {M4} -d {device}",
     ]
     # Execute each command and check the return code
