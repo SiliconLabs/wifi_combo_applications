@@ -1,44 +1,38 @@
-# ANXXXX: Bring up LWiP Example using Empty C project (Wi-Fi®) – SiWx917 SoC Application Note
+# Wi-Fi - LWiP  with Empty C
 
-## Table of contents
-
-- [Bring up LWiP Example using Empty C project (Wi-Fi®) – SiWx917 SoC](#bring-up-lwip-example-using-empty-c-project-wi-fi--siwx917-soc)
-- [Key Features](#key-features)
-- [Introduction](#introduction)
-- [Prerequisites](#prerequisites)
-  - [Hardware Requirements](#hardware-requirements)
-  - [Software Requirements](#software-requirements)
-- [Setup Diagram](#setup-diagram)
-- [Create the application](#create-the-application)
-  - [Empty C Project creation](#empty-c-project-creation)
-  - [Software Component Installation](#software-component-installation)
-- [Application Implementation](#application-implementation)
-
-  - [Add the dependent header files,macros,constants and variable](#add-the-dependent-header-filesmacrosconstants-and-variablesadd)
-
-  - [Add the dependent functions](#add-the-declaration-of-dependent-functions)
-  - [Create a FreeRTOS Thread](#create-a-freertos-thread)
-  - [Client Initialization](#client-initialization)
-  - [Define the dependent functions](#define-the-other-dependent-functions)
-  - [Configure the credentials](#configure-the-credentials)
-
-- [Build the application](#build-the-application)
-- [Run the Application](#run-the-application)
-- [Use Case Scenario](#use-case-scenario)
-- [Sections to be added in the Upcoming Versions](#sections-to-be-added-in-the-upcoming-versions)
-- [Revision History](#revision-history)
-- [References](#references)
-
-## Bring up LWiP Example using Empty C project (Wi-Fi®) – SiWx917 SoC
+## Purpose/Scope
 
 This example project demonstrates how a user can utilize an empty configuration file to integrate components and functionalities related to LWiP, and subsequently execute the sample application on the SiWx917 SoC.
 
-## Key Features
+Key Features
 
 - LWiP support for the SiWx917 SoC.
 - Installation of necessary components for a project.
 
-## Introduction
+## Table of contents
+
+- [Introduction](#1-introduction)
+- [Prerequisites](#2-prerequisites)
+  - [Hardware Requirements](#21-hardware-requirements)
+  - [Software Requirements](#22-software-requirements)
+- [Setup Diagram](#3-setup-diagram)
+- [Project Creation](#4-project-creation)
+  - [Empty C Project creation](#41-empty-c-project-creation)
+  - [Software Component Installation](#42-software-component-installation)
+- [Application Implementation](#5-application-implementation)
+
+  - [Add the dependent header files,macros,constants and variable](#51-add-the-dependent-header-filesmacrosconstants-and-variables)
+
+  - [Add the dependent functions](#52-add-the-declaration-of-dependent-functions)
+  - [Create a FreeRTOS Thread](#53-create-a-freertos-thread)
+  - [Client Initialization](#54-client-initialization)
+  - [Define the dependent functions](#55-define-the-other-dependent-functions)
+  - [Configure the credentials](#56-configure-the-credentials)
+
+- [Build the application](#6-build-the-application)
+- [Run the Application](#7-run-the-application)
+
+## 1. Introduction
 
 Lightweight IP (LWiP) is an optimized variant of the Internet Protocol (IP) specifically developed for resource-constrained devices. These include embedded systems and various Internet of Things (IoT) devices that often operate in environments characterized by limited power and bandwidth. The design philosophy behind LWiP centers on minimizing overhead while maximizing efficiency, thereby making it an attractive choice for small-scale networking applications.
 
@@ -56,9 +50,9 @@ Lightweight IP (LWiP) is an optimized variant of the Internet Protocol (IP) spec
 
 6. **Application in IoT and Low-Power Networks**:    LWiP finds frequent application in the rapidly expanding realm of IoT networks, where a multitude of compact devices must efficiently communicate while utilizing minimal power. Its ability to cater to the needs of a diverse ecosystem of interconnected devices, from smart home appliances to industrial sensors, solidifies its status as an essential protocol in modern networking scenarios. As industries increasingly adopt IoT technologies, LWiP stands out as a critical enabler, facilitating seamless communication among resource-constrained devices. In summary, LWiP serves as a vital tool in the development of scalable, efficient networks where traditional IP may fall short. Its thoughtful design and focus on reducing complexity allow it to meet the specific needs of modern, resource-limited applications effectively.
 
-## Prerequisites
+## 2. Prerequisites
 
-### Hardware Requirements
+### 2.1 Hardware Requirements
 
 - SiWx917 SoC
 
@@ -75,7 +69,7 @@ Lightweight IP (LWiP) is an optimized variant of the Internet Protocol (IP) spec
 
 - Wireless Access Point
 
-### Software Requirements
+### 2.2 Software Requirements
 
 - [WiSeConnect 3 SDK](https://github.com/SiliconLabs/wiseconnect) (SiWx917 latest software release can be downloaded from this link)
 - [Simplicity Studio IDE](https://www.silabs.com/developer-tools/simplicity-studio)
@@ -83,13 +77,13 @@ Lightweight IP (LWiP) is an optimized variant of the Internet Protocol (IP) spec
 - [Python Environment](https://www.python.org/)
 - Serial Terminal - [Docklight](https://docklight.de/)
 
-## Setup Diagram
+## 3. Setup Diagram
 
 ![setup_diagram](resource/setup_soc_ncp.png)
 
-## Create the application
+## 4. Project Creation
 
-### Empty C Project creation
+### 4.1 Empty C Project creation
 
 - Once the prerequisites and the SDK are installed, we can use the "SL Si91x - Empty C Project SoC" example as
 a base for our implementation.
@@ -104,10 +98,10 @@ clicking the "CREATE" button to launch the project.
 - Click the "FINISH" button on the "New Project Wizard" shown.
 ![Create_Empty_C_3](resource/Create_Empty_C_3.png)
 
-### Software Component Installation
+### 4.2 Software Component Installation
 
 - The Software Components used in this project are WiSeConnect3 Resources, FreeRTOS, Network Manager etc. Below is a guided installation.
-For more information about the software components, see the [v3.x component list](https://docs.silabs.com/wiseconnect/3.3.3/wiseconnect-developers-guide-about-sdk/application-components).
+For more information about the software components, see the [v3.x component list](https://docs.silabs.com/wiseconnect/3.4.0/wiseconnect-developers-guide-about-sdk/application-components).
 After creating the empty C project, double-click on "sl_si91x_empty_c_soc.slcp" and select the "Software
 Component" section to start the dependencies installation.
 
@@ -135,9 +129,9 @@ Component" section to start the dependencies installation.
 
     ![Create_Empty_C_9](resource/Create_Empty_C_9.png)
 
-## Application Implementation
+## 5. Application Implementation
 
-### Add the dependent header files,macros,constants and variables
+### 5.1 Add the dependent header files,macros,constants and variables
 
 ```
 /******************************************************
@@ -241,7 +235,7 @@ static sl_net_wifi_lwip_context_t wifi_client_context;
 
 >Note : Here to enable LWiP, in *tcp_ip_feature_bit_map* SL_SI91X_TCP_IP_FEAT_BYPASS flag has been enabled.
 
-### Add the declaration of dependent functions
+### 5.2 Add the declaration of dependent functions
 
 ```
 /******************************************************
@@ -254,7 +248,7 @@ void send_data_to_tcp_server();
 void receive_data_from_tcp_client();
 ```
 
-### Create a FreeRTOS Thread
+### 5.3 Create a FreeRTOS Thread
 
 The Wi-Fi Software Development Kit (SDK) operates on FreeRTOS; therefore, the initial step involves the creation of a thread. To proceed, please open the file named app.c and substitute its existing contents with the code provided below.
 
@@ -269,7 +263,7 @@ void app_init(void)
 }
  ```
 
-### Client Initialization
+### 5.4 Client Initialization
 
 ```
 static void application_start(void *argument)
@@ -346,7 +340,7 @@ static void application_start(void *argument)
 
 ```
 
-### Define the other dependent functions
+### 5.5 Define the other dependent functions
 
 ```
 /******************************************************
@@ -512,7 +506,7 @@ void receive_data_from_tcp_client()
 
 >Note: In the code above, functions for performing TCP transmission (TX) and reception (RX) operations have been implemented. The send_data_to_tcp_server function is used for TCP TX, while the receive_data_from_tcp_client function is used for TCP RX.
 
-### Configure the credentials
+### 5.6 Configure the credentials
 
 Configure the following parameters to enable your Silicon Labs Wi-Fi device to connect to your Wi-Fi network in the **"sl_net_default_values.h"** file which is present in the config folder of the project.
 
@@ -554,15 +548,15 @@ Configure the following parameters to enable your Silicon Labs Wi-Fi device to c
 #define TEST_TIMEOUT     (30000) #30 secs
 ```
 
-## Build the application
+## 6. Build the application
 
  Now the user can build the application.
 
 ![Create_Empty_C_10](resource/Create_Empty_C_10.png)
 
-## Run the Application
+## 7. Run the Application
 
-### TCP TX Throughput
+### 7.1 TCP TX Throughput
 
 To measure TCP transmission throughput, follow these steps:
 
@@ -580,11 +574,11 @@ To establish the TCP server on the remote PC, open the [iPerf application](#http
   Client Side:
   ![TCP_TX](resource/TCP_TX1.png)
 
-### TCP_RX Throughput
+### 7.2 TCP_RX Throughput
 
 To measure TCP reception throughput, follow these steps:
 
-- Configure the SiWx917 as a TCP server.
+- Run the application on SiWx917 in RX Mode.
 - Start a TCP client on the remote PC.
 To establish the TCP client on the remote PC, open the [iPerf application](https://sourceforge.net/projects/iperf2/) and execute the following command from the installed folder's path in the command prompt:
 
@@ -595,32 +589,5 @@ To establish the TCP client on the remote PC, open the [iPerf application](https
 
   ![TCP_RX](resource/TCP_RX.png)
 
-  Client Side:
+  Server Side:
   ![TCP_TX](resource/TCP_RX1.png)
-
-## Use Case Scenario
-
-The current application demonstrates the following features:
-
-- Allow the users on a hands on experience of creating a project from scratch.
-- Showcasing the support for LWiP for SiWx917 SoC.
-
-> **Note:**
-This application currently demonstrates the usage and support of LWiP for TCP only. Users may observe lower throughput values as it is still in the development phase. Additionally, work is underway to implement UDP support, which will be addressed in upcoming WiseConnect releases.
-
-## Sections to be added in the Upcoming Versions
-
-The following sections are yet to be added to this document:
-
-- UDP Throughput Support
-- Improved Throughput Values
-
-## Revision History
-
-| **Revision No** | **Version No** |  **Date**      |    **Changes**  |
-------------------|----------------|----------------|-----------------|
-|       1         |      1.0       | January, 2025 | Initial version |  
-
-## References
-
-- SiWx917 API documentation: [https://docs.silabs.com/wiseconnect/latest/wiseconnect-api-reference-guide-summary/](https://docs.silabs.com/wiseconnect/latest/wiseconnect-api-reference-guide-summary/)
