@@ -326,7 +326,7 @@ Path:($\ble_heart_rate_profile_soc\GNU ARM v12.2.1 - Default)
    <br><img src="resources/readme/bleotam4fwupprocess.png" alt=""><br> 
 
 - When the Python script sends the entire firmware file, the module begins the safe update process.
-   <br><img src="resources/readme/bleotafeuptasafeupgrade.png" alt=""><br> 
+   <br><img src="resources/readme/bleotafeupm4safeupgrade.png" alt=""><br> 
 
 - Once the fimrware gets successfully upgrades, the below window appears.   
    <br><img src="resources/readme/bleotam4fwupsuccess.png" alt=""><br> 
