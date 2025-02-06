@@ -31,7 +31,8 @@
 - Install Python [here](https://www.python.org/downloads/) 
 - Know the exact **OPN** 
 - Download the **utility_guide_917_soc.py** file in **../Utility/** folder.
-- Download the default **updatedmbrfields.json** file in **../Utility/** folder, which contains the **Security Level 3** configurations
+- Download the default **updatedmbrfields.json** file in **../Utility/** folder, which contains the **Security Level 3** configurations.
+  - For detailed information on different security levels, please refer to **5.4.2 Security Levels** in this [link](https://www.silabs.com/documents/public/user-guides/ug574-siwx917-soc-manufacturing-utility-user-guide.pdf).
 
 
 ## Getting Started
@@ -62,7 +63,7 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 - Loads **secured_nwp.rps** to the device.
 
 ### 3. Load the M4 Secured Firmware
-- Select the option number 3 to Convert and create the NWP firmware from non-secure firmware to *Secure M4 firmware*. 
+- Select the option number 3 to Convert and create the M4 firmware from non-secure firmware to *Secure M4 firmware*. 
 - It deletes the existing **secured_m4.rps** file
 - Enter the M4 firmware file path you wish to convert to secured M4 file, when asked as an input. 
 - Creates secured M4 firmware file with **../Utility/secured_m4.rps** name. 
