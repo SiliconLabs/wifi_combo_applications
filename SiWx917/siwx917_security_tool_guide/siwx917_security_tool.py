@@ -3,7 +3,8 @@ import sys
 import time
 
 def secure_device(device):
-    print("You chose to SECURE the DEVICE!") 
+    print("")
+    print("\t You chose to SECURE the DEVICE!") 
     print("")
     # Check if commanderkeys.json exists and delete it
     if os.path.exists("commanderkeys.json"):
@@ -53,7 +54,7 @@ def secure_device(device):
             time.sleep(10)         
   
 def load_secured_NWP_firmware(device):
-    print("You chose to LOAD SECURED NWP FIRMWARE!")
+    print("\tYou chose to LOAD SECURED NWP FIRMWARE!")
     print("")
     # Check if commanderkeys.json exists and delete it
     if os.path.exists("secured_nwp.rps"):
@@ -86,7 +87,7 @@ def load_secured_NWP_firmware(device):
       
 
 def load_secured_M4_firmware(device):
-    print("You chose to LOAD SECURED M4 FIRMWARE!")
+    print("\tYou chose to LOAD SECURED M4 FIRMWARE!")
     print("")
     # Check if secured_M4.rps exists and delete it
     if os.path.exists("secured_M4.rps"):
@@ -119,7 +120,7 @@ def load_secured_M4_firmware(device):
       
 
 def non_secure_device(device):
-    print("You chose to NON SECURE the DEVICE")
+    print("\tYou chose to NON SECURE the DEVICE")
     print("")
     # Define the commands to be executed
     commands = [
@@ -134,7 +135,7 @@ def non_secure_device(device):
         print(f"Output of {command}:\n{result}")
      
 def load_non_secured_NWP_firmware(device):
-    print("You chose to LOAD NON-SECURED M4 FIRMWARE!")
+    print("\tYou chose to LOAD NON-SECURED NWP FIRMWARE!")
     print("")
 
     NWP = input(" Enter NWP rps file name: ")
@@ -153,7 +154,7 @@ def load_non_secured_NWP_firmware(device):
         print(f"Output of {command}:\n{result}")
 
 def load_non_secured_M4_firmware(device):
-    print("You chose to LOAD NON-SECURED M4 FIRMWARE!")
+    print("\tYou chose to LOAD NON-SECURED M4 FIRMWARE!")
     print("")
 
     M4 = input(" Enter M4 rps file name: ")
@@ -173,7 +174,7 @@ def load_non_secured_M4_firmware(device):
 
 
 def erase_flash(device):
-    print("You chose to Erase the flash")
+    print("\tYou chose to Erase the flash")
     print("")
     commands = [ f"commander device masserase -d {device}"]
     # Execute each command and check the return code
@@ -187,26 +188,27 @@ def erase_flash(device):
 def main(device):
     while True:
         # Hard-coded strings
-        print("Select the below options:")
-        print("1. Secure the device")
-        print("2. Load the NWP Secured Firmware")
-        print("3. Load the M4 Secured Firmware")
-        print("4. Non-Secure the device")
-        print("5. Load the NWP Non-Secured Firmware")
-        print("6. Load the M4 Non-Secured Firmware")
-        print("7. Erase the Flash: (Switch to ISP mode if any powersave example is running)")
-        print("8. Exit ")
+        print("")
+        print("\r Select the below options:")
+        print("\t1. Secure the device")
+        print("\t2. Load the NWP Secured Firmware")
+        print("\t3. Load the M4 Secured Firmware")
+        print("\t4. Non-Secure the device")
+        print("\t5. Load the NWP Non-Secured Firmware")
+        print("\t6. Load the M4 Non-Secured Firmware")
+        print("\t7. Erase the Flash: (Switch to ISP mode if any powersave example is running)")
+        print("\t8. Exit ")
         print("")
 
         # Get input from the user
-        input_string = input("Enter the option: ")
+        input_string = input("\r Enter the option: ")
         print("")
 
         # Call the appropriate section based on the input
         if input_string == "1":
-            print("1. Make sure to *erase the flash* before Securing the device.") 
+            print("\r1. Make sure to *erase the flash* before Securing the device.") 
             print(" ")
-            print("2. Check in the *Device Info* of Simplicity Commander Tool, if the device is *connected*.")
+            print("\r2. Check in the *Device Info* of Simplicity Commander Tool, if the device is *connected*.")
             print(" ")
             input_string = input("Enter 'y' if you want to continue:  ")
             # Compare the input string to the hard-coded string
@@ -245,9 +247,9 @@ def main(device):
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print(" ")
-        print("Usage: python utility_guide_917_soc.py <OPN>")
+        print("Usage: python siwx917_security_tool.py <OPN>")
         print(" ")
-        print("Example: python utility_guide_917_soc.py SiWG917M111MGTBA")
+        print("Example: python siwx917_security_tool.py SiWG917M111MGTBA")
         print(" ")
         sys.exit(1)
     

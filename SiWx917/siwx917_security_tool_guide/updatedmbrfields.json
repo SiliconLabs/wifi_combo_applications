@@ -1,6 +1,7 @@
 {
     "puf_activation_code_addr": 8192,
     "efuse_data": {
+        "disable_m4ss_kh_access": 0,
         "m4_digital_signature_validation": 1,
         "m4_encrypt_firmware": 1,
         "m4_fw_encryption_mode": 1,

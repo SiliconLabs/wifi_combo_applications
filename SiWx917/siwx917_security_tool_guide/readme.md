@@ -1,4 +1,4 @@
-# Utility Guide Python Script for 917 SoC
+# SIWx917 Security Tool Guide
 
 ## Table of Contents
 
@@ -30,7 +30,7 @@
   - Make sure to add this path to environment variables
 - Install Python [here](https://www.python.org/downloads/) 
 - Know the exact **OPN** 
-- Download the **utility_guide_917_soc.py** file in **../Utility/** folder.
+- Download the **siwx917_security_tool.py** file in **../Utility/** folder.
 - Download the default **updatedmbrfields.json** file in **../Utility/** folder, which contains the **Security Level 3** configurations.
   - For detailed information on different security levels, please refer to **5.4.2 Security Levels** in this [link](https://www.silabs.com/documents/public/user-guides/ug574-siwx917-soc-manufacturing-utility-user-guide.pdf).
 
@@ -54,6 +54,8 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 - If one wants to secure the device with security level 1 or 2, then make sure to update the **updatedmbrfields.json**
 - Make sure to follow the instructions carefully such as Power cycle the device. 
 - Select option number 1 to Secure the Device. 
+    <br> ![Figure: Secure the device](resources/device_secure1.png) <br>
+    <br> ![Figure: Secure the device](resources/device_secure2.png) <br>
 
 ### 2. Load the NWP Secured Firmware
 - Select the option number 2 to Convert and create the NWP firmware from non-secure firmware to *Secure NWP firmware*.
@@ -61,6 +63,7 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 - Enter the NWP firmware file path you wish to convert to secured NWP file, when asked as an input. 
 - Creates secured NWP firmware file with **../Utility/secured_nwp.rps** name. 
 - Loads **secured_nwp.rps** to the device.
+    <br> ![Figure: Load the NWP Secured Firmware](resources/load_nwp_secure.png) <br>
 
 ### 3. Load the M4 Secured Firmware
 - Select the option number 3 to Convert and create the M4 firmware from non-secure firmware to *Secure M4 firmware*. 
@@ -68,35 +71,43 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 - Enter the M4 firmware file path you wish to convert to secured M4 file, when asked as an input. 
 - Creates secured M4 firmware file with **../Utility/secured_m4.rps** name. 
 - Loads **../Utility/secured_m4.rps** to the device.
+    <br> ![Figure: Load the NWP Secured Firmware](resources/load_m4_secure.png) <br>
 
 ### 4. Non-Secure the device
 - Disable the security features on the device to allow unrestricted access. 
 - Select the option number 4 to non secure the device.
 - Make sure to *erase the flash* before Securing the device.
 - Check in the *Device Info* of Simplicity Commander Tool, if the device is *connected*. 
+    <br> ![Figure: Non-Secure the device](resources/device_non_secure.png) <br>
 
 ### 5. Load the NWP Non-Secured Firmware
 - Select the option number 5 to load the non-secure NWP firmware into the device.
 - Enter the NWP firmware file path you wish to load into device, when asked as an input. 
+    <br> ![Figure: Load the NWP Non-Secured Firmware](resources/load_nwp_non_secure.png) <br>
 
 ### 6. Load the M4 Non-Secured Firmware
 - Select the option number 6 to load the non-secure M4 firmware into the device.
 - Enter the M4 firmware file path you wish to load into device, when asked as an input.
+    <br> ![Figure: Load the M4 Non-Secured Firmware](resources/load_m4_non_secure.png) <br>
 
 ### 7. Erase the Flash: (Switch to ISP mode if any powersave example is running)
 - Make sure to switch to ISP mode before selecting this option. 
 - Select the option number 7 to Erase the flash. 
 - Enter the NWP firmware file path you wish to load into device, when asked as an input.
+    <br> ![Figure: Erase the Flash](resources/erase_flash.png) <br>
 
 ### 8. Exit
 - Select the option number 8 to exit this loop
+  <br> ![Figure: Exit](resources/exit.jpg) <br>
 
 ## Execute the script
 
 - Download **Utility** zip folder and extract the folder. 
-- Make sure **utility_guide_917_soc.py** is present in the above folder path.
+- Make sure **siwx917_security_tool.py** is present in the above folder path.
 - Make sure **updatedmbrfields.json** file is also present in the above folder.
 - Run the script using the below command:
-  > python **utility_guide_917_soc.py** <*OPN*>
+  > python **siwx917_security_tool.py** <*OPN*>
 
-  Ex: python **utility_guide_917_soc.py** *SiWG917M111MGTBA*
+  Ex: python **siwx917_security_tool.py** *SiWG917M111MGTBA*
+
+  <br> ![Figure: Execute the script](resources/script_execution.png) <br>
