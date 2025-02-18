@@ -2,11 +2,11 @@
 
 ## Purpose/Scope
 
-This example project demonstrates how a user can utilize an empty configuration file to integrate components and functionalities related to LWiP, and subsequently execute the sample application on the SiWx917 SoC.
+This example project demonstrates how a user can utilize an empty C configuration file to integrate components and functionalities related to LWiP, and subsequently execute the sample application on the SiWG917 SoC.
 
 Key Features
 
-- LWiP support for the SiWx917 SoC.
+- LWiP support for the SiWG917 SoC.
 - Installation of necessary components for a project.
 
 ## Table of contents
@@ -34,48 +34,47 @@ Key Features
 
 ## 1. Introduction
 
-Lightweight IP (LWiP) is an optimized variant of the Internet Protocol (IP) specifically developed for resource-constrained devices. These include embedded systems and various Internet of Things (IoT) devices that often operate in environments characterized by limited power and bandwidth. The design philosophy behind LWiP centers on minimizing overhead while maximizing efficiency, thereby making it an attractive choice for small-scale networking applications.
+Lightweight IP (LWiP) is an optimized version of the Internet Protocol (IP) designed for resource-constrained devices, such as embedded systems and IoT devices. It focuses on minimizing overhead and maximizing efficiency, making it ideal for small-scale networking applications in environments with limited power and bandwidth.
 
 **Key Characteristics**:
 
-1. **Reduced Complexity**:    LWiP significantly simplifies traditional IP protocols, such as IPv4 and IPv6, by stripping away non-essential features that are not crucial for basic connectivity. This simplification leads to a pronounced decrease in computational and memory requirements, catering specifically to devices that may lack the processing power or extensive memory typically found in standard network equipment. By focusing solely on essential communication functionalities, LWiP ensures that even the simplest of devices can engage in network interactions without overwhelming their limited resources.
+- **Reduced Complexity**: LWiP simplifies traditional IP protocols by removing non-essential features, reducing computational and memory requirements, and enabling basic connectivity for devices with limited resources.
 
-2. **Optimization for Embedded Systems**:    One of the standout advantages of LWiP is its design tailored for environments featuring limited computing resources like those found in embedded systems. Devices such as environmental sensors, smart appliances, and small-scale controllers are prime examples of platforms that derive immense benefits from this lightweight protocol. The streamlined capabilities of LWiP allow these devices to communicate effectively in IoT networks without necessitating extensive computation, thus facilitating interactions across diverse applications.
+- **Optimization for Embedded Systems**: Tailored for environments with limited computing resources, LWiP benefits devices like environmental sensors and smart appliances, facilitating effective communication in IoT networks.
 
-3. **Low Overhead**:    The fundamental architecture of LWiP is characterized by its reduced protocol overhead. This strategic reduction is pivotal in conserving energy and bandwidth—resources that can be quite scarce in low-power wireless networks. LWiP is particularly suitable for technologies such as Zigbee, LoRa, and Bluetooth Low Energy, where conserving energy is essential for prolonging the lifespan of battery-operated devices. By minimizing data transmission requirements, LWiP ensures that devices can function more effectively within these constraints.
+- **Low Overhead**: LWiP's reduced protocol overhead conserves energy and bandwidth, making it suitable for low-power wireless networks like Zigbee, LoRa, and Bluetooth Low Energy.
 
-4. **Simplified Networking**:    LWiP offers a redesigned networking paradigm that implements a streamlined version of standard IP features, including simplified addressing schemes, routing protocols, and basic error-checking mechanisms. This approach eliminates the complexities associated with larger address tables and sophisticated routing algorithms prevalent in full-featured IP stacks. Consequently, devices using LWiP are capable of establishing connections and transmitting information with minimal delays and reduced demands on network resources.
+- **Simplified Networking**: By implementing streamlined IP features, LWiP eliminates complexities, allowing devices to establish connections and transmit information with minimal delays and resource demands.
 
-5. **Improved Power Efficiency**:    Through the elimination of unnecessary processes and a focus on minimizing communication overhead, LWiP allows devices to achieve better energy efficiency. This enhancement is particularly crucial for devices powered by batteries or those operating in energy-constrained environments. By optimizing power usage, LWiP contributes to prolonging the operational lifespan of these devices, making it ideal for applications where maintaining energy efficiency is paramount.
+- **Improved Power Efficiency**: LWiP enhances energy efficiency by minimizing communication overhead, crucial for battery-powered and energy-constrained devices.
 
-6. **Application in IoT and Low-Power Networks**:    LWiP finds frequent application in the rapidly expanding realm of IoT networks, where a multitude of compact devices must efficiently communicate while utilizing minimal power. Its ability to cater to the needs of a diverse ecosystem of interconnected devices, from smart home appliances to industrial sensors, solidifies its status as an essential protocol in modern networking scenarios. As industries increasingly adopt IoT technologies, LWiP stands out as a critical enabler, facilitating seamless communication among resource-constrained devices. In summary, LWiP serves as a vital tool in the development of scalable, efficient networks where traditional IP may fall short. Its thoughtful design and focus on reducing complexity allow it to meet the specific needs of modern, resource-limited applications effectively.
+- **Application in IoT and Low-Power Networks**: LWiP is essential for IoT networks, enabling efficient communication among diverse, resource-constrained devices and supporting scalable, efficient networks.
 
 ## 2. Prerequisites
 
 ### 2.1 Hardware Requirements
 
-- SiWx917 SoC
+- SiWG917 SoC Mode
+  - Standalone
+    - BRD4002A Wireless Pro Kit Mainboard [SI-MB4002A]
+    - Radio Boards
+      - BRD4338A [SiWx917-RB4338A]
+      - BRD4343A [SiWx917-RB4343A]
 
-  - BRD4002A Wireless Pro Kit Mainboard [SI-MB4002A]
-- Radio Boards
-  - BRD4338A [SiWx917-RB4338A]
-  - BRD4343A [SiWx917-RB4343A]
+  - Kits
+    - SiWG917 Pro Kit [SiWx917-PK6031A](https://www.silabs.com/development-tools/wireless/wi-fi/siwx917-pk6031a-wifi-6-bluetooth-le-soc-pro-kit?tab=overview)
 
-- Kits
-
-  - SiWx917 Pro Kit [SiWx917-PK6031A](https://www.silabs.com/development-tools/wireless/wi-fi/siwx917-pk6031a-wifi-6-bluetooth-le-soc-pro-kit?tab=overview)
-
-- Windows PC
+- Windows/Linux PC
 
 - Wireless Access Point
 
 ### 2.2 Software Requirements
 
-- [WiSeConnect 3 SDK](https://github.com/SiliconLabs/wiseconnect) (SiWx917 latest software release can be downloaded from this link)
+- [WiSeConnect 3 SDK](https://github.com/SiliconLabs/wiseconnect) (SiWG917 latest software release can be downloaded from this link)
 - [Simplicity Studio IDE](https://www.silabs.com/developer-tools/simplicity-studio)
 - [iPerf Application]((https://sourceforge.net/projects/iperf2/)). iPerf is a tool for active measurements of the maximum achievable bandwidth on IP networks. It supports tuning of various parameters related to timing, buffers, and protocols (TCP and UDP with IPv4 and IPv6).
 - [Python Environment](https://www.python.org/)
-- Serial Terminal - [Docklight](https://docklight.de/)
+- Serial Terminal - Example : [Docklight](https://docklight.de/)
 
 ## 3. Setup Diagram
 
@@ -85,8 +84,8 @@ Lightweight IP (LWiP) is an optimized variant of the Internet Protocol (IP) spec
 
 ### 4.1 Empty C Project creation
 
-- Once the prerequisites and the SDK are installed, we can use the "SL Si91x - Empty C Project SoC" example as
-a base for our implementation.
+- Once the prerequisites and the SDK are installed, users can use the "SL Si91x - Empty C Project SoC" example as
+a base project for our implementation.
 With the DevKit connected to the PC and on the Launcher page, click the "Start" button next to the
 "Connected Devices" drop-down list.
     ![Create_Empty_C_1](resource/Create_Empty_C_1.png)
@@ -100,14 +99,14 @@ clicking the "CREATE" button to launch the project.
 
 ### 4.2 Software Component Installation
 
-- The Software Components used in this project are WiSeConnect3 Resources, FreeRTOS, Network Manager etc. Below is a guided installation.
-For more information about the software components, see the [v3.x component list](https://docs.silabs.com/wiseconnect/3.4.0/wiseconnect-developers-guide-about-sdk/application-components).
+- The Software Components used in this project are WiSeConnect3 Resources, FreeRTOS, Network Manager etc. Below is a detailed installation guide.
+For more information about the software components, please refer to the [v3.x component list](https://docs.silabs.com/wiseconnect/3.4.0/wiseconnect-developers-guide-about-sdk/application-components).
 After creating the empty C project, double-click on "sl_si91x_empty_c_soc.slcp" and select the "Software
 Component" section to start the dependencies installation.
 
-![Create_Empty_C_4](resource/Create_Empty_C_4.png)
+   ![Create_Empty_C_4](resource/Create_Empty_C_4.png)
 
-- Please enter "WiSeConnect3 Resources" in the text box located in the upper-right corner. Next, right-click in the designated grey area and select the option labeled "Expand All." After this, select "WiSeConnect3 Resources" and proceed by clicking the "Install" button. You should repeat this identical process for the FreeRTOS, Network Manager LWiP software components, and other software components..
+- Please enter "WiSeConnect3 Resources" in the text box located in the upper-right corner. Next, right-click in the designated grey area and select the option labeled "Expand All." After this, select "WiSeConnect3 Resources" and proceed by clicking the "Install" button. You should repeat this identical process for the FreeRTOS, Network Manager, LWiP Stack and Memory Pool buffers with Quota as mentioned below.
 
   - Wiseconnect Resource
 
@@ -158,8 +157,8 @@ Component" section to start the dependencies installation.
 // Type of throughput
 #define THROUGHPUT_TYPE TCP_RX // Selects the throughput option
 
-#define TCP_TX 2 // SiWx917 transmits packets to remote TCP client
-#define TCP_RX 3 // SiWx917 receives packets from remote TCP server
+#define TCP_TX 2 // SiWG917 transmits packets to remote TCP client
+#define TCP_RX 3 // SiWG917 receives packets from remote TCP server
 
 
 /******************************************************
@@ -340,7 +339,7 @@ static void application_start(void *argument)
 
 ```
 
-### 5.5 Define the other dependent functions
+### 5.5 Define the TCP TX and RX along with Throughput functions
 
 ```
 /******************************************************
@@ -510,7 +509,7 @@ void receive_data_from_tcp_client()
 
 Configure the following parameters to enable your Silicon Labs Wi-Fi device to connect to your Wi-Fi network in the **"sl_net_default_values.h"** file which is present in the config folder of the project.
 
-- DEFAULT_WIFI_CLIENT_PROFILE_SSID denotes the name of the Wi-Fi network that is being advertised, to which the Si91X module is currently connected.
+- DEFAULT_WIFI_CLIENT_PROFILE_SSID denotes the name of the Wi-Fi network that is being advertised, to which the SiWG917 module is currently connected.
 
    ```
    #ifndef DEFAULT_WIFI_CLIENT_PROFILE_SSID
@@ -542,7 +541,7 @@ Configure the following parameters to enable your Silicon Labs Wi-Fi device to c
   #define SERVER_PORT    5001 // Remote server port
   ```
 
->**Note: Users can update the throughput duration for the server or client by modifying the TEST_TIMEOUT macro.**
+>**Note**: Users can update the throughput duration for the server or client by modifying the TEST_TIMEOUT macro.
 
 ```
 #define TEST_TIMEOUT     (30000) #30 secs
@@ -552,6 +551,12 @@ Configure the following parameters to enable your Silicon Labs Wi-Fi device to c
 
  Now the user can build the application.
 
+ **Note**: Update the type of throughput in the macro before building the application
+
+    #define THROUGHPUT_TYPE TCP_RX // Selects the throughput option
+    #define TCP_TX 2 // SiWG917 transmits packets to remote TCP client
+    #define TCP_RX 3 // SiWG917 receives packets from remote TCP server
+
 ![Create_Empty_C_10](resource/Create_Empty_C_10.png)
 
 ## 7. Run the Application
@@ -560,7 +565,7 @@ Configure the following parameters to enable your Silicon Labs Wi-Fi device to c
 
 To measure TCP transmission throughput, follow these steps:
 
-- Configure the SiWx917 as a TCP client.
+- Configure the SiWG917 as a TCP client.
 - Start a TCP server on the remote PC.
 To establish the TCP server on the remote PC, open the [iPerf application](#https://sourceforge.net/projects/iperf2/) and execute the following command from the installed folder's path in the command prompt:
 
@@ -578,7 +583,7 @@ To establish the TCP server on the remote PC, open the [iPerf application](#http
 
 To measure TCP reception throughput, follow these steps:
 
-- Run the application on SiWx917 in RX Mode.
+- Run the application on SiWG917 in RX Mode.
 - Start a TCP client on the remote PC.
 To establish the TCP client on the remote PC, open the [iPerf application](https://sourceforge.net/projects/iperf2/) and execute the following command from the installed folder's path in the command prompt:
 
