@@ -16,7 +16,7 @@
 
 ## Purpose/Scope
 
-This application demonstrates the implementation of the APIs of WLAN, Common, Network Manager, and si91x device management, which are used to retrieve data for both AP and STA modes.
+This application demonstrates the implementation of APIs of different SiWG917 query commands for Wi-Fi in both STA and AP mode. Please refer to the [API reference guide](https://docs.silabs.com/wiseconnect/latest/wiseconnect-api-reference-guide-summary/) for more details.
 
 ## Prerequisites/Setup Requirements
 
@@ -38,18 +38,70 @@ This application demonstrates the implementation of the APIs of WLAN, Common, Ne
 
 - Simplicity Studio IDE Version- SiSDK-2024.12.0.
 - WSDK version- 3.4.0.
-- Serial Terminal - [Docklight](https://docklight.de/) (optional)
+- Serial Terminal - [Docklight](https://docklight.de/) (optional).
 
 ### Setup Diagram
 
   ![Figure: Setup Diagram SoC and NCP Mode for WLAN Throughput Example](resources/readme/setup_diagram.png)
 
- Diagram description:
+Here, the development environment refers to Simplicity Studio IDE on Windows PC.
 
-1. The development environment refers to Simplicity Studio IDE on Windows PC.
-2. After flashing the application onto the SiWG917 module, the device will initially start in Access Point (AP) mode. During this phase, several APIs will run to gather data, including the firmware version, size, and transmission power. Once this information is collected, the AP mode will be de-initialized, and the device will restart in Station (STA) mode, connecting to a Wireless Access Point (AP). During this process, additional APIs will execute to retrieve the same data, such as the firmware version, size, and transmission power, among others.
+**APIs Implemented in the Application:**
+- **sl_wifi_get_firmware_version**(sl_wifi_firmware_version_t *version)
+Return the firmware version running on the Wi-Fi device.
+- **sl_wifi_get_wireless_info**(sl_si91x_rsp_wireless_info_t *info)
+Gets wlan info in AP mode / Client mode.
+- **sl_wifi_get_firmware_size**(void *buffer, uint32_t *fw_image_size)
+Return the firmware image size from firmware image.
+- **sl_wifi_get_mac_address**(sl_wifi_interface_t interface, sl_mac_address_t *mac) Retrieves the MAC addresses of the specified Wi-Fi interface, in concurrent mode retrieves two MAC addresses.
+- **sl_wifi_get_max_tx_power**(sl_wifi_interface_t interface, sl_wifi_max_tx_power_t *max_tx_power)
+Get the maximum Wi-Fi transmit power.
+- **sl_wifi_get_channel**(sl_wifi_interface_t interface, sl_wifi_channel_t *channel)
+Get the current channel for the given Wi-Fi interface.
+- **sl_wifi_get_transmit_rate**(sl_wifi_interface_t interface, sl_wifi_rate_protocol_t *rate_protocol, sl_wifi_rate_t *mask)
+Get the Wi-Fi transmit rate for the given 802.11 protocol on the specified Wi-Fi interface.
+- **sl_wifi_get_listen_interval**(sl_wifi_interface_t interface, sl_wifi_listen_interval_t *listen_interval)
+Get the Wi-Fi client listen interval.
+- **sl_wifi_get_advanced_scan_configuration**(sl_wifi_advanced_scan_configuration_t *configuration)
+Retrieves the current advanced scan configuration parameters from the Wi-Fi interface.
+- **sl_wifi_get_signal_strength**(sl_wifi_interface_t interface, int32_t *rssi)
+Retrieve the RSSI value of the Access Point to which the Wi-Fi client is connected.
+- **sl_wifi_get_sta_tsf**(sl_wifi_interface_t interface, sl_wifi_tsf64_t *tsf)
+Get the station Timing Synchronization Function (TSF) time which is synchronised with connected AP beacon TSF.
+- **sl_wifi_get_ap_configuration**(sl_wifi_interface_t interface, sl_wifi_ap_configuration_t *configuration)
+Get the configuration of a Wi-Fi AP interface.
+- **sl_wifi_get_advanced_ap_configuration**(sl_wifi_interface_t interface, const sl_wifi_advanced_ap_configuration_t *configuration)
+Get the advanced configuration options of a running Wi-Fi access point interface.
+- **sl_wifi_get_ap_client_info**(sl_wifi_interface_t interface, sl_wifi_client_info_response_t *client_info)
+Return the Wi-Fi client information of all clients connected to the AP.
+- **sl_wifi_get_ap_client_list**(sl_wifi_interface_t interface, uint16_t client_list_count, sl_mac_address_t *client_list)
+Return a list of Wi-Fi clients connected to the Wi-Fi access point.
+- **sl_wifi_get_ap_client_count**(sl_wifi_interface_t interface, uint32_t *client_count)
+Provide the number of Wi-Fi clients connected to the Wi-Fi access point.
+- **sl_wifi_get_performance_profile**(sl_wifi_performance_profile_t *profile)
+Get Wi-Fi performance profile.
+- **sl_wifi_get_statistics**(sl_wifi_interface_t interface, sl_wifi_statistics_t *statistics)
+Return Wi-Fi operational statistics.
+- **sl_wifi_get_operational_statistics**(sl_wifi_interface_t interface, sl_wifi_operational_statistics_t *operational_statistics)
+Return Wi-Fi operational statistics.
+- **sl_wifi_get_credential**(sl_wifi_credential_id_t id, sl_wifi_credential_type_t *type, void *credential, uint32_t *credential_length)
+Retrieve a stored credential.
+- **sl_net_get_profile**(sl_net_interface_t interface, sl_net_profile_id_t id, sl_net_profile_t *profile)
+Retrieve a stored network profile for a given interface.
+- **sl_net_get_ip_address**(sl_net_interface_t interface, sl_net_ip_address_t *ip_address, uint32_t timeout)
+This function retrieves the IP address of the specified network interface.
+- **sl_si91x_get_saved_firmware_status**(void)
+Retrieves the saved thread-specific firmware status value.
+- **sl_si91x_get_rtc_timer**(sl_si91x_module_rtc_time_t *response)
+Retrieves the current time from the module's Real Time Clock (RTC).
+- **sl_sntp_client_get_time**(uint8_t *data, uint16_t data_length, uint32_t timeout)
+Get the current NTP epoch time in seconds.
+- **sl_sntp_client_get_time_date**(uint8_t *data, uint16_t data_length, uint32_t timeout)
+Get time and date information from NTP.
+- **sl_sntp_client_get_server_info**(sl_sntp_server_info_t *data, uint32_t timeout)
+Retrieve NTP server information.
 
-Note: Here the application will demonstrate about the different query commands for Wi-Fi in both STA and AP mode. Please refer to the [API reference guide](https://docs.silabs.com/wiseconnect/latest/wiseconnect-api-reference-guide-summary/).
+After flashing the application onto the SiWG917 module, the device will initially start in Access Point (AP) mode. During this phase, APIs will run to gather data. Once this information is collected, the AP mode will be de-initialized, and the device will restart in Station (STA) mode, connecting to a Wireless Access Point (AP). During this process, APIs will execute to retrieve the data and print the output.
 
 ## Getting Started
 
@@ -116,9 +168,6 @@ Configure the following parameters to enable your Silicon Labs Wi-Fi device to c
 
 - Other STA instance configurations can be modified if required in `default_wifi_client_profile` configuration structure.
 
-> Note:
-> User can configure default region specific regulatory information using `sl_wifi_region_db_config.h`
-
 ## Test the application
 
 Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/) to:
@@ -131,3 +180,5 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 To view the application prints on the console, refer [here](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/#console-input-and-output).
 
 ![Figure: Output of the Application](resources/readme/output.png)
+![Figure: Output of the Application](resources/readme/output2.png)
+![Figure: Output of the Application](resources/readme/output3.png)
