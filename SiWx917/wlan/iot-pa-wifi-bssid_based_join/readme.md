@@ -13,15 +13,13 @@
 
 ## Purpose/Scope
 
-This example application demonstrates how a user can connect our SiWG917 through BSSID-based join.
+This example application demonstrates how a user can connect SiWG917 through BSSID-based join.
 
-BSSID-based join is a method where a Wi-Fi station (STA) connects to an Access Point (AP) using a specific BSSID (Basic Service Set Identifier) rather than scanning for an SSID (Service Set Identifier).
+The BSSID-based join method allows a Wi-Fi station (STA) to connect to a specific Access Point (AP) using its Basic Service Set Identifier (BSSID), rather than scanning for a Service Set Identifier (SSID).
 
-**Advantages of BSSID-Based Join Process:**
+Typically, when scanning for available networks, multiple APs with the same SSID may appear in the scan results. The default connection method prioritizes the AP with the best Received Signal Strength Indicator (RSSI), resulting in the device connecting to the SSID with the highest RSSI at the top of the scan results. However, there are scenarios where a user may prefer to connect to a specific AP, even if its RSSI is lower.
 
-- **Known BSSID**: The client device (STA) has the MAC address of the Access Point (AP) stored or provided.
-- **Direct Connection**: The STA sends a Probe Request or Association Request directly to the known BSSID, bypassing the need to scan for available SSIDs.
-- **Faster Roaming**: This method is used in some enterprise Wi-Fi networks to enable fast roaming by quickly switching between specific APs within an Extended Service Set (ESS).
+In such cases, the BSSID-based connection method proves to be advantageous, enabling the user to connect to the desired AP regardless of its RSSI.
 
 After join, this application also demonstrates how SiWG917 can send a ping request to a target IP address.
 
@@ -48,7 +46,7 @@ After join, this application also demonstrates how SiWG917 can send a ping reque
 ### Software Requirements
 
 - Simplicity Studio
--  Serial Terminal - [Docklight](https://docklight.de/)/[Tera Term](https://ttssh2.osdn.jp/index.html.en)
+-  Serial Terminal - Studio Terminal/[Tera Term](https://ttssh2.osdn.jp/index.html.en)
 
 ### Setup Diagram
 
