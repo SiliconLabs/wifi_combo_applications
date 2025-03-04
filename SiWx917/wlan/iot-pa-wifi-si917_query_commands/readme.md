@@ -32,13 +32,12 @@ This application demonstrates the implementation of APIs of different SiWG917 qu
 
   - Kits
       - SiWx917 Pro Kit [Si917-PK6031A](https://www.silabs.com/development-tools/wireless/wi-fi/siwx917-pro-kit?tab=overview)
-      - SiWx917 Pro Kit [Si917-PK6032A]
 
 ### Software Requirements
 
 - Simplicity Studio IDE Version- SiSDK-2024.12.0.
 - WSDK version- 3.4.0.
-- Serial Terminal - [Docklight](https://docklight.de/) (optional).
+- Serial Terminal - [Tera Term](https://teratermproject.github.io/index-en.html), [Docklight](https://docklight.de/) (optional).
 
 ### Setup Diagram
 
@@ -101,7 +100,19 @@ Get time and date information from NTP.
 - **sl_sntp_client_get_server_info**(sl_sntp_server_info_t *data, uint32_t timeout)
 Retrieve NTP server information.
 
-After flashing the application onto the SiWG917 module, the device will initially start in Access Point (AP) mode. During this phase, APIs will run to gather data. Once this information is collected, the AP mode will be de-initialized, and the device will restart in Station (STA) mode, connecting to a Wireless Access Point (AP). During this process, APIs will execute to retrieve the data and print the output.
+After flashing the application onto the SiWG917, the device will initially start in Access Point (AP) mode. During this phase, APIs will execute to retrieve the data and display the output in the console. Once this is completed, the AP mode will be de-initialized, and the device will restart in Station (STA) mode, connecting to a Wireless Access Point (AP). During this process, APIs will again run to retrieve data and display the output..
+
+Here are some common query commands for the SiWG917:
+ |Parameter|Query command|Supported Mode|
+|--------|-------|----|
+|RSSI /signal strength|sl_wifi_get_signal_strength | STA mode|
+|Firmware version|sl_wifi_get_firmware_version |AP and STA mode|
+|Firmware Size|sl_wifi_get_firmware_size|AP and STA mode|
+|MAC Address|sl_wifi_get_mac_address|AP and STA mode|
+|Transmit Power|sl_wifi_get_max_tx_power|AP and STA mode|
+|Channel|sl_wifi_get_channel|AP and STA mode|
+|Transmit Rate|sl_wifi_get_transmit_rate|AP and STA mode|
+|Listen Interval|sl_wifi_get_listen_interval|AP and STA mode|
 
 ## Getting Started
 
