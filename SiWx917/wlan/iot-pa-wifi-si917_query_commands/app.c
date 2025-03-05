@@ -100,6 +100,29 @@ const osThreadAttr_t thread_attributes = {
 sl_ip_address_t ip_address           = { 0 };
 sl_net_wifi_client_profile_t profile = { 0 };
 
+static const sl_wifi_device_configuration_t sl_wifi_ap_configuration = {
+  .boot_option = LOAD_NWP_FW,
+  .mac_address = NULL,
+  .band        = SL_SI91X_WIFI_BAND_2_4GHZ,
+  .region_code = US,
+  .boot_config = { .oper_mode       = SL_SI91X_ACCESS_POINT_MODE,
+                   .coex_mode       = SL_SI91X_WLAN_ONLY_MODE,
+                   .feature_bit_map = SL_SI91X_FEAT_SECURITY_OPEN,
+                   .tcp_ip_feature_bit_map =
+                     (SL_SI91X_TCP_IP_FEAT_DHCPV4_SERVER | SL_SI91X_TCP_IP_FEAT_EXTENSION_VALID),
+                   .custom_feature_bit_map     = (SL_SI91X_CUSTOM_FEAT_EXTENTION_VALID |SL_SI91X_CUSTOM_FEAT_RTC_FROM_HOST),
+                   .ext_custom_feature_bit_map = (SL_SI91X_EXT_FEAT_XTAL_CLK | MEMORY_CONFIG
+#if defined(SLI_SI917) || defined(SLI_SI915)
+                                                  | SL_SI91X_EXT_FEAT_FRONT_END_SWITCH_PINS_ULP_GPIO_4_5_0
+#endif
+                                                  ),
+                   .bt_feature_bit_map         = 0,
+                   .ext_tcp_ip_feature_bit_map = 0,
+                   .ble_feature_bit_map        = 0,
+                   .ble_ext_feature_bit_map    = 0,
+                   .config_feature_bit_map     = 0 }
+};
+
 static const sl_wifi_device_configuration_t station_configuration = {
     .boot_option = LOAD_NWP_FW,
     .mac_address = NULL,
@@ -190,10 +213,33 @@ const char* get_wifi_interface_string(sl_wifi_interface_t interface) {
       return "UNKNOWN_INTERFACE";
   }
 }
+void print_sl_ipv4_address(const sl_ipv4_address_t *ip_address)
+{
+  printf("IP Address: %d.%d.%d.%d\n", ip_address->bytes[0], ip_address->bytes[1], ip_address->bytes[2], ip_address->bytes[3]);
+}
+void print_mac_address(const sl_mac_address_t *mac_address)
+{
+  if (mac_address == NULL) {
+    return;
+  }
+  printf("MAC: %2X:%2X:%2X:%2X:%2X:%2X \n",
+         mac_address->octet[0],
+         mac_address->octet[1],
+         mac_address->octet[2],
+         mac_address->octet[3],
+         mac_address->octet[4],
+         mac_address->octet[5]);
+}
+
 // Function to print the wireless information
 void print_wireless_info(const sl_si91x_rsp_wireless_info_t *info) {
   printf("\n********Wireless Info:*********\n");
-  printf("WLAN State:             %u\n", info->wlan_state);
+  printf("WLAN State:             %u", info->wlan_state);
+  if (info->wlan_state == 1) {
+    printf("(Connected)\n");
+  } else {
+    printf("(Not Connected)\n");
+  }
   printf("Channel Number:         %u\n", info->channel_number);
   printf("SSID:                   %s\n", info->ssid);
   print_mac_address((const sl_mac_address_t *)info->mac_address);
@@ -668,7 +714,7 @@ static void application_start(void *argument)
 
   printf("\n********Application start********");
 #if AP_MODE
-  status = sl_net_init(SL_NET_WIFI_AP_INTERFACE, NULL, NULL, NULL);
+  status = sl_net_init(SL_NET_WIFI_AP_INTERFACE,&sl_wifi_ap_configuration, NULL, NULL);
   if (status != SL_STATUS_OK) {
       printf("\r\nFailed to start Wi-Fi AP interface: 0x%lx\r\n", status);
       return;
@@ -715,7 +761,7 @@ static void application_start(void *argument)
       printf("firmware size =      %lu\n", fw_image_size);
   }
   //! Firmware status
-  printf("\nFirmware Status:       0x%lx\n", sl_si91x_get_saved_firmware_status()); 
+  //printf("\nFirmware Status:       0x%lx\n", sl_si91x_get_saved_firmware_status());
 
   //! NWP Get Configuration for OPN
   char output[20];
@@ -731,7 +777,7 @@ static void application_start(void *argument)
   }
 
   //! efuse read
-  sl_si91x_efuse_read_t efuse_read = {.efuse_read_addr_offset = 154, .efuse_read_data_len = 6};
+  sl_si91x_efuse_read_t efuse_read = {.efuse_read_addr_offset = 144, .efuse_read_data_len = 2};
   uint8_t efuse_read_buf[6]={0};
   status = sl_si91x_efuse_read(&efuse_read, efuse_read_buf);
   if (status != SL_STATUS_OK) {
@@ -952,8 +998,8 @@ static void application_start(void *argument)
   printf("day:        %lu\n", tm_rtc.tm_wday);
 
 
-  osDelay(10000);
-  printf("\r\n delay 10s\r\n");
+  osDelay(5000);
+  printf("\r\n delay 5s\r\n");
   status = sl_si91x_get_rtc_timer(&tm_rtc);
   if (status != SL_STATUS_OK) {
       printf("\r\nFailed to get RTC : 0x%lx\r\n", status);
@@ -1024,13 +1070,12 @@ static void application_start(void *argument)
     }
   printf("Max TX Power:        %d\n", max_tx_power.join_tx_power);
 
-  //! Pairwise master key
-
 
   sl_wifi_set_callback(SL_WIFI_STATS_RESPONSE_EVENTS, module_status_handler, NULL);
   status = sl_net_up(SL_NET_WIFI_CLIENT_INTERFACE, SL_NET_DEFAULT_WIFI_CLIENT_PROFILE_ID);
   if (status != SL_STATUS_OK) {
       printf("\r\nFailed to connect to AP: 0x%lx\r\n", status);
+      printf("\nFirmware Status:       0x%lx\n", sl_si91x_get_saved_firmware_status());
       return;
   }
   printf("\r\nWi-Fi client connected\r\n");

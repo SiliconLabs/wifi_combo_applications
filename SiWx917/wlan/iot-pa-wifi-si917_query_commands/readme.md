@@ -1,4 +1,4 @@
-# SiWG917 Query commands Application
+# Query commands Application
 
 ## Table of Contents
 
@@ -23,7 +23,7 @@ This application demonstrates the implementation of APIs of different SiWG917 qu
 ### Hardware Requirements
 
 - Windows PC
-- Wireless Access Point with Internet.
+- Wireless Access Point with **Internet**.
 - **SoC Mode**:
   - Standalone
       - BRD4002A Wireless pro kit mainboard [SI-MB4002A](https://www.silabs.com/development-tools/wireless/wireless-pro-kit-mainboard?tab=overview)
@@ -52,6 +52,12 @@ Return the firmware version running on the Wi-Fi device.
 Gets wlan info in AP mode / Client mode.
 - **sl_wifi_get_firmware_size**(void *buffer, uint32_t *fw_image_size)
 Return the firmware image size from firmware image.
+- **sl_si91x_get_nwp_config**(const sl_si91x_nwp_get_configuration_t *nwp_config, uint8_t *response)
+Retrieve the configuration value from the firmware based on the requested sub_command_type element of sl_si91x_nwp_get_configuration_t structure.
+- **sl_si91x_efuse_read**(const sl_si91x_efuse_read_t *efuse_read, uint8_t *efuse_read_buf)
+Read data from Efuse memory location.
+
+  **Note**: Custom EFUSE data can be printed. If the data is invalid, an error 0x10106 will be thrown. For more details, please refer to the [WiseConnect status codes](https://docs.silabs.com/wiseconnect/latest/wiseconnect-api-reference-guide-err-codes/wiseconnect-status-codes).
 - **sl_wifi_get_mac_address**(sl_wifi_interface_t interface, sl_mac_address_t *mac) Retrieves the MAC addresses of the specified Wi-Fi interface, in concurrent mode retrieves two MAC addresses.
 - **sl_wifi_get_max_tx_power**(sl_wifi_interface_t interface, sl_wifi_max_tx_power_t *max_tx_power)
 Get the maximum Wi-Fi transmit power.
@@ -190,6 +196,6 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 
 To view the application prints on the console, refer [here](https://docs.silabs.com/wiseconnect/latest/wiseconnect-developers-guide-developing-for-silabs-hosts/#console-input-and-output).
 
-![Figure: Output of the Application](resources/readme/output.png)
-![Figure: Output of the Application](resources/readme/output2.png)
-![Figure: Output of the Application](resources/readme/output3.png)
+![Figure: Output of the Application](resources/readme/query_output_1.PNG)
+![Figure: Output of the Application](resources/readme/query_output_2.PNG)
+![Figure: Output of the Application](resources/readme/query_output_3.PNG)
