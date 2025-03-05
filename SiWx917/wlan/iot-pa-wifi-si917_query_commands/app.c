@@ -1,6 +1,6 @@
 /***************************************************************************//**
  * @file
- * @brief WLAN Throughput Example Application
+ * @brief Query command Application
  *******************************************************************************
  * # License
  * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
@@ -45,7 +45,6 @@
  ******************************************************/
 #define AP_MODE 1
 #define STA_MODE 1
-#define CONNECT_WITH_PMK 0
 ///*=======================================================================*/
 //// NWP buffer allocation parameters
 ///*=======================================================================*/
@@ -198,8 +197,8 @@ void print_wireless_info(const sl_si91x_rsp_wireless_info_t *info) {
   printf("Channel Number:         %u\n", info->channel_number);
   printf("SSID:                   %s\n", info->ssid);
   print_mac_address((const sl_mac_address_t *)info->mac_address);
-  printf("Security Type:          %u(%s)\n", info->sec_type, get_wifi_security_string(info->sec_type)); // If sec_type is available
-  printf("PSK/PMK:                "); // Assuming it's printable
+  printf("Security Type:          %u(%s)\n", info->sec_type, get_wifi_security_string(info->sec_type));
+  printf("PSK/PMK:                ");
   for(int i = 0; i < 64; i++)
     {
       printf("%X", info->psk_pmk[i]);
@@ -677,14 +676,6 @@ static void application_start(void *argument)
   printf("\r\n********AP Interface********\n");
 
   sl_wifi_max_tx_power_t max_tx_power;
-  //! |=============================================================================================================|
-  //! | Tx power        |  Configuration               |  Value                                                     |
-  //! |=================|==============================|============================================================|
-  //! | High Tx power   |     2                        | ~18dbm                                                     |
-  //! | Medium Tx power |     1                        | ~10dbm                                                     |
-  //! | Low Tx power    |     0                        | ~7dbm                                                      |
-  //! | Absolute power  |     128 + required Tx power  | Example (for 20dbm, configuration value => 128+20 = 148)   |
-  //! |=============================================================================================================|
   max_tx_power.join_tx_power = 20;
   max_tx_power.scan_tx_power = 20;
   status = sl_wifi_set_max_tx_power(SL_WIFI_AP_2_4GHZ_INTERFACE,max_tx_power);
@@ -724,7 +715,7 @@ static void application_start(void *argument)
       printf("firmware size =      %lu\n", fw_image_size);
   }
   //! Firmware status
-  printf("\nFirmware Status:       0x%lx\n", sl_si91x_get_saved_firmware_status()); // 0=fail, 1= success.
+  printf("\nFirmware Status:       0x%lx\n", sl_si91x_get_saved_firmware_status()); 
 
   //! NWP Get Configuration for OPN
   char output[20];
@@ -1020,7 +1011,7 @@ static void application_start(void *argument)
   status = sl_wifi_get_firmware_size(FW_LOC, &fw_image_size);
   if (status != SL_STATUS_OK) {
       printf("Unable to fetch firmware size. Status: 0x%lx\n", status);
-      // Go back to the beginning of the loop to re-send the header request
+
   } else{
       printf("firmware size =      %lu\n", fw_image_size);
   }
@@ -1034,44 +1025,7 @@ static void application_start(void *argument)
   printf("Max TX Power:        %d\n", max_tx_power.join_tx_power);
 
   //! Pairwise master key
-#if CONNECT_WITH_PMK
-  uint8_t pairwise_master_key[32] = { 0 };
-  sl_wifi_ssid_t ssid;
-  uint8_t type = 3;
-  ssid.length  = (uint8_t)(sizeof(DEFAULT_WIFI_CLIENT_PROFILE_SSID) - 1);
-  memcpy(ssid.value, DEFAULT_WIFI_CLIENT_PROFILE_SSID, ssid.length);
 
-  status = sl_wifi_get_pairwise_master_key(SL_NET_WIFI_CLIENT_INTERFACE,
-                                           type,
-                                           &ssid,
-                                           DEFAULT_WIFI_CLIENT_CREDENTIAL,
-                                           pairwise_master_key);
-  if (status != SL_STATUS_OK) {
-      printf("\r\nGet Pairwise Master Key Failed, Error Code : 0x%lX\r\n", status);
-      return;
-  }
-  printf("\r\nGet Pairwise Master Key Success\r\n");
-
-  status = sl_net_set_profile(SL_NET_WIFI_CLIENT_INTERFACE,
-                              SL_NET_DEFAULT_WIFI_CLIENT_PROFILE_ID,
-                              &DEFAULT_WIFI_CLIENT_PROFILE);
-  if (status != SL_STATUS_OK) {
-      printf("\r\nFailed to set client profile: 0x%lx\r\n", status);
-      return;
-  }
-  printf("\r\nWi-Fi set client profile success\r\n");
-
-  status = sl_net_set_credential(SL_NET_DEFAULT_WIFI_CLIENT_CREDENTIAL_ID,
-                                 SL_NET_WIFI_PMK,
-                                 pairwise_master_key,
-                                 sizeof(pairwise_master_key));
-  if (status != SL_STATUS_OK) {
-      printf("\r\nFailed sl_net_set_credential: 0x%lX\r\n", status);
-      return;
-  }
-  printf("\r\nsl_net_set_credential done\r\n");
-
-#endif
 
   sl_wifi_set_callback(SL_WIFI_STATS_RESPONSE_EVENTS, module_status_handler, NULL);
   status = sl_net_up(SL_NET_WIFI_CLIENT_INTERFACE, SL_NET_DEFAULT_WIFI_CLIENT_PROFILE_ID);
@@ -1089,7 +1043,6 @@ static void application_start(void *argument)
   }
   //  printf("\r\nSuccess to get client profile\r\n");
   //! Wireless info Prints
-  // Assume sl_wifi_get_wireless_info is implemented and working
   status = sl_wifi_get_wireless_info(&info);
 
   if (status == SL_STATUS_OK) {
