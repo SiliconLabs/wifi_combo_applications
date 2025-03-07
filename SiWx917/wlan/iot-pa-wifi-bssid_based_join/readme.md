@@ -15,13 +15,13 @@
 
 This example application demonstrates how a user can connect SiWG917 through BSSID-based join.
 
-The BSSID-based join method allows a Wi-Fi station (STA) to connect to a specific Access Point (AP) using its Basic Service Set Identifier (BSSID), rather than scanning for a Service Set Identifier (SSID).
+The BSSID-based join method enables a Wi-Fi station (STA) to establish a connection with a specific Access Point (AP) by utilizing its Basic Service Set Identifier (BSSID) in conjunction with scanning for the provided Service Set Identifier (SSID). Note: The password type must be consistent across all access points.
 
-Typically, when scanning for available networks, multiple APs with the same SSID may appear in the scan results. The default connection method prioritizes the AP with the best Received Signal Strength Indicator (RSSI), resulting in the device connecting to the SSID with the highest RSSI at the top of the scan results. However, there are scenarios where a user may prefer to connect to a specific AP, even if its RSSI is lower.
+Typically, when scanning for available networks, multiple APs with the same SSID may appear in the scan results. The default connection method prioritizes the AP with the best Received Signal Strength Indicator (RSSI), resulting in the device connecting to the SSID with the highest RSSI available in the scan results. However, there are scenarios where a user may prefer to connect to a specific AP, even if its RSSI is lower.
 
 In such cases, the BSSID-based connection method proves to be advantageous, enabling the user to connect to the desired AP regardless of its RSSI.
 
-After join, this application also demonstrates how SiWG917 can send a ping request to a target IP address.
+After connection has been established with the access point, this application will demonstrates how SiWG917 can send a ping request to a target IP address.
 
 ## Prerequisites/Setup Requirements
 
@@ -99,7 +99,7 @@ For details on the project folder structure, see the [WiSeConnect Examples](http
   - **Remote peer configurations**
 
       ```c
-      #define REMOTE_IP_ADDRESS   "192.168.0.198"    // Remote/Target IPv4 address to ping
+      #define REMOTE_IP_ADDRESS   "8.8.8.8"    // Remote/Target IPv4 address to ping
       #define PING_PACKET_SIZE    64                 // Size of ping request packet
       ```
 
@@ -119,7 +119,7 @@ Refer to the instructions [here](https://docs.silabs.com/wiseconnect/latest/wise
 - Flash, run and debug the application.
 - After successful connection with the Access Point with the given BSSID, the device starts sending ping requests to the given REMOTE_IP_ADDRESS with configured PING_PACKET_SIZE to check availability of target device.
 
-- In rsi_station_ping.c file, when ping response comes from the remote node, it is known from the status parameter of the callback function (ping_callback_handler) registered.
+- In sl_net_ping.c file, when ping response comes from the remote node, it is known from the status parameter of the callback function (network_event_handler) registered.
 
   ![Station_Ping_Output](resources/readme/Station_Ping_Output.png)
 
