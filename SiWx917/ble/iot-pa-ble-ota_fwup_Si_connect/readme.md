@@ -338,3 +338,4 @@ Path:($\ble_heart_rate_profile_soc\GNU ARM v12.2.1 - Default)
 ## **7 Apendix**
 - The SiWx91x NCP supports the TA firmware upgrade only
 - The SiWx91x SoC supports both TA and M4 firmware upgrades.
+- Currently, the "iot-pa-ble-ota_fwup_Si_connect" application at alpha stage.
