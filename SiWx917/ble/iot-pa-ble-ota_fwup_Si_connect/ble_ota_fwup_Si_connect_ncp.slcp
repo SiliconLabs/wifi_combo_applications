@@ -6,13 +6,18 @@ category: Example|BLE
 description: >
   This application demonstrates BLE OTA firmware upgrade
 filter:
-  - name: "Wireless Technology"
-    value: ["BLE"]
-  - name: "Project Difficulty"
-    value: ["Advanced"]
-sdk: {id: gecko_sdk, version: 4.4.0}
-sdk_extension: 
-- {id: wiseconnect3_sdk, version: 3.1.1}
+- name: Wireless Technology
+  value:
+  - BLE
+- name: Project Difficulty
+  value:
+  - alpha
+sdk:
+  id: simplicity_sdk
+  version:  "2024.12.0"
+sdk_extension:
+- id: wiseconnect3_sdk
+  version: 3.4.0
 source:
   - path: app.c
   - path: main.c
@@ -26,7 +31,10 @@ define:
 component:
   - id: sl_system
   - id: freertos
+  - id: freertos_heap_4
   - id: device_init
+  - id: spidrv
+    instance: [exp]
   - id: iostream_retarget_stdio
   - id: iostream_recommended_stream
   - id: iostream_stdlib_config
@@ -36,6 +44,8 @@ component:
     from: wiseconnect3_sdk
   - id: sl_si91x_internal_stack
     from: wiseconnect3_sdk
+  - id: sl_si91x_spi_bus
+    from: wiseconnect3_sdk
   - id: wifi_resources
     from: wiseconnect3_sdk
   - id: network_manager
@@ -44,7 +54,13 @@ component:
     from: wiseconnect3_sdk
   - id: ble
     from: wiseconnect3_sdk
-toolchain_settings: []
+  - id: sl_si91x_basic_buffers
+    from: wiseconnect3_sdk
+toolchain_settings: 
+  - option: gcc_linker_option
+    value: -u _printf_float
+  - option: gcc_compiler_option
+    value: -Wall -Werror
 configuration:
   - name: SL_BOARD_ENABLE_VCOM
     value: '1'
@@ -52,6 +68,8 @@ configuration:
     value: '1'
   - name: configTOTAL_HEAP_SIZE
     value: '51200'
+  - name: configTIMER_TASK_PRIORITY 
+    value: '55'
 readme:
   - path: readme.md
 ui_hints:
