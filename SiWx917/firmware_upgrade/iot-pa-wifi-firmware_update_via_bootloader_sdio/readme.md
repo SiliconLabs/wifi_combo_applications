@@ -1,8 +1,7 @@
 # Firmware Update from External Host through SDIO with ISP mode in SiWx917
 ## Table of Contents
 
-- [Wi-Fi - Firmware Flashing from Host UART](#wi-fi---firmware-flashing-from-host-uart)
-  - [Table of Contents](#table-of-contents)
+
   - [Purpose/Scope](#purposescope)
   - [Prerequisites/Setup Requirements](#prerequisitessetup-requirements)
     - [Hardware Requirements](#hardware-requirements)
