@@ -474,7 +474,7 @@ sl_status_t rsi_ble_per_transmit_command_handler(console_args_t *arguments)
       VERIFY_STATUS_AND_RETURN(status);
       if(status == SL_STATUS_OK)
         {
-          wifi_deinit_var = ENABLE;;
+          wifi_deinit_var = ENABLE;
         }
   }
   status = rsi_ble_per_transmit(&rsi_ble_per_tx);
