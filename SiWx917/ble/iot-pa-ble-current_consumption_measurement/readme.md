@@ -350,19 +350,19 @@ To measure the Connected cases current consumption measurement, The `BLE_ROLE` r
 ## EFR32xG21 Central Configuration & Connection
 
 1. Configure the EFR32XG21 device as a NCP device, please follow the steps mentioned in the [BT NCP](https://github.com/SiliconLabs/simplicity_sdk/tree/sisdk-2024.12/app/bluetooth/example/bt_ncp) readme file and use the **Discover - Central** tab for configuring the EFR32XG21 as a central device.
-   <br><img src="resources/readme/EFR32_configure_central1.png" alt=""><br>
+   <br><img src="resources/readme/efr32_configure_central1.png" alt=""><br>
 
 2. Click on the **Start Scan** button, configure the EFR32XG21 device as central, and scan for nearby BLE devices. The scanned devices will be displayed in a list as shown below.
-   <br><img src="resources/readme/efR32_configure_central_scanned_list.png" alt=""><br>
+   <br><img src="resources/readme/efr32_configure_central_scanned_list.png" alt=""><br>
 
 3. The SiWx917 device configured as Advertisier and advertises as the "Current_consumption_number". Using the filter search for the SiWx917 device as below, 
-   <br><img src="resources/readme/efR32_configure_central_scanned_list_si917_device.png" alt=""><br>
+   <br><img src="resources/readme/efr32_configure_central_scanned_list_si917_device.png" alt=""><br>
 
 4. Once the SiWx917 is found, click on the **Stop Scan** button. Then, click on the **Connect** button to initiate the connection from the EFR32XG21 device as shown in the below image.
-   <br><img src="resources/readme/efR32_configure_central_scanned_list_si917_device.png" alt=""><br>
+   <br><img src="resources/readme/efr32_configure_central_scanned_list_si917_device.png" alt=""><br>
 
 5. When the SiWx917 device is successfully connected to the EFR32XG21, the EFR32XG21 window will open as shown below.
-   <br><img src="resources/readme/efR32_configure_central_si917_soc_connection.png" alt=""><br>
+   <br><img src="resources/readme/efr32_configure_central_si917_soc_connection.png" alt=""><br>
 
 ## **Energy Profiler settings**
 1. For monitoring power consumption, navigate to "Tools" and select "Energy Profiler" as shown below.
