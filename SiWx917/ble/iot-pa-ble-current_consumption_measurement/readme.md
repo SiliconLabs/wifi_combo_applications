@@ -16,12 +16,13 @@
 - [Testing the Application](#6-testing-the-application)
   - [Build the Application](#61-build-the-application)
   - [Application execution](#62-application-execution)
-  - [Advertising Current consumption measurement](#62-advertising-current-consumption-measurement)
-    - [Advertising, Unconnectable](#631-advertising,-unconnectable)
-    - [Advertising, Connectable](#631-advertising,-connectable)
-  - [Connection Current consumption measurement](#64-connection-current-consumption-measurement)
-    - [Connection Interval at 1.28sec](#641-connection-interval-at-1.28sec)
-    - [Connection Interval at 200msec](#642-connection-interval-at-200msec)
+  - [Energy Profiler settings](#63-Energy-Profiler-settings)
+  - [Advertising Current consumption measurement](#64-advertising-current-consumption-measurement)
+    - [Advertising, Unconnectable](#641-advertising,-unconnectable)
+    - [Advertising, Connectable](#642-advertising,-connectable)
+  - [Connection Current consumption measurement](#65-connection-current-consumption-measurement)
+    - [Connection Interval at 1.28sec](#651-connection-interval-at-1.28sec)
+    - [Connection Interval at 200msec](#652-connection-interval-at-200msec)
 - [Appendix](#appendix)
   - [SoC Ram retension 192kB configuration](#soc-ram-retension-192kB-configuration)
   - [EFR32xG21 Central Configuration & Connection](#efr32xg21-central-configuration-&-connection)
@@ -132,7 +133,7 @@ The application can be evaluated from the 3.5.1 SDK & Firmware. But it is recomm
 <br><img src="resources/readme/importsi917.png" alt=""><br>
 
 ### 4.3 SiWx917 NCP Project
-- Connect the SiWx917 SoC kit and create the project.
+- Connect the SiWx917 NCP kit and create the project.
 <br><img src="resources/readme/importsi917ncp.png" alt=""><br>
 
 ## **5. Application Configuration**
@@ -206,10 +207,18 @@ After the program gets executed, the SiWx917 device is configured as a periphera
 
 -  A 10% variance in current consumption is acceptable.
 
-## **6.3 Advertising Current consumption measurement**
+## **6.3 Energy Profiler settings**
+1. For monitoring power consumption, navigate to "Tools" and select "Energy Profiler" as shown below.
+   <br><img src="resources/readme/energy_profile_image.png" alt=""><br>
+2. Click on "Quick Access" and then "Start Energy Capture" to begin capturing power consumption data.
+   <br><img src="resources/readme/energy_profile_configuration.png" alt=""><br>
+3. The device selection pop-up will appear as shown below. Please select the device and click "OK".
+   <br><img src="resources/readme/energy_profile_configuration_1.png" alt=""><br>
+
+## **6.4 Advertising Current consumption measurement**
 To measure the Advertising cases current consumption measurement, The `BLE_ROLE` role should be configured as the `ADVERTISING_ROLE`.
 
-## **6.3.1 Advertising, Unconnectable**
+## **6.4.1 Advertising, Unconnectable**
 
 1. Configure the `RSI_BLE_ADV_TYPE` macro as `UNDIR_NON_CONN`, the SiWx917 module advertisies for every 1.28sec and connection would not be accepted from any device.
 
@@ -229,7 +238,7 @@ To measure the Advertising cases current consumption measurement, The `BLE_ROLE`
 6. The serial prints can see as below in any Console terminal:
    <br><img src="resources/readme/advertising_unconnectable_serial_print_soc.png" alt=""><br>
 
-## **6.3.2 Advertising, Connectable**
+## **6.4.2 Advertising, Connectable**
 
 1. Configure the `RSI_BLE_ADV_TYPE` macro as `UNDIR_CONN`, the SiWx917 module advertisies for every 1.28sec and connection is also accepted from any device.
 
@@ -249,10 +258,10 @@ To measure the Advertising cases current consumption measurement, The `BLE_ROLE`
 6. The serial prints can see as below in any Console terminal:
    <br><img src="resources/readme/advertising_connectable_serial_print_soc.png" alt=""><br>
 
-## **6.4 Connection Current consumption measurement**
+## **6.5 Connection Current consumption measurement**
 To measure the Connected cases current consumption measurement, The `BLE_ROLE` role should be configured as the `CONNECTION_ROLE`.
 
-## **6.4.1 Connection Interval at 1.28sec**
+## **6.5.1 Connection Interval at 1.28sec**
 
 1. Configure the following parameters to set up the SiWx917 module in the connection interval for every 1.28sec.
    ```c
@@ -290,7 +299,7 @@ To measure the Connected cases current consumption measurement, The `BLE_ROLE` r
    <br><img src="resources/readme/connection_1_28sec_serial_print_soc.png" alt=""><br>
 
 
-## **6.4.2 Connection Interval at 200msec**
+## **6.5.2 Connection Interval at 200msec**
 
 1. Configure the following parameters to set up the SiWx917 module in the connection interval for every 200msec.
    ```c
@@ -364,10 +373,3 @@ To measure the Connected cases current consumption measurement, The `BLE_ROLE` r
 5. When the SiWx917 device is successfully connected to the EFR32XG21, the EFR32XG21 window will open as shown below.
    <br><img src="resources/readme/efr32_configure_central_si917_soc_connection.png" alt=""><br>
 
-## **Energy Profiler settings**
-1. For monitoring power consumption, navigate to "Tools" and select "Energy Profiler" as shown below.
-   <br><img src="resources/readme/energy_profile_image.png" alt=""><br>
-2. Click on "Quick Access" and then "Start Energy Capture" to begin capturing power consumption data.
-   <br><img src="resources/readme/energy_profile_configuration.png" alt=""><br>
-3. The device selection pop-up will appear as shown below. Please select the device and click "OK".
-   <br><img src="resources/readme/energy_profile_configuration_1.png" alt=""><br>
